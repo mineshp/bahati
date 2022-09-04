@@ -1,0 +1,88 @@
+{
+  "TSLA": [
+    {
+      "code": "TSLA",
+      "originalCostPrice": "220.46",
+      "totalShares": "27",
+      "account": "ISA"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "200.34",
+      "totalShares": "12",
+      "account": "FUND"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "442.48",
+      "totalShares": "11",
+      "account": "ISA"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "351.10",
+      "totalShares": "28",
+      "account": "ISA"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "0",
+      "totalShares": "48",
+      "account": "FUND"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "0",
+      "totalShares": "152",
+      "account": "ISA"
+    },
+    {
+      "code": "TSLA",
+      "originalCostPrice": "0",
+      "totalShares": "556",
+      "account": "ISA"
+    }
+  ],
+  "BP.L": [{
+    "code": "BP.L",
+    "originalCostPrice": "3.32",
+    "totalShares": "164",
+    "account": "FUND"
+  }],
+  "VOW3.DE": [{
+    "code": "VOW3.DE",
+    "originalCostPrice": "100.3934",
+    "totalShares": "50",
+    "account": "ISA"
+  }],
+  "ENR": [{
+    "code": "ENR",
+    "originalCostPrice": "23.13",
+    "totalShares": "42",
+    "account": "ISA"
+  }],
+  "NFLX": [{
+    "code": "NFLX",
+    "originalCostPrice": "284.39",
+    "totalShares": "27",
+    "account": "ISA"
+  }],
+  "BABA": [{
+    "code": "BABA",
+    "originalCostPrice": "76.77",
+    "totalShares": "54",
+    "account": "ISA"
+  }],
+  "ROO.L": [{
+    "code": "ROO.L",
+    "originalCostPrice": "1.26",
+    "totalShares": "2356",
+    "account": "ISA"
+  }],
+  "SPCE": [{
+    "code": "SPCE",
+    "originalCostPrice": "7.02",
+    "totalShares": "562",
+    "account": "ISA"
+  }]
+}
