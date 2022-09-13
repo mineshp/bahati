@@ -33,15 +33,15 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
+// type LoaderData = {
+//   user: Awaited<ReturnType<typeof getUser>>;
+// };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
-    user: await getUser(request),
-  });
-};
+// export const loader: LoaderFunction = async ({ request }) => {
+//   return json<LoaderData>({
+//     user: await getUser(request),
+//   });
+// };
 
 export default function App() {
   return (

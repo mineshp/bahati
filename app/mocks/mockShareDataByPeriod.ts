@@ -5,13 +5,9 @@ function randomNumber(min: number, max: number) {
 }
 
 function createFakeData(period: number): StockDataByPeriodItems {
-  let day;
-  console.log(period);
+  const now = new Date();
   return [...Array(period).keys()].map((k) => {
-    const now = new Date();
-    day = period - 1;
-    let date = now.setDate(now.getDate()-day)
-    console.log(new Date(date));
+    let date = now.setDate(now.getDate()-1)
     return ({
     'Adj Close': randomNumber(300, 315),
       Close: randomNumber(300, 315),

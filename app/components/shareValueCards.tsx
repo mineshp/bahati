@@ -22,7 +22,7 @@ export default function ValueCard(props: Props) {
   const totalGainLoss = Number((Number(totalCurrentValue) - Number(totalValueSpent)).toFixed(2));
 
   return (
-    <div className="container flex flex-row items-center justify-center">
+    <div className="container flex flex-row items-center justify-center gap-24">
       <div className="items-center justify-center p-8 mr-8 text-center bg-pink-100 border border-pink-600 rounded-lg basis-1/2">
         <div className="text-3xl text-pink-500">£{totalCurrentValue?.toLocaleString('en-GB')}</div>
         <div className="text-xs text-pink-400 uppercase">Current Value</div>

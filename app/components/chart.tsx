@@ -1,5 +1,5 @@
 import React from 'react';
-import type { StockDataByPeriodItems } from "../types/shares";
+import type { StockDataByPeriodItems, TotalShareItemsByCode } from "../types/shares";
 import { formatDateForDisplay } from '../utils/date';
 import {
   Chart as ChartJS,
@@ -16,6 +16,7 @@ import { Line } from 'react-chartjs-2';
 interface Props {
   shareCode: string;
   shareData: StockDataByPeriodItems;
+  originalData: TotalShareItemsByCode;
 }
 
 ChartJS.register(
@@ -29,7 +30,7 @@ ChartJS.register(
 );
 
 export default function Chart(prop: Props) {
-  const { shareCode, shareData } = prop;
+  const { shareCode, shareData, originalData } = prop;
 
   const options = {
     responsive: true,
@@ -46,22 +47,28 @@ export default function Chart(prop: Props) {
 
   const labels = shareData.map(({ Date }) => formatDateForDisplay(Date))
 
+  const openingPrices = [
+    {
+      label: 'Opening price',
+      data: shareData.map(({ Open }) => Open),
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    }
+  ];
+
+  const purchaseHistoryLines = originalData.map(({ originalCostPrice, totalShares, purchaseDate }) => ({
+      label: `${totalShares} bought on ${purchaseDate}`,
+      data: shareData.map(() => originalCostPrice),
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      pointRadius: 0
+  }));
+
+  const datasets = openingPrices.concat(purchaseHistoryLines);
+
   const data = {
     labels,
-    datasets: [
-      {
-        label: 'Opening price',
-        data: shareData.map(({ Open }) => Open),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-      // {
-      //   label: 'Dataset 2',
-      //   data: labels.map(() => [1,4,8,3,5,2,5,2,5,7,8,5,,5,6]),
-      //   borderColor: 'rgb(53, 162, 235)',
-      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      // },
-    ],
+    datasets,
   };
 
   return <Line options={options} data={data} />;

@@ -2,12 +2,11 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import { useState } from 'react';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false }
+  { name: 'Watchlists', href: '#', current: false }
 ]
 
 function classNames(...classes: string[]) {
@@ -15,11 +14,20 @@ function classNames(...classes: string[]) {
 }
 
 export default function Example() {
+  // const [shareSelected, setShareSelected] = useState<string>('');
+
+  // function handleSelect(activeShare: any) {
+  //   if (activeShare) {
+  //     return setShareSelected(activeShare);
+  //   }
+  //   return;
+  // }
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="px-2 max-w-7xl sm:px-6 lg:px-8">
+          <div className="px-2 max-w-8xl sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -35,13 +43,13 @@ export default function Example() {
               <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
                 <div className="flex items-center flex-shrink-0">
                   <img
-                    className="block w-auto h-8 lg:hidden"
-                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=500"
+                    className="block w-auto h-10 lg:hidden"
+                    src="/_static/bahati_logo.png"
                     alt="Workflow"
                   />
                   <img
-                    className="hidden w-auto h-8 lg:block"
-                    src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=500"
+                    className="hidden w-auto h-10 lg:block"
+                    src="/_static/bahati_logo.png"
                     alt="Workflow"
                   />
                 </div>
@@ -75,7 +83,7 @@ export default function Example() {
                 <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-          Shares
+          { 'Shares' }
           <ChevronDownIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
         </Menu.Button>
       </div>
@@ -99,6 +107,13 @@ export default function Example() {
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
+                  // onClick={() => {
+                  //   const share = active ?? 'VOW3.DE';
+                  //   console.log(share);
+                  //   if (share) {
+                  //     return handleSelect(share);
+                  //   }
+                  // }}
                 >
                   VOW3.DE
                 </a>
@@ -207,7 +222,7 @@ export default function Example() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="w-8 h-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src="https://en.gravatar.com/userimage/225710298/a6029b7e9e835d5f6d9e23e78bca5e8f.jpg"
                         alt=""
                       />
                     </Menu.Button>

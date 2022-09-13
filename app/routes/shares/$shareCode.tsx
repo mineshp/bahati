@@ -1,12 +1,11 @@
 import type { ActionFunction, LoaderFunction, LinksFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useEffect, useRef, useState } from 'react';
-import { Form, useCatch, useLoaderData, useActionData, useParams } from "@remix-run/react";
+import { Form, useCatch, useLoaderData, useActionData, useFetcher, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import datepickerCss from 'react-datepicker/dist/react-datepicker.css';
-import type { getShareDataByCode, getSharesByCodeAndPeriod } from "~/models/shares.server";
-import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod } from "~/models/shares.server";
-import { getSharesByCode , getSharesByCode } from "~/models/shares.server";
+import type { getShareDataByCode, getSharesByCodeAndPeriod} from "~/models/shares.server";
+import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod , getSharesByCode} from "~/models/shares.server";
 import { formatDateForDisplay, retrieveStartAndEndDates } from '../../utils/date';
 import Chart from '../../components/chart';
 import Table from '../../components/table';
@@ -25,7 +24,8 @@ export const links: LinksFunction = () => [
 ]
 
 export const loader: LoaderFunction = async ({params,}) => {
-  const {start, end} = retrieveStartAndEndDates('1W');
+  invariant(params.shareCode, "Expected params.shareCode");
+  const {start, end} = retrieveStartAndEndDates('1M');
   return json({
     // shareHeaderData: await getShareDataByCode(params?.shareCode as string),
     // shareData: await getSharesByCodeAndPeriod(params?.shareCode as string, start, end),
@@ -39,13 +39,14 @@ export const loader: LoaderFunction = async ({params,}) => {
 export const action: ActionFunction = async ({
   request,
 }) => {
+  console.log('ACTION FUNTION CALLED');
   const formData = await request.formData();
-  console.log(formData);
+  // console.log(formData);
   const start = formData.get('start_date');
   const end = formData.get('end_date');
   const shareCode = formData.get('shareCode');
-  console.log(`start is now ${start}`);
-  console.log(`end is not ${end}`)
+  // console.log(`start is now ${start}`);
+  // console.log(`end is not ${end}`)
   // const project = await createProject(formData);
   // return redirect(`/projects/${project.id}`);
   return json({
@@ -57,7 +58,7 @@ export default function SharePage() {
   const params = useParams();
   // const shareCode = params.shareCode;
   const { shareHeaderData, shareData, totalSharesByCode } = useLoaderData() as LoaderData;
-  // const actionData = useActionData();
+  const actionData = useActionData();
   // const formRef = useRef<HTMLFormElement>(null)
   const [displayData, setDisplayData] = useState<string>('chart');
   const [period, setPeriod] = useState('1W');
@@ -74,10 +75,10 @@ export default function SharePage() {
   }, [params])
 
   useEffect(() => {
-    console.log(period);
+    // console.log(period);
     const data = retrieveStartAndEndDates(period);
-    console.log('Calculated Dates');
-    console.log(data);
+    // console.log('Calculated Dates');
+    // console.log(data);
     setEnd(data?.end);
     setStart(data?.start);
   }, [period]);
@@ -87,6 +88,7 @@ export default function SharePage() {
   }
 
   function handleStockPeriod(period: string) {
+    console.log(`period is ${period}`);
     setPeriod(period);
   }
 
@@ -101,11 +103,11 @@ export default function SharePage() {
          <div className="px-4 pt-2 text-slate-600"><span className="text-xs">Selected period: </span><span className="text-sm">{formatDateForDisplay(start)} - {formatDateForDisplay(end)}</span></div>
           { displayData === 'table'
             ? <Table data={shareData} />
-            : <Chart shareData={shareData} shareCode={shareCode} />
+            : <Chart shareData={shareData} shareCode={shareCode} originalData={totalSharesByCode} />
           }
         </div>
       </div>
-      <div className="p-4">
+      <div className="flex justify-center p-4">
         <ShareValueCard currentPrice={Number(shareHeaderData.currentPrice)} shareData={totalSharesByCode} />
       </div>
   </div>

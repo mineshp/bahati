@@ -1,4 +1,5 @@
 import { ChartBarIcon, TableIcon } from '@heroicons/react/outline';
+import { Form } from "@remix-run/react";
 
 interface Props {
   shareCode: string;
@@ -14,11 +15,12 @@ export default function ShareNav(prop: Props) {
   const { shareCode, displayData, handleStockPeriod, handleDisplayMode, period, start, end} = prop;
 
   function isActive(buttonVal: string) {
+    console.log(period);
     return period  === buttonVal
   } 
 
   return (
-    // <form method="post">
+    <Form method="post">
       <div className="flex items-center h-12 px-4 bg-gray-200 rounded-lg">
         <ul className="flex items-center">
           <li className="mr-4">
@@ -51,6 +53,6 @@ export default function ShareNav(prop: Props) {
           </li>
         </ul>
       </div>
-    // </form>
+   </Form>
   );
 }

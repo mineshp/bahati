@@ -65,8 +65,6 @@ export async function mockGetSharesByCodeAndPeriod(code: string, start: string, 
 
   const data = await res.json();
 
-  console.log(data);
-
   return data.map((rec: StockDataByPeriodItem, i: number) => {
     const previousDay = data[i-1];
     let gainLossValue = 0;
