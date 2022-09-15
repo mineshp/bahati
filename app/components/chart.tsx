@@ -10,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
@@ -26,7 +27,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 export default function Chart(prop: Props) {
@@ -43,6 +45,20 @@ export default function Chart(prop: Props) {
         text: `${shareCode} shares`,
       },
     },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Period'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Share Price'
+        }
+      }
+    }
   };
 
   const labels = shareData.map(({ Date }) => formatDateForDisplay(Date))
@@ -52,7 +68,9 @@ export default function Chart(prop: Props) {
       label: 'Opening price',
       data: shareData.map(({ Open }) => Open),
       borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgba(224, 174, 185, 0.5)',
+      tension: 0.4,
+      fill: true
     }
   ];
 
@@ -71,5 +89,5 @@ export default function Chart(prop: Props) {
     datasets,
   };
 
-  return <Line options={options} data={data} />;
+  return <div className="p-4"><Line options={options} data={data} /></div>;
 }
