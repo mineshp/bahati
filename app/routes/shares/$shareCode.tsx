@@ -67,6 +67,7 @@ export default function SharePage() {
   // const [stockHeaderData, setStockHeaderData] = useState(null);
   // const [stockData, setStockData] = useState(null);
   const [shareCode, setShareCode] = useState<string>('');
+  const fetcher = useFetcher()
 // console.log('ActionData is ');
 // console.log(actionData);
   useEffect(() => {
@@ -90,6 +91,7 @@ export default function SharePage() {
   function handleStockPeriod(period: string) {
     console.log(`period is ${period}`);
     setPeriod(period);
+    fetcher.load(`/shares/query-share-data?shareCode=${params.shareCode}&start=${start}&end=${end}`)
   }
 
   return (

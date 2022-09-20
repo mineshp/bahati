@@ -5,8 +5,19 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import { useState } from 'react';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
+  { name: 'Dashboard', href: '/', current: true },
   { name: 'Watchlists', href: '#', current: false }
+]
+
+const shares = [
+  { name: 'VOW.DE', href: "/shares/VOW3.DE" },
+  { name: 'NFLX', href: "/shares/NFLX" },
+  { name: 'BP.L', href: "/shares/BP.L" },
+  { name: 'TSLA', href: "/shares/TSLA" },
+  { name: 'SPCE', href: "/shares/SPCE" },
+  { name: 'ROO.L', href: "/shares/ROO.L" },
+  { name: 'ENR', href: "/shares/ENR" },
+  { name: 'BABA', href: "/shares/BABA" },
 ]
 
 function classNames(...classes: string[]) {
@@ -24,7 +35,7 @@ export default function Example() {
   // }
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-indigo-200">
       {({ open }) => (
         <>
           <div className="px-2 max-w-8xl sm:px-6 lg:px-8">
@@ -60,7 +71,7 @@ export default function Example() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          item.current ? 'text-rose-600' : 'text-white hover:bg-rose-600 hover:text-white',
                           'px-3 py-2 rounded-md text-sm font-medium'
                         )}
                         aria-current={item.current ? 'page' : undefined}
@@ -72,17 +83,9 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="w-6 h-6" aria-hidden="true" />
-                </button>
-
                 <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+        <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-rose-600 bg-rose-300">
           { 'Shares' }
           <ChevronDownIcon className="w-5 h-5 ml-2 -mr-1" aria-hidden="true" />
         </Menu.Button>
@@ -99,117 +102,21 @@ export default function Example() {
       >
         <Menu.Items className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/VOW3.DE"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                  // onClick={() => {
-                  //   const share = active ?? 'VOW3.DE';
-                  //   console.log(share);
-                  //   if (share) {
-                  //     return handleSelect(share);
-                  //   }
-                  // }}
-                >
-                  VOW3.DE
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/NFLX"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  NFLX
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/BP.L"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  BP.L
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/TSLA"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  TSLA
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/SPCE"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  SPCE
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/ROO.L"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  ROO.L
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/ENR"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  ENR
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="/shares/BABA"
-                  className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  BABA
-                </a>
-              )}
-            </Menu.Item>
+          {shares.map((shareItem) => (
+            <Menu.Item key={shareItem.name}>
+            {({ active }) => (
+              <a
+                href={shareItem.href}
+                className={classNames(
+                  active ? 'bg-rose-50 text-indigo-900' : 'text-indigo-700',
+                  'block px-4 py-2 text-sm'
+                )}
+              >
+                {shareItem.name}
+              </a>
+            )}
+          </Menu.Item>
+          ))}
           </div>
         </Menu.Items>
       </Transition>
@@ -222,7 +129,7 @@ export default function Example() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="w-8 h-8 rounded-full"
-                        src="https://en.gravatar.com/userimage/225710298/a6029b7e9e835d5f6d9e23e78bca5e8f.jpg"
+                        src="/_static/min-profile.jpg"
                         alt=""
                       />
                     </Menu.Button>
