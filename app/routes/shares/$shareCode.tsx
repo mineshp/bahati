@@ -107,7 +107,7 @@ export default function SharePage() {
       <div className="p-4">
         <div className="border rounded-lg">
          <ShareNav shareCode={params.shareCode as string} displayData={displayData} handleStockPeriod={handleStockPeriod} handleDisplayMode={handleDisplayMode} period={period} start={start} end={end} />
-         <div className="px-4 pt-2 text-slate-600"><span className="text-xs">Selected period: </span><span className="text-sm">{formatDateForDisplay(start)} - {formatDateForDisplay(end)}</span></div>
+         <div className="px-4 pt-2 text-slate-600"><span className="text-xs rounded-lg">Selected period: </span><span className="text-sm rounded-lg text-rose-600">{formatDateForDisplay(start)} - {formatDateForDisplay(end)}</span></div>
           { displayData === 'table'
             ? <Table data={shareDataByPeriod} />
             : <Chart shareData={shareDataByPeriod} shareCode={params.shareCode as string} originalData={totalSharesByCode} />

@@ -43,19 +43,22 @@ export default function Chart(prop: Props) {
       title: {
         display: true,
         text: `${shareCode} shares`,
+        color: 'rgb(129, 140, 248)'
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Period'
+          text: 'Period',
+          color: 'rgb(251, 113, 133)'
         }
       },
       y: {
         title: {
           display: true,
-          text: 'Share Price'
+          text: 'Share Price',
+          color: 'rgb(251, 113, 133)'
         }
       }
     }

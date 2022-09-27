@@ -25,7 +25,7 @@ export default function Index() {
       </div>
       <div className="flex flex-row flex-wrap justify-around h-auto bg-rose-100 sm:h-80">
         <div className="flex items-center content-center self-center"><img
-          className="items-center content-center self-center block w-64 mx-auto"
+          className="items-center content-center self-center block w-48 mx-auto sm:w-64"
           src="/_static/bahati_logo.png"
           alt="Bahati"
         />
@@ -33,7 +33,7 @@ export default function Index() {
         <div className="grid grid-cols-2 p-4 mt-4 md:grid-cols-3 md:p-12 lg:p-8 gap-x-12 md:gap-8 gap-y-8">
           {shares.map((item) => (
             <Link
-              className="w-32 h-10 py-2 text-center text-white rounded-md drop-shadow-md bg-gradient-to-r from-indigo-200 to-indigo-400 hover:from-rose-400 hover:to-rose-200 hover:bg-rose-300"
+              className="w-32 h-10 py-2 text-center text-white border border-indigo-300 rounded-md drop-shadow-md bg-gradient-to-r from-indigo-200 to-indigo-400 hover:from-rose-400 hover:border-rose-300 hover:to-rose-200 hover:bg-rose-300"
               to={{
                 pathname: item.href
               }}

@@ -37,18 +37,15 @@ export default function ShareNav(prop: Props) {
           <input type="text" name="share_code" value={shareCode} hidden readOnly></input>
           <input type="text" name="start_date" value={start} hidden readOnly></input>
           <input type="text" name="end_date" value={end} hidden readOnly></input>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="gray" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
           </svg>
 
           <li className="justify-end ml-4">
               { displayData === 'chart'
-                ? <button type="button" className="items-center justify-center text-rose-300 w-9 h-9 hover:text-rose-500" onClick={() => handleDisplayMode('table')}><ChartBarIcon className="w-6 h-6" aria-hidden="true" /></button>
-                : <button type="button" className="items-center text-rose-300 w-9 h-9 hover:text-rose-500" onClick={() => handleDisplayMode('chart')}><TableIcon className="w-6 h-6" aria-hidden="true"/></button>
+                ? <button type="button" className="items-center justify-center text-indigo-300 w-9 h-9 hover:text-indigo-500" onClick={() => handleDisplayMode('table')}><ChartBarIcon className="w-8 h-8" aria-hidden="true" /></button>
+                : <button type="button" className="items-center text-indigo-300 w-9 h-9 hover:text-indigo-500" onClick={() => handleDisplayMode('chart')}><TableIcon className="w-8 h-8" aria-hidden="true"/></button>
               }
-          </li>
-          <li className="mr-4">
-            <span className="text-slate-400">mode:</span> <span className="text-cyan-800">{displayData}</span>
           </li>
         </ul>
       </div>
