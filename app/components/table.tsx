@@ -27,27 +27,27 @@ export default function TableData(prop: Props) {
         <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
                 <thead>
-                    <tr>
+                    <tr className="text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-indigo-100 border-b border-blue-400">
                         <th
-                            className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400">
+                            className="px-6 py-3 ">
                             Date</th>
                         <th
-                            className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400">
+                            className="px-6 py-3 ">
                             Open</th>
                         <th
-                            className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400">
+                            className="px-6 py-3 ">
                             Close</th>
                         <th
-                            className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400">
+                            className="px-6 py-3 ">
                             Daily Change (Value)</th>
                         <th
-                            className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400">
+                            className="px-6 py-3 ">
                             Daily Change (%)</th>
                         <th
-                            className="hidden px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400 md:table-cell">
+                            className="hidden px-6 py-3 md:table-cell">
                             High</th>
                         <th
-                            className="hidden px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-400 uppercase bg-blue-100 border-b border-blue-400 md:table-cell">
+                            className="hidden px-6 py-3 md:table-cell">
                             Low</th>
                     </tr>
                 </thead>

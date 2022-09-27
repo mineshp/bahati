@@ -1,11 +1,12 @@
 import type { ActionFunction, LoaderFunction, LinksFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useEffect, useRef, useState } from 'react';
-import { Form, useCatch, useLoaderData, useActionData, useFetcher, useParams } from "@remix-run/react";
+import { useCatch, useLoaderData, useFetcher, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import datepickerCss from 'react-datepicker/dist/react-datepicker.css';
 import type { getShareDataByCode, getSharesByCodeAndPeriod} from "~/models/shares.server";
 import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod , getSharesByCode} from "~/models/shares.server";
+import type { StockDataByPeriodItems } from '../../types/shares';
 import { formatDateForDisplay, retrieveStartAndEndDates } from '../../utils/date';
 import Chart from '../../components/chart';
 import Table from '../../components/table';
@@ -39,73 +40,77 @@ export const loader: LoaderFunction = async ({params,}) => {
 export const action: ActionFunction = async ({
   request,
 }) => {
-  console.log('ACTION FUNTION CALLED');
   const formData = await request.formData();
-  // console.log(formData);
   const start = formData.get('start_date');
   const end = formData.get('end_date');
   const shareCode = formData.get('shareCode');
-  // console.log(`start is now ${start}`);
-  // console.log(`end is not ${end}`)
-  // const project = await createProject(formData);
-  // return redirect(`/projects/${project.id}`);
+
   return json({
     shareData: await mockGetSharesByCodeAndPeriod(shareCode as string, start as string, end as string)
+    // shareData: await getSharesByCodeAndPeriod(shareCode as string, start as string, end as string),
   });
 };
 
 export default function SharePage() {
   const params = useParams();
-  // const shareCode = params.shareCode;
   const { shareHeaderData, shareData, totalSharesByCode } = useLoaderData() as LoaderData;
-  const actionData = useActionData();
-  // const formRef = useRef<HTMLFormElement>(null)
   const [displayData, setDisplayData] = useState<string>('chart');
   const [period, setPeriod] = useState('1W');
-  const [start, setStart] = useState<string>(new Date().toISOString().slice(0, 10));
-  const [end, setEnd] = useState<string>(new Date().toISOString().slice(0, 10));
-  // const [stockHeaderData, setStockHeaderData] = useState(null);
-  // const [stockData, setStockData] = useState(null);
-  const [shareCode, setShareCode] = useState<string>('');
+  const [start, setStart] = useState<string>(retrieveStartAndEndDates('1W').start);
+  const [end, setEnd] = useState<string>(retrieveStartAndEndDates('1W').end);
+  // const [shareCode, setShareCode] = useState<string>('');
+  const [shareDataByPeriod, setShareDataByPeriod] = useState<StockDataByPeriodItems>([])
   const fetcher = useFetcher()
-// console.log('ActionData is ');
-// console.log(actionData);
-  useEffect(() => {
-    if (!params.shareCode) return;
-    setShareCode(params?.shareCode as string);
-  }, [params])
 
+  // TODO: This does not look like the remix way of doing things
+  // set graph/table share data by period to shareDataByPeriod from loader
   useEffect(() => {
-    // console.log(period);
-    const data = retrieveStartAndEndDates(period);
-    // console.log('Calculated Dates');
-    // console.log(data);
-    setEnd(data?.end);
-    setStart(data?.start);
-  }, [period]);
+     if (shareDataByPeriod.length !== 0) {
+       setShareDataByPeriod(shareDataByPeriod);
+     } else {
+      setShareDataByPeriod(shareData)
+     }
+  }, [shareDataByPeriod, shareData]);
+
+  // useEffect(() => {
+  //   console.log(params);
+  //   console.log(shareCode)
+  //   if (!params.shareCode || params.shareCode === shareCode) return;
+  //   console.log('SHARECODE PARAM CHANGED')
+  //   console.log(params);
+  //   setShareCode(params?.shareCode as string);
+  // }, [params, shareCode])
 
   function handleDisplayMode(mode: string) {
     setDisplayData(mode);
   }
 
   function handleStockPeriod(period: string) {
-    console.log(`period is ${period}`);
+    const data = retrieveStartAndEndDates(period);
+    setEnd(data?.end);
+    setStart(data?.start);
     setPeriod(period);
-    fetcher.load(`/shares/query-share-data?shareCode=${params.shareCode}&start=${start}&end=${end}`)
+    fetcher.load(`/shares/query-share-data?shareCode=${params.shareCode}&start=${data?.start}&end=${data?.end}`)
   }
 
-  return (
+  useEffect(() => {
+    if (fetcher.data) {
+      setShareDataByPeriod(fetcher.data);
+    }
+  }, [fetcher]);
+
+  return shareDataByPeriod && (
     <div>
       <div className="px-4 pt-4">
-        <CurrentDayShareHeader shareCode={shareCode} data={shareHeaderData} />
+        <CurrentDayShareHeader shareCode={params.shareCode as string} data={shareHeaderData} />
       </div>
       <div className="p-4">
         <div className="border rounded-lg">
-         <ShareNav shareCode={shareCode} displayData={displayData} handleStockPeriod={handleStockPeriod} handleDisplayMode={handleDisplayMode} period={period} start={start} end={end} />
+         <ShareNav shareCode={params.shareCode as string} displayData={displayData} handleStockPeriod={handleStockPeriod} handleDisplayMode={handleDisplayMode} period={period} start={start} end={end} />
          <div className="px-4 pt-2 text-slate-600"><span className="text-xs">Selected period: </span><span className="text-sm">{formatDateForDisplay(start)} - {formatDateForDisplay(end)}</span></div>
           { displayData === 'table'
-            ? <Table data={shareData} />
-            : <Chart shareData={shareData} shareCode={shareCode} originalData={totalSharesByCode} />
+            ? <Table data={shareDataByPeriod} />
+            : <Chart shareData={shareDataByPeriod} shareCode={params.shareCode as string} originalData={totalSharesByCode} />
           }
         </div>
       </div>

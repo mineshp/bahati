@@ -15,7 +15,6 @@ export default function ShareNav(prop: Props) {
   const { shareCode, displayData, handleStockPeriod, handleDisplayMode, period, start, end} = prop;
 
   function isActive(buttonVal: string) {
-    console.log(period);
     return period  === buttonVal
   } 
 
@@ -24,16 +23,16 @@ export default function ShareNav(prop: Props) {
       <div className="flex items-center h-12 px-4 bg-gray-200 rounded-lg">
         <ul className="flex items-center">
           <li className="mr-4">
-            <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-700 ${isActive('1W') ? 'bg-blue-700' : ''}`} onClick={() => handleStockPeriod('1W')} name='1W'>1W</button>
+            <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-rose-300 border border-rose-500 rounded hover:bg-rose-500 hover:border-rose-300  ${isActive('1W') ? 'bg-rose-500 border border-rose-300' : ''}`} onClick={() => handleStockPeriod('1W')} name='1W'>1W</button>
           </li>
           <li className="mr-4">
-          <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-700 ${isActive('1M') ? 'bg-blue-700' : ''}`} onClick={() => handleStockPeriod('1M')} name='1M'>1M</button>
+          <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-rose-300 border border-rose-500 rounded hover:bg-rose-500 hover:border-rose-300 ${isActive('1M') ? 'bg-rose-500' : ''}`} onClick={() => handleStockPeriod('1M')} name='1M'>1M</button>
           </li>
           <li className="mr-4">
-          <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-700 ${isActive('3M') ? 'bg-blue-700' : ''}`} onClick={() => handleStockPeriod('3M')} name='3M'>3M</button>
+          <button type="submit" className={`items-center px-3 py-2 font-bold text-white bg-rose-300 border border-rose-500 rounded hover:bg-rose-500 hover:border-rose-300 ${isActive('3M') ? 'bg-rose-500' : ''}`} onClick={() => handleStockPeriod('3M')} name='3M'>3M</button>
           </li>
           <li className="mr-4">
-          <button type="submit" className={`items-center px-4 py-2 mr-4 font-bold text-white bg-blue-400 rounded hover:bg-blue-700 ${isActive('1Y') ? 'bg-blue-700' : ''}`} onClick={() => handleStockPeriod('1Y')} name='1Y'>1Y</button>
+          <button type="submit" className={`items-center px-4 py-2 mr-4 font-bold text-white bg-rose-300 border border-rose-500 rounded hover:bg-rose-500 hover:border-rose-300 ${isActive('1Y') ? 'bg-rose-500' : ''}`} onClick={() => handleStockPeriod('1Y')} name='1Y'>1Y</button>
           </li>
           <input type="text" name="share_code" value={shareCode} hidden readOnly></input>
           <input type="text" name="start_date" value={start} hidden readOnly></input>
@@ -44,8 +43,8 @@ export default function ShareNav(prop: Props) {
 
           <li className="justify-end ml-4">
               { displayData === 'chart'
-                ? <button type="button" className="items-center justify-center text-pink-400 w-9 h-9 hover:text-pink-900" onClick={() => handleDisplayMode('table')}><ChartBarIcon className="w-6 h-6" aria-hidden="true" /></button>
-                : <button type="button" className="items-center text-pink-400 w-9 h-9 hover:text-pink-900" onClick={() => handleDisplayMode('chart')}><TableIcon className="w-6 h-6" aria-hidden="true"/></button>
+                ? <button type="button" className="items-center justify-center text-rose-300 w-9 h-9 hover:text-rose-500" onClick={() => handleDisplayMode('table')}><ChartBarIcon className="w-6 h-6" aria-hidden="true" /></button>
+                : <button type="button" className="items-center text-rose-300 w-9 h-9 hover:text-rose-500" onClick={() => handleDisplayMode('chart')}><TableIcon className="w-6 h-6" aria-hidden="true"/></button>
               }
           </li>
           <li className="mr-4">

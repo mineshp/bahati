@@ -67,8 +67,8 @@ export default function Chart(prop: Props) {
     {
       label: 'Opening price',
       data: shareData.map(({ Open }) => Open),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(224, 174, 185, 0.5)',
+      borderColor: 'rgb(251, 113, 133)',
+      backgroundColor: 'rgba(254, 205, 211, 0.5)',
       tension: 0.4,
       fill: true
     }
@@ -77,8 +77,8 @@ export default function Chart(prop: Props) {
   const purchaseHistoryLines = originalData.map(({ originalCostPrice, totalShares, purchaseDate }) => ({
       label: `${totalShares} bought on ${purchaseDate}`,
       data: shareData.map(() => originalCostPrice),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      borderColor: 'rgb(99, 102, 241)',
+      backgroundColor: 'rgba(199, 210, 254, 0.5)',
       pointRadius: 0
   }));
 

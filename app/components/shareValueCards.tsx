@@ -36,13 +36,13 @@ export default function ValueCard(props: Props) {
 
   return (
     <div className="container grid items-center justify-center grid-rows-1 gap-8 sm:grid-cols-2 sm:gap-16 md:gap-24">
-      <div className={`items-center justify-center p-8 text-center bg-pink-100 border border-pink-600 rounded-lg ${showCurrent ? "" : "blur-sm"}`} onClick={handleToggleCurrent}>
-        <div className="text-3xl text-pink-500">£{showCurrent ? totalCurrentValue?.toLocaleString('en-GB') : 'shh'}</div>
-        <div className="text-xs text-pink-400 uppercase">Current Value</div>
+      <div className={`items-center justify-center p-8 text-center bg-rose-100 border border-rose-600 rounded-lg ${showCurrent ? "" : "blur-sm"}`} onClick={handleToggleCurrent}>
+        <div className="text-3xl text-rose-500">£{showCurrent ? totalCurrentValue?.toLocaleString('en-GB') : 'shh'}</div>
+        <div className="text-xs uppercase text-rose-400">Current Value</div>
       </div>
-      <div className={`items-center justify-center p-8 text-center bg-blue-100 border border-blue-500 rounded-lg ${showProfitLoss ? "" : "blur-sm"}`} onClick={handleToggleProfitLoss}>
-        <div className="text-3xl text-blue-500">£{showProfitLoss ? totalGainLoss?.toLocaleString('en-GB') : 'shh'}</div>
-        <div className="text-xs text-blue-400 uppercase">Profit/Loss</div>
+      <div className={`items-center justify-center p-8 text-center bg-indigo-100 border border-indigo-500 rounded-lg ${showProfitLoss ? "" : "blur-sm"}`} onClick={handleToggleProfitLoss}>
+        <div className="text-3xl text-indigo-500">£{showProfitLoss ? totalGainLoss?.toLocaleString('en-GB') : 'shh'}</div>
+        <div className="text-xs text-indigo-400 uppercase">Profit/Loss</div>
       </div>
     </div>
   );
