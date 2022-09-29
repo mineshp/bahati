@@ -18,12 +18,14 @@ export default function Index() {
   return (
     <main className="antialiased">
       <div className="flex flex-wrap p-8 bg-[url('/_static/ubud-capella.jpg')] bg-cover opacity-80 h-96">
-        <div className="items-center content-center self-center text-3xl text-left sm:text-3xl lg:text-5xl md:text-4xl font-oswald text-rose-400">
-          <h1>Every great dream begins with a <span className="text-4xl sm:text-5xl lg:text-6xl text-rose-600">dreamer</span>.</h1>
-          <p className="pt-4 text-sm text-indigo-300 md:text-lg lg:text-xl font-bebas">Real time stock information, easy to track your portfolio.</p>
+        <div className="items-center content-center self-center text-3xl text-left sm:text-3xl lg:text-5xl md:text-4xl font-oswald">
+          <div className="p-2 bg-rose-700 opacity-80">
+            <h1 className="text-indigo-200">Every great dream begins with a <span className="text-4xl sm:text-5xl lg:text-6xl text-rose-100">dreamer</span>.</h1>
+            <p className="pt-4 text-sm text-white md:text-lg lg:text-xl font-bebas">Real time stock information, easy to track your portfolio.</p>
+          </div>
         </div>
       </div>
-      <div className="flex flex-row flex-wrap justify-around h-auto bg-rose-100 sm:h-80">
+      <div className="flex flex-row flex-wrap justify-around h-auto bg-rose-100 sm:h-80 bg-[url('/_static/rose-petals.svg')]">
         <div className="flex items-center content-center self-center"><img
           className="items-center content-center self-center block w-48 mx-auto sm:w-64"
           src="/_static/bahati_logo.png"
