@@ -19,13 +19,12 @@ export default function Index() {
     <main className="antialiased">
       <div className="flex flex-wrap p-8 bg-[url('/_static/ubud-capella.jpg')] bg-cover opacity-80 h-96">
         <div className="items-center content-center self-center text-3xl text-left sm:text-3xl lg:text-5xl md:text-4xl font-oswald">
-          <div className="p-2 bg-rose-700 opacity-80">
+          <div className="p-2 opacity-80">
             <h1 className="text-indigo-200">Every great dream begins with a <span className="text-4xl sm:text-5xl lg:text-6xl text-rose-100">dreamer</span>.</h1>
-            <p className="pt-4 text-sm text-white md:text-lg lg:text-xl font-bebas">Real time stock information, easy to track your portfolio.</p>
           </div>
         </div>
       </div>
-      <div className="flex flex-row flex-wrap justify-around h-auto bg-rose-100 sm:h-80 bg-[url('/_static/rose-petals.svg')]">
+      <div className="flex flex-row flex-wrap justify-around h-auto bg-rose-100 sm:h-80 bg-[url('/_static/crosspattern2.svg')] pb-4">
         <div className="flex items-center content-center self-center"><img
           className="items-center content-center self-center block w-48 mx-auto sm:w-64"
           src="/_static/bahati_logo.png"
@@ -35,7 +34,7 @@ export default function Index() {
         <div className="grid grid-cols-2 p-4 mt-4 md:grid-cols-3 md:p-12 lg:p-8 gap-x-12 md:gap-8 gap-y-8">
           {shares.map((item) => (
             <Link
-              className="w-32 h-10 py-2 text-center text-white border border-indigo-300 rounded-md drop-shadow-md bg-gradient-to-r from-indigo-200 to-indigo-400 hover:from-rose-400 hover:border-rose-300 hover:to-rose-200 hover:bg-rose-300"
+              className="w-32 h-10 py-2 text-center text-white border rounded-md hover:border-indigo-300 drop-shadow-md bg-gradient-to-r hover:from-indigo-200 hover:to-indigo-400 from-rose-400 border-rose-300 to-rose-200 bg-rose-300"
               to={{
                 pathname: item.href
               }}

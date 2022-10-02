@@ -7,7 +7,8 @@ module.exports = {
     extend: {},
     fontFamily: {
       oswald: ['"Oswald"', ...defaultTheme.fontFamily.sans],
-      bebas: ['"Bebas Neue cursive"', ...defaultTheme.fontFamily.sans],
+      bebas: ['"Bebas Neue"'],
+      arizonia: ['"Arizonia"'],
     },
   },
   plugins: [],

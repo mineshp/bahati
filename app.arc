@@ -1,6 +1,10 @@
 @app
 bahati-a9bd
 
+@aws
+region eu-west-1
+profile min-aws
+
 @http
 /*
   method any
@@ -14,7 +18,3 @@ user
 
 password
   pk *String # userId
-
-note
-  pk *String  # userId
-  sk **String # noteId

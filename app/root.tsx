@@ -13,6 +13,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import Navbar from "./navbar";
+import Footer from "./footer";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
@@ -22,7 +23,7 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     // NOTE: Architect deploys the public directory to /_static/
     { rel: "icon", href: "/_static/favicon.ico" },
-    { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;700&display=swap"}
+    { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Arizonia&family=Bebas+Neue&family=Oswald:wght@300;400;700&display=swap"}
   ];
 };
 
@@ -53,6 +54,7 @@ export default function App() {
         <Navbar />
         <Outlet />
         <ScrollRestoration />
+        <Footer />
         <Scripts />
         <LiveReload />
       </body>

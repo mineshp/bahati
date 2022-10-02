@@ -24,7 +24,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function NavBar() {
   // const [shareSelected, setShareSelected] = useState<string>('');
 
   // function handleSelect(activeShare: any) {
