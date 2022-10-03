@@ -85,6 +85,7 @@ export default function Chart(prop: Props) {
       pointRadius: 0
   }));
 
+  // @ts-ignore
   const datasets = openingPrices.concat(purchaseHistoryLines);
 
   const data = {

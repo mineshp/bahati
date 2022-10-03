@@ -22,14 +22,13 @@ function createFakeData(period: number): StockDataByPeriodItems {
   });
 }
 
-const mockShareDataByPeriodData = {
+const mockShareDataByPeriodData: {[key:string]: StockDataByPeriodItems} = {
   '1W': createFakeData(5),
   '1M': createFakeData(30),
   '3M': createFakeData(90),
   '1Y': createFakeData(365)
 };
 
-// TODO: Fix typescript error
 export function mockShareDataByPeriod(period: string): StockDataByPeriodItems {
   return mockShareDataByPeriodData[period];
 }

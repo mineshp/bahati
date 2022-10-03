@@ -1,6 +1,6 @@
 import type { StockData } from '../types/shares';
 
-const mockShareHeaderData = {
+const mockShareHeaderData: {[key:string]: StockData} = {
   "TSLA": {
     currentPrice: 276.83,
     currency: 'USD',
@@ -67,7 +67,6 @@ const mockShareHeaderData = {
 
 }
 
-// TODO: Fix type error
 export function mockShareData(code: string): StockData {
   return mockShareHeaderData[code];
 }

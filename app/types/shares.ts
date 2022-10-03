@@ -1,6 +1,6 @@
 export interface StockData {
   currentPrice: number,
-  currency: number,
+  currency: string,
   dayHigh: number,
   dayLow: number,
   logo_url: string,

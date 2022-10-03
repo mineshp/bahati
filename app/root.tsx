@@ -1,9 +1,9 @@
 import type {
   LinksFunction,
-  LoaderFunction,
+  // LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-import { json } from "@remix-run/node";
+// import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -16,7 +16,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { getUser } from "./session.server";
+// import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
   return [
