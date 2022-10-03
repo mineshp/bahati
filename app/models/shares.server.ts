@@ -1,4 +1,4 @@
-import type { StockData, StockDataByPeriodItem, StockDataByPeriodItems, TotalShareItemsAll, ExchangeRate } from '../types/shares';
+import type { StockData, StockDataByPeriodItem, StockDataByPeriodItems, TotalSharesItem, ExchangeRate } from '../types/shares';
 import { calcGainLossDailyPercentage, calcGainLossDailyValue, calcTotalShareValue, calcGainLossPrice } from '../utils/shares';
 import { mockShareData } from '../mocks/mockShareData';
 import { mockShareDataByPeriod } from '../mocks/mockShareDataByPeriod';
@@ -111,7 +111,7 @@ export async function getSharesByCodeAndPeriod(code: string, start: string, end:
   })
 };
 
-export async function getSharesByCode(code: string): Promise<TotalShareItemsAll> {
+export async function getSharesByCode(code: string): Promise<TotalSharesItem[]> {
   const url = 'https://o9x8jijxn1.execute-api.eu-west-1.amazonaws.com/dev/api/stock-info';
 
   const options = {

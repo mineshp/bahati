@@ -99,8 +99,6 @@ export default function SharePage() {
     }
   }, [fetcher]);
 
-  console.log(totalSharesByCode);
-
   return shareDataByPeriod && (
     <div>
       <div className="px-4 pt-4">
