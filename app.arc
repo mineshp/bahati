@@ -3,7 +3,6 @@ bahati-a9bd
 
 @aws
 region eu-west-1
-profile min-aws
 
 @http
 /*
