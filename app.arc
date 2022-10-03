@@ -5,7 +5,6 @@ bahati-a9bd
 region eu-west-1
 runtime nodejs
 policies
-  S3CrudPolicy
   architect-default-policies
 
 @http
