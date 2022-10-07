@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { useState } from 'react';
-import { useUser } from "~/utils";
+import { useOptionalUser } from "~/utils";
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -26,7 +26,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
-  const user = useUser();
+  const user = useOptionalUser();
 
   return (
     <Disclosure as="nav" className="bg-indigo-200">
@@ -124,7 +124,7 @@ export default function NavBar() {
                       <img
                         className="w-8 h-8 rounded-full"
                         src="/_static/min-profile.jpg"
-                        alt={user?.username}
+                        alt={user ? user?.username : 'Not logged in'}
                       />
                     </Menu.Button>
                   </div>
