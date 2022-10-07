@@ -2,7 +2,7 @@ import arc from "@architect/functions";
 import bcrypt from "bcryptjs";
 import invariant from "tiny-invariant";
 
-export type User = { id: `email#${string}`; email: string };
+export type User = { id: `username#${string}`; username: string };
 export type Password = { password: string };
 
 export async function getUserById(id: User["id"]): Promise<User | null> {
@@ -13,19 +13,19 @@ export async function getUserById(id: User["id"]): Promise<User | null> {
   });
 
   const [record] = result.Items;
-  if (record) return { id: record.pk, email: record.email };
+  if (record) return { id: record.pk, username: record.username };
   return null;
 }
 
-export async function getUserByEmail(email: User["email"]) {
-  return getUserById(`email#${email}`);
+export async function getUserByUsername(username: User["username"]) {
+  return getUserById(`username#${username}`);
 }
 
-async function getUserPasswordByEmail(email: User["email"]) {
+async function getUserPasswordByUsername(username: User["username"]) {
   const db = await arc.tables();
   const result = await db.password.query({
     KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: { ":pk": `email#${email}` },
+    ExpressionAttributeValues: { ":pk": `username#${username}` },
   });
 
   const [record] = result.Items;
@@ -35,38 +35,39 @@ async function getUserPasswordByEmail(email: User["email"]) {
 }
 
 export async function createUser(
-  email: User["email"],
+  username: User["username"],
   password: Password["password"]
 ) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const db = await arc.tables();
+  console.log('HERE');
   await db.password.put({
-    pk: `email#${email}`,
+    pk: `username#${username}`,
     password: hashedPassword,
   });
 
   await db.user.put({
-    pk: `email#${email}`,
-    email,
+    pk: `username#${username}`,
+    username,
   });
 
-  const user = await getUserByEmail(email);
+  const user = await getUserByUsername(username);
   invariant(user, `User not found after being created. This should not happen`);
 
   return user;
 }
 
-export async function deleteUser(email: User["email"]) {
+export async function deleteUser(username: User["username"]) {
   const db = await arc.tables();
-  await db.password.delete({ pk: `email#${email}` });
-  await db.user.delete({ pk: `email#${email}` });
+  await db.password.delete({ pk: `username#${username}` });
+  await db.user.delete({ pk: `username#${username}` });
 }
 
 export async function verifyLogin(
-  email: User["email"],
+  username: User["username"],
   password: Password["password"]
 ) {
-  const userPassword = await getUserPasswordByEmail(email);
+  const userPassword = await getUserPasswordByUsername(username);
 
   if (!userPassword) {
     return undefined;
@@ -77,5 +78,5 @@ export async function verifyLogin(
     return undefined;
   }
 
-  return getUserByEmail(email);
+  return getUserByUsername(username);
 }
