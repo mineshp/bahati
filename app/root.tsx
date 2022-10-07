@@ -1,9 +1,9 @@
 import type {
   LinksFunction,
-  // LoaderFunction,
+  LoaderFunction,
   MetaFunction,
 } from "@remix-run/node";
-// import { json } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -16,7 +16,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
-// import { getUser } from "./session.server";
+import { getUser } from "./session.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -33,15 +33,15 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-// type LoaderData = {
-//   user: Awaited<ReturnType<typeof getUser>>;
-// };
+type LoaderData = {
+  user: Awaited<ReturnType<typeof getUser>>;
+};
 
-// export const loader: LoaderFunction = async ({ request }) => {
-//   return json<LoaderData>({
-//     user: await getUser(request),
-//   });
-// };
+export const loader: LoaderFunction = async ({ request }) => {
+  return json<LoaderData>({
+    user: await getUser(request),
+  });
+};
 
 export default function App() {
   return (

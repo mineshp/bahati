@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { useState } from 'react';
+import { useUser } from "~/utils";
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -25,14 +26,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function NavBar() {
-  // const [shareSelected, setShareSelected] = useState<string>('');
-
-  // function handleSelect(activeShare: any) {
-  //   if (activeShare) {
-  //     return setShareSelected(activeShare);
-  //   }
-  //   return;
-  // }
+  const user = useUser();
 
   return (
     <Disclosure as="nav" className="bg-indigo-200">
@@ -130,7 +124,7 @@ export default function NavBar() {
                       <img
                         className="w-8 h-8 rounded-full"
                         src="/_static/min-profile.jpg"
-                        alt=""
+                        alt={user?.username}
                       />
                     </Menu.Button>
                   </div>
