@@ -18,19 +18,15 @@ export async function getUserById(id: User["id"]): Promise<User | null> {
 }
 
 export async function getUserByUsername(username: User["username"]) {
-  console.log(getUserByUsername);
-  console.log(username);
   return getUserById(`username#${username}`);
 }
 
 async function getUserPasswordByUsername(username: User["username"]) {
   const db = await arc.tables();
-  console.log(db);
   const result = await db.password.query({
     KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: { ":pk": `username#${username}` },
   });
-  console.log(result);
 
   const [record] = result.Items;
 
@@ -44,7 +40,7 @@ export async function createUser(
 ) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const db = await arc.tables();
-  console.log('Saved User in db');
+  
   await db.password.put({
     pk: `username#${username}`,
     password: hashedPassword,
@@ -71,8 +67,6 @@ export async function verifyLogin(
   username: User["username"],
   password: Password["password"]
 ) {
-  console.log('verifyLogin');
-  console.log(username);
   const userPassword = await getUserPasswordByUsername(username);
 
   if (!userPassword) {
