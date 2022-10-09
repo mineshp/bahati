@@ -151,7 +151,7 @@ export default function LoginPage() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-indigo-500 rounded hover:bg-blue-600 focus:bg-blue-400"
+            className="w-full px-4 py-2 text-white bg-indigo-500 rounded hover:bg-indigo-600 focus:bg-indigo-400"
           >
             Log in
           </button>
@@ -161,7 +161,7 @@ export default function LoginPage() {
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
               />
               <label
                 htmlFor="remember"
