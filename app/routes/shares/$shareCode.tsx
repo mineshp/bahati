@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useCatch, useLoaderData, useFetcher, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import datepickerCss from 'react-datepicker/dist/react-datepicker.css';
-import type { getShareDataByCode, getSharesByCodeAndPeriod} from "~/models/shares.server";
+import { getShareDataByCode, getSharesByCodeAndPeriod} from "~/models/shares.server";
 import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod , getSharesByCode} from "~/models/shares.server";
 import type { StockDataByPeriodItems } from '../../types/shares';
 import { formatDateForDisplay, retrieveStartAndEndDates } from '../../utils/date';
@@ -28,12 +28,12 @@ export const loader: LoaderFunction = async ({params,}) => {
   invariant(params.shareCode, "Expected params.shareCode");
   const {start, end} = retrieveStartAndEndDates('1M');
   return json({
-    // shareHeaderData: await getShareDataByCode(params?.shareCode as string),
-    // shareData: await getSharesByCodeAndPeriod(params?.shareCode as string, start, end),
-    // totalSharesByCode: await getSharesByCode(params?.shareCode as string)
-    shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
-    shareData: await mockGetSharesByCodeAndPeriod(params?.shareCode as string, start, end),
+    shareHeaderData: await getShareDataByCode(params?.shareCode as string),
+    shareData: await getSharesByCodeAndPeriod(params?.shareCode as string, start, end),
     totalSharesByCode: await getSharesByCode(params?.shareCode as string)
+    // shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
+    // shareData: await mockGetSharesByCodeAndPeriod(params?.shareCode as string, start, end),
+    // totalSharesByCode: await getSharesByCode(params?.shareCode as string)
   });
 };
 
@@ -46,8 +46,8 @@ export const action: ActionFunction = async ({
   const shareCode = formData.get('shareCode');
 
   return json({
-    shareData: await mockGetSharesByCodeAndPeriod(shareCode as string, start as string, end as string)
-    // shareData: await getSharesByCodeAndPeriod(shareCode as string, start as string, end as string),
+    // shareData: await mockGetSharesByCodeAndPeriod(shareCode as string, start as string, end as string)
+    shareData: await getSharesByCodeAndPeriod(shareCode as string, start as string, end as string),
   });
 };
 
