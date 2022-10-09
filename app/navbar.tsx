@@ -1,9 +1,7 @@
 import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import { useState } from 'react';
-import { useOptionalUser } from "~/utils";
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { MenuIcon, XIcon, UserIcon } from '@heroicons/react/outline';
+import { ChevronDownIcon } from '@heroicons/react/solid';
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -25,10 +23,18 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function NavBar() {
-  const user = useOptionalUser();
+interface Props {
+  user: {
+    id: string,
+    username: string
+  } | null
+}
 
+export default function NavBar(props: Props) {
+  const { user } = props;
+  
   return (
+    user?.username ?
     <Disclosure as="nav" className="bg-indigo-200">
       {({ open }) => (
         <>
@@ -78,6 +84,7 @@ export default function NavBar() {
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Menu as="div" className="relative inline-block text-left">
+
       <div>
         <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-rose-600 bg-rose-300">
           { 'Shares' }
@@ -115,65 +122,73 @@ export default function NavBar() {
         </Menu.Items>
       </Transition>
     </Menu>
-
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="w-8 h-8 rounded-full"
-                        src="/_static/min-profile.jpg"
-                        alt={user ? user?.username : 'Not logged in'}
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
+    
+    {/* Profile dropdown */}
+      { user?.username
+        ?
+          <Menu as="div" className="relative z-20 ml-3">
+            <div>
+              <Menu.Button className="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                <span className="sr-only">Open user menu</span>
+                {
+                  user?.username
+                  ?  <img
+                    className="w-8 h-8 rounded-full"
+                    src="/_static/min-profile.jpg"
+                    alt={user?.username ? user?.username : 'Not logged in'}
+                  />
+                  : <MenuIcon className="block w-6 h-6" aria-hidden="true" />
+                }
+              </Menu.Button>
             </div>
-          </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="#"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Your Profile
+                    </a>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <a
+                      href="#"
+                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                    >
+                      Settings
+                    </a>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <form action="/logout" method="post">
+                    <button type="submit" className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
+                      Sign out
+                    </button>
+                    </form>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        :
+        <UserIcon className="block w-6 h-6 ml-2 text-slate-600" aria-hidden="true" />
+      }
+        </div>
+      </div>
+    </div>
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
@@ -193,6 +208,38 @@ export default function NavBar() {
               ))}
             </div>
           </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
+    :
+    <Disclosure as="nav" className="bg-indigo-200">
+      {({ open }) => (
+        <>
+          <div className="px-2 max-w-8xl sm:px-6 lg:px-8">
+            <div className="relative flex items-center justify-between h-16">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+              </div>
+              <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+                <div className="flex items-center flex-shrink-0">
+                  <img
+                    className="block w-auto h-10 lg:hidden"
+                    src="/_static/bahati_logo.png"
+                    alt="Workflow"
+                  />
+                  <img
+                    className="hidden w-auto h-10 lg:block"
+                    src="/_static/bahati_logo.png"
+                    alt="Workflow"
+                  />
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+    
+        <UserIcon className="block w-6 h-6 ml-2 text-slate-600" aria-hidden="true" />
+        </div>
+      </div>
+    </div>
         </>
       )}
     </Disclosure>

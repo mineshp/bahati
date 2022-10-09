@@ -1,6 +1,7 @@
+import type { LoaderFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-
-import { useOptionalUser } from "~/utils";
+import { getUserId } from "~/session.server";
 
 const shares = [
   { name: 'VOW.DE', href: "/shares/VOW3.DE" },
@@ -13,10 +14,16 @@ const shares = [
   { name: 'BABA', href: "/shares/BABA" },
 ]
 
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+  // If no user detected, redirect to login page
+  if (!userId) return redirect("/login");
+  return json({});
+};
+
 export default function Index() {
-  const user = useOptionalUser();
   return (
-    <main className="antialiased">
+    <main className="z-10 antialiased">
       <div className="flex flex-wrap p-8 bg-[url('/_static/ubud-capella.jpg')] bg-cover opacity-80 h-96">
         <div className="items-center content-center self-center text-3xl text-left sm:text-3xl lg:text-5xl md:text-4xl font-oswald">
           <div className="p-2 opacity-80">
