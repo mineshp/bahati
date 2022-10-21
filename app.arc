@@ -9,7 +9,19 @@ policies
 
 @http
 /*
-  method any
+  method get
+  src server
+/*
+  method post
+  src server
+/*
+  method put
+  src server
+/*
+  method delete
+  src server
+/*
+  method head
   src server
 
 @static
