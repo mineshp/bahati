@@ -9,14 +9,14 @@ const navigation = [
 ]
 
 const shares = [
-  { name: 'VOW.DE', href: "/shares/VOW3.DE" },
-  { name: 'NFLX', href: "/shares/NFLX" },
-  { name: 'BP.L', href: "/shares/BP.L" },
-  { name: 'TSLA', href: "/shares/TSLA" },
-  { name: 'SPCE', href: "/shares/SPCE" },
-  { name: 'ROO.L', href: "/shares/ROO.L" },
-  { name: 'ENR', href: "/shares/ENR" },
-  { name: 'BABA', href: "/shares/BABA" },
+  { name: 'VOW.DE', href: "/shares/VOW3.DE", logo: "/_static/logos/vw.png" },
+  { name: 'NFLX', href: "/shares/NFLX", logo: "/_static/logos/netflix.png" },
+  { name: 'BP.L', href: "/shares/BP.L", logo: "/_static/logos/bp.png" },
+  { name: 'TSLA', href: "/shares/TSLA", logo: "/_static/logos/tesla.png" },
+  { name: 'SPCE', href: "/shares/SPCE", logo: "/_static/logos/spce.jpg" },
+  { name: 'ROO.L', href: "/shares/ROO.L", logo: "/_static/logos/deliveroo.jpeg" },
+  { name: 'ENR', href: "/shares/ENR", logo: "/_static/logos/energizer.png" },
+  { name: 'BABA', href: "/shares/BABA", logo: "/_static/logos/baba.png" },
 ]
 
 function classNames(...classes: string[]) {
@@ -101,20 +101,23 @@ export default function NavBar(props: Props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-10 w-40 mt-2 origin-top-right bg-white rounded-md shadow-lg sm:w-56 ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
           {shares.map((shareItem) => (
             <Menu.Item key={shareItem.name}>
             {({ active }) => (
+              <div className='flex hover:bg-rose-50'>
               <a
                 href={shareItem.href}
                 className={classNames(
                   active ? 'bg-rose-50 text-indigo-900' : 'text-indigo-700',
-                  'block px-4 py-2 text-sm'
+                  'block px-4 py-2 text-sm grow'
                 )}
               >
                 {shareItem.name}
               </a>
+              <span className='flex-none pr-2 my-auto'><img className="w-8 min-h-8" src={shareItem.logo} alt={shareItem.name}></img></span>
+              </div>
             )}
           </Menu.Item>
           ))}

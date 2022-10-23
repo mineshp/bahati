@@ -1,12 +1,6 @@
-# Remix Grunge Stack
+# Bahati
 
-![The Remix Grunge Stack](https://repository-images.githubusercontent.com/463325363/edae4f5b-1a13-47ea-b90c-c05badc2a700)
-
-Learn more about [Remix Stacks](https://remix.run/stacks).
-
-```
-npx create-remix --template remix-run/grunge-stack
-```
+Remix full stack app using Architect. App communicates with a dynamodb database and is deployed to API Gateway as a HTTP api.  
 
 ## What's in the stack
 
@@ -27,12 +21,6 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 
 ## Development
 
-- This step only applies if you've opted out of having the CLI install dependencies for you:
-
-   ```sh
-   npx remix init
-   ```
-
 - Validate the app has been set up properly (optional):
 
   ```sh
@@ -42,24 +30,27 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 - Start dev server:
 
   ```sh
-  npm run dev
+  nvm use 14.18.2 && npm run dev
   ```
 
 This starts your app in development mode, rebuilding assets on file changes.
 
-### Relevant code:
+### The App:
 
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Architect and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
+Share tracking app allowing you to view various shares. Functionality includes
+
+- login/logout
+- view shares
 
 - creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
 - user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
-- creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
+- viewing share information [./app/models/shares.server.ts](./app/models/shares.server.ts)
 
 The database that comes with `arc sandbox` is an in memory database, so if you restart the server, you'll lose your data. The Staging and Production environments won't behave this way, instead they'll persist the data in DynamoDB between deployments and Lambda executions.
 
 ## Deployment
 
-This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments. By default, Arc will deploy to the `us-west-2` region, if you wish to deploy to a different region, you'll need to change your [`app.arc`](https://arc.codes/docs/en/reference/project-manifest/aws)
+This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments. Arc will deploy to the `eu-west-1` region.
 
 Prior to your first deployment, you'll need to do a few things:
 
@@ -80,6 +71,42 @@ Prior to your first deployment, you'll need to do a few things:
 
   If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
 
+## Custom Domain setup
+
+### Step 1: setup SSL certificates with AWS Certificate Manager
+In this step we will request a certificate from Amazon for our domain.
+
+- Open up AWS Certificate Manager in the AWS Console in us-east-1 (region is required!)
+- Click Request a certificate and then Request a public certificate
+- Ensure example.com and *.example.com for sub domains to work
+- Choose DNS validation and click Next
+- Add any tags and confirm the request
+- Expand the domain and click Create record in Route53 button
+- Verify CNAME record created in Route53 console Hosted zone
+
+### Step 2: setup custom domain with AWS API Gateway
+- Register or point existing domain/sub domain to AWS nameservers
+- Create a hosted zone for the domain
+- Go to API Gateway
+- Navigate to Custom domain names and click Create
+- Enter the domain name (e.g. staging.example.com for the staging app or example.com for the production app)
+- Select the certificate created in Step 1
+- Click Create domain name
+- Make note of the generated API Gateway domain name in Endpoint configuration
+- Click on the tab API mappings and Configure API mappings
+- For API select the API and for Stage select $default and click Save
+
+### Step 3: configure the domain Alias in AWS Route53
+- Sign into AWS Route53 in the AWS Console
+- Navigate to the Hosted zone for the domain
+- Click Create record
+- Enter the Record name
+- Record type is A and toggle Alias checkbox on
+- Select Alias to API Gateway
+- Select the region
+- Select the API (should be the same value as the domain generated in Step 2)
+- Click Create records
+  
 ## Where do I find my CloudFormation?
 
 You can find the CloudFormation template that Architect generated for you in the sam.yaml file.
