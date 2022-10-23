@@ -36,7 +36,7 @@ export default function Chart(prop: Props) {
 
   const options = {
     responsive: true,
-    // maintainAspectRatio: false,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom' as const,
