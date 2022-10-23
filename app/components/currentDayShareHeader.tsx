@@ -22,7 +22,7 @@ export default function CurrentDayShareHeader(prop: Props) {
       // BP.L
       // BABA
       // NFLX
-      return 'w-20 h-12'
+      return 'w-16 h-10 sm:w-20 sm:h-12'
     }
   }
 

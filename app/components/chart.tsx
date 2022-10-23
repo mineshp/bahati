@@ -36,6 +36,7 @@ export default function Chart(prop: Props) {
 
   const options = {
     responsive: true,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -93,5 +94,5 @@ export default function Chart(prop: Props) {
     datasets,
   };
 
-  return <div className="p-4"><Line options={options} data={data} /></div>;
+  return <div className="p-4 w-200 h-80 md:h-auto md:w-auto"><Line options={options} data={data} /></div>;
 }

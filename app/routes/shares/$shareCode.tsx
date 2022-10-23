@@ -26,7 +26,7 @@ export const links: LinksFunction = () => [
 
 export const loader: LoaderFunction = async ({params,}) => {
   invariant(params.shareCode, "Expected params.shareCode");
-  const {start, end} = retrieveStartAndEndDates('1M');
+  const {start, end} = retrieveStartAndEndDates('1W');
   return json({
     shareHeaderData: await getShareDataByCode(params?.shareCode as string),
     shareData: await getSharesByCodeAndPeriod(params?.shareCode as string, start, end),
