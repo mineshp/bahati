@@ -6,4 +6,5 @@ export const calcGainLossDailyValue = (previousSharePrice: number, todaysSharePr
 
 export const calcGainLossDailyPercentage = ((previousSharePrice: number, todaysSharePrice: number) => Number((Number(todaysSharePrice) - Number(previousSharePrice)).toFixed(3)) / Number(todaysSharePrice) * 100);
 
-export const calcTotalShareValue = (totalShares: number, currentSharePrice: number) => (totalShares * currentSharePrice).toFixed(2);
+export const calcTotalShareValue = (totalShares: number, currentSharePrice: number, exchangeRate: number) => (totalShares * (currentSharePrice * exchangeRate)).toFixed(2);
+// export const calcTotalShareValue = (totalShares: number, currentSharePrice: number, ) => (totalShares * (currentSharePrice)).toFixed(2);

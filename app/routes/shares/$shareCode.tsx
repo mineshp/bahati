@@ -1,10 +1,11 @@
 import type { ActionFunction, LoaderFunction, LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCatch, useLoaderData, useFetcher, useParams } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import datepickerCss from 'react-datepicker/dist/react-datepicker.css';
-import { getShareDataByCode, getSharesByCodeAndPeriod} from "~/models/shares.server";
+import { getShareDataByCode} from "~/models/shares.server";
+import { getSharesByCodeAndPeriod, getExchangeRate} from "~/models/shares.server";
 import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod , getSharesByCode} from "~/models/shares.server";
 import type { StockDataByPeriodItems } from '../../types/shares';
 import { formatDateForDisplay, retrieveStartAndEndDates } from '../../utils/date';
@@ -30,7 +31,7 @@ export const loader: LoaderFunction = async ({params,}) => {
   return json({
     shareHeaderData: await getShareDataByCode(params?.shareCode as string),
     shareData: await getSharesByCodeAndPeriod(params?.shareCode as string, start, end),
-    totalSharesByCode: await getSharesByCode(params?.shareCode as string)
+    totalSharesByCode: await getSharesByCode(params?.shareCode as string),
     // shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
     // shareData: await mockGetSharesByCodeAndPeriod(params?.shareCode as string, start, end),
     // totalSharesByCode: await getSharesByCode(params?.shareCode as string)
@@ -58,7 +59,6 @@ export default function SharePage() {
   const [period, setPeriod] = useState('1W');
   const [start, setStart] = useState<string>(retrieveStartAndEndDates('1W').start);
   const [end, setEnd] = useState<string>(retrieveStartAndEndDates('1W').end);
-  // const [shareCode, setShareCode] = useState<string>('');
   const [shareDataByPeriod, setShareDataByPeriod] = useState<StockDataByPeriodItems>([])
   const fetcher = useFetcher()
 

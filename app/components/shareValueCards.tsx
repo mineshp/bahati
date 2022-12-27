@@ -1,7 +1,6 @@
 import { calcTotalShareValue, calcGainLossPrice } from '../utils/shares';
 import type { TotalShareItemsByCode } from '../types/shares';
-import { useEffect, useState } from 'react';
-
+import { useState } from 'react';
 interface Props {
   currentPrice: number;
   shareData: TotalShareItemsByCode
@@ -9,7 +8,6 @@ interface Props {
 
 export default function ValueCard(props: Props) {
   const { currentPrice, shareData } = props;
-  
   const [showCurrent, setShowCurrent] = useState<boolean>(false);
   const [showProfitLoss, setShowProfitLoss] = useState<boolean>(false);
 
@@ -23,12 +21,12 @@ export default function ValueCard(props: Props) {
 
 
   const totalValueSpent = shareData?.reduce((acc, shareData) => {
-    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, shareData.originalCostPrice));
+    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, shareData.originalCostPrice, shareData.exchangeRate));
     return acc + valueSpent;
   }, 0);
 
   const totalCurrentValue = shareData?.reduce((acc, shareData) => {
-    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, currentPrice));
+    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, currentPrice, shareData.exchangeRate));
     return acc + valueSpent;
   }, 0);
 

@@ -1,7 +1,25 @@
-import type { StockData, StockDataByPeriodItem, StockDataByPeriodItems, TotalSharesItem, ExchangeRate } from '../types/shares';
+import type { StockData, StockDataByPeriodItem, StockDataByPeriodItems, TotalSharesItem, ExchangeRate, LastDayHighAndDayLow } from '../types/shares';
 import { calcGainLossDailyPercentage, calcGainLossDailyValue, calcTotalShareValue, calcGainLossPrice } from '../utils/shares';
+import { retrieveStartAndEndDates } from '../utils/date';
 import { mockShareData } from '../mocks/mockShareData';
 import { mockShareDataByPeriod } from '../mocks/mockShareDataByPeriod';
+
+async function getLastDayHighAndDayLow(code: string): Promise<LastDayHighAndDayLow> {
+  const { start, end } = retrieveStartAndEndDates('1W');
+  const data = await getSharesByCodeAndPeriod(code, start, end);
+  
+  let dayHigh = 0;
+  let dayLow = 0;
+  data.forEach(({High, Low}) => {
+    if (!High && !Low) return;
+    dayHigh = Number(High.toFixed(2));
+    dayLow = Number(Low.toFixed(2));
+  })
+  return {
+    dayHigh,
+    dayLow
+  }
+}
 
 export async function mockGetShareDataByCode(code: string): Promise<StockData> {
   const res = new Response(
@@ -20,7 +38,7 @@ export async function getExchangeRate(baseCurrency: string): Promise<ExchangeRat
       'X-RapidAPI-Host': 'exchangerate-api.p.rapidapi.com'
     }
   };
-  
+
   return fetch(`https://exchangerate-api.p.rapidapi.com/rapid/latest/${baseCurrency} `, options)
     .then(response => response.json())
     .then(({rates}) => rates['GBP'])
@@ -47,14 +65,25 @@ export async function getShareDataByCode(code: string): Promise<StockData> {
     .then(res => res.json())
     .catch(err => console.error('error:' + err));
 
-  return {
+  const baseShareData = {
     currentPrice: data.currentPrice,
     currency: data.currency,
-    dayHigh: data.dayHigh,
-    dayLow: data.dayLow,
     logo_url: data.logo_url,
     longName: data.longName,
     exchange: data.exchange
+  };
+
+  if (!data.dayHigh && !data.dayLow) {
+    const { dayHigh, dayLow } = await getLastDayHighAndDayLow(code);
+    return ({
+      ...baseShareData, dayHigh, dayLow
+    });
+  }
+
+  return {
+    ...baseShareData,
+    dayHigh: data.dayHigh,
+    dayLow: data.dayLow
   };
 }
 
@@ -111,7 +140,8 @@ export async function getSharesByCodeAndPeriod(code: string, start: string, end:
   })
 };
 
-export async function getSharesByCode(code: string): Promise<TotalSharesItem[]> {
+// TODO not sure why we have the void or any error if we dont explicitly say it 
+export async function getSharesByCode(code: string): Promise<TotalSharesItem[]|any> {
   const url = 'https://o9x8jijxn1.execute-api.eu-west-1.amazonaws.com/dev/api/stock-info';
 
   const options = {
@@ -121,9 +151,13 @@ export async function getSharesByCode(code: string): Promise<TotalSharesItem[]> 
     }
   };
 
-  const data = await fetch(url, options)
+  return fetch(url, options)
     .then(res => res.json())
-    .catch(err => console.error('error:' + err));
-
-  return data[code];
-}
+    .then(data => data[code])
+    .then(async (stockData) => Promise.all(stockData.map(async (purchaseStock: TotalSharesItem) => {
+        const exchangeRate = (purchaseStock?.currency === 'GBP') ? 0.01 : await getExchangeRate(purchaseStock?.currency)
+        return {...purchaseStock, exchangeRate }
+      }))
+    )
+    .catch(err => console.error('error:' + err))
+  }

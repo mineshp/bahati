@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon, UserIcon } from '@heroicons/react/outline';
-import { ChevronDownIcon } from '@heroicons/react/solid';
+import { ChevronDownIcon, ShieldCheckIcon } from '@heroicons/react/solid';
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },

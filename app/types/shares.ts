@@ -40,7 +40,9 @@ export interface TotalSharesItem {
   originalCostPrice: number,
   totalShares: number,
   account: string,
-  purchaseDate: string
+  purchaseDate: string,
+  currency: string,
+  exchangeRate: number
 }
 
 export interface TotalShareItemsByCode extends Array<TotalSharesItem>{}
@@ -54,3 +56,8 @@ export interface ExchangeRate {
   documentation: string,
   rates: object
 }
+
+export interface LastDayHighAndDayLow {
+  dayHigh: number,
+  dayLow: number 
+} 
