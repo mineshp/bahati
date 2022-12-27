@@ -41,7 +41,7 @@ export default function CurrentDayShareHeader(prop: Props) {
       <div className="row-span-2 ... justify-center items-center self-center justify-items-center content-center text-center"><span className="block text-xs text-red-200 uppercase">Current Price: </span><span className="text-xl sm:text-2xl text-slate-100">{data.currentPrice} {data.currency}</span></div>
       <div className="... flex flex-row justify-end"><ArrowCircleUpIcon className="w-6 h-6 text-zinc-300" aria-hidden="true" /> <span className="text-sm sm:text-base text-lime-200">{data.dayHigh} {data.currency}</span></div>
       <div className="..."><span className="items-center text-xs sm:text-sm text-sky-200">{shareCode}</span></div>
-      <div className="... flex flex-row justify-end"><addArrowCircleDownIcon className="w-6 h-6 text-zinc-300" aria-hidden="true" /><span className="text-sm text-yellow-300 sm:text-base">{data.dayLow} {data.currency}</span></div>
+      <div className="... flex flex-row justify-end"><ArrowCircleDownIcon className="w-6 h-6 text-zinc-300" aria-hidden="true" /><span className="text-sm text-yellow-300 sm:text-base">{data.dayLow} {data.currency}</span></div>
     </div>
   );
 }
