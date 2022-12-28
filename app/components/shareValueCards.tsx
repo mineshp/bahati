@@ -21,7 +21,7 @@ export default function ValueCard(props: Props) {
 
 
   const totalValueSpent = shareData?.reduce((acc, shareData) => {
-    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, shareData.originalCostPrice, shareData.exchangeRate));
+    const valueSpent = Number(calcTotalShareValue(shareData.totalShares, shareData.originalCostPrice, shareData.purchaseExchangeRate));
     return acc + valueSpent;
   }, 0);
 

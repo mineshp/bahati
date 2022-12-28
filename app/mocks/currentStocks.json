@@ -6,7 +6,8 @@
       "totalShares": "27",
       "account": "ISA",
       "purchaseDate": "28/02/2019",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0.7591"
     },
     {
       "code": "TSLA",
@@ -14,7 +15,8 @@
       "totalShares": "12",
       "account": "FUND",
       "purchaseDate": "11/10/2018",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0.7608"
     },
     {
       "code": "TSLA",
@@ -22,7 +24,8 @@
       "totalShares": "11",
       "account": "ISA",
       "purchaseDate": "27/03/2020",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0.8526"
     },
     {
       "code": "TSLA",
@@ -30,7 +33,8 @@
       "totalShares": "28",
       "account": "ISA",
       "purchaseDate": "23/09/2020",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0.7801"
     },
     {
       "code": "TSLA",
@@ -38,7 +42,8 @@
       "totalShares": "48",
       "account": "FUND",
       "purchaseDate": "31/08/2020",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0"
     },
     {
       "code": "TSLA",
@@ -46,15 +51,17 @@
       "totalShares": "152",
       "account": "ISA",
       "purchaseDate": "31/08/2020",
-      "currency": "USD"
+      "currency": "USD",
+      "purchaseExchangeRate": "0"
     },
     {
       "code": "TSLA",
       "originalCostPrice": "0",
       "totalShares": "556",
       "account": "ISA",
-      "purchaseDate": "35/08/2022",
-      "currency": "USD"
+      "purchaseDate": "3/08/2022",
+      "currency": "USD",
+      "purchaseExchangeRate": "0"
     }
   ],
   "BP.L": [{
@@ -63,7 +70,8 @@
     "totalShares": "164",
     "account": "FUND",
     "purchaseDate": "12/03/2020",
-    "currency": "GBP"
+    "currency": "GBP",
+    "purchaseExchangeRate": "0.005"
   }],
   "VOW3.DE": [{
     "code": "VOW3.DE",
@@ -71,7 +79,8 @@
     "totalShares": "50",
     "account": "ISA",
     "purchaseDate": "27/03/2020",
-    "currency": "EUR"
+    "currency": "EUR",
+    "purchaseExchangeRate": "0.913"
   }],
   "ENR": [{
     "code": "ENR",
@@ -79,7 +88,8 @@
     "totalShares": "42",
     "account": "ISA",
     "purchaseDate": "23/03/2022",
-    "currency": "USD"
+    "currency": "USD",
+    "purchaseExchangeRate": "0.7585"
   }],
   "NFLX": [{
     "code": "NFLX",
@@ -87,7 +97,8 @@
     "totalShares": "27",
     "account": "ISA",
     "purchaseDate": "23/03/2022",
-    "currency": "USD"
+    "currency": "USD",
+    "purchaseExchangeRate": "0.7591"
   }],
   "BABA": [{
     "code": "BABA",
@@ -95,7 +106,8 @@
     "totalShares": "54",
     "account": "ISA",
     "purchaseDate": "23/03/2022",
-    "currency": "USD"
+    "currency": "USD",
+    "purchaseExchangeRate": "0.7582"
   }],
   "ROO.L": [{
     "code": "ROO.L",
@@ -103,7 +115,8 @@
     "totalShares": "2356",
     "account": "ISA",
     "purchaseDate": "23/03/2022",
-    "currency": "GBP"
+    "currency": "GBP",
+    "purchaseExchangeRate": "0.005"
   }],
   "SPCE": [{
     "code": "SPCE",
@@ -111,6 +124,7 @@
     "totalShares": "562",
     "account": "ISA",
     "purchaseDate": "23/03/2022",
-    "currency": "USD"
+    "currency": "USD",
+    "purchaseExchangeRate": "0.7588"
   }]
 }

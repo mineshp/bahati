@@ -42,7 +42,8 @@ export interface TotalSharesItem {
   account: string,
   purchaseDate: string,
   currency: string,
-  exchangeRate: number
+  exchangeRate: number,
+  purchaseExchangeRate: number
 }
 
 export interface TotalShareItemsByCode extends Array<TotalSharesItem>{}
