@@ -5,7 +5,8 @@ import { useCatch, useLoaderData, useFetcher, useParams } from "@remix-run/react
 import invariant from "tiny-invariant";
 import datepickerCss from 'react-datepicker/dist/react-datepicker.css';
 import { getShareDataByCode} from "~/models/shares.server";
-import { getSharesByCodeAndPeriod, getExchangeRate} from "~/models/shares.server";
+import { getSharesByCodeAndPeriod} from "~/models/shares.server";
+import { getExchangeRate} from "~/models/shares.server";
 import { mockGetShareDataByCode, mockGetSharesByCodeAndPeriod , getSharesByCode} from "~/models/shares.server";
 import type { StockDataByPeriodItems } from '../../types/shares';
 import { formatDateForDisplay, retrieveStartAndEndDates } from '../../utils/date';
