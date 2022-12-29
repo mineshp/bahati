@@ -1,4 +1,4 @@
-export const calcGainLossPrice = (totalShares: number, originalSharePrice: number, currentSharePrice: number) => ((totalShares * currentSharePrice) - (totalShares * originalSharePrice)).toFixed(2);
+// export const calcGainLossPrice = (totalShares: number, originalSharePrice: number, currentSharePrice: number) => ((totalShares * currentSharePrice) - (totalShares * originalSharePrice)).toFixed(2);
 
 export const calcGainLossPercentage = (totalShares: number, originalSharePrice: number, currentSharePrice: number) => Number((Number((Number(totalShares * currentSharePrice) - Number(totalShares * originalSharePrice)).toFixed(2)) / (totalShares * currentSharePrice)).toFixed(2));
 

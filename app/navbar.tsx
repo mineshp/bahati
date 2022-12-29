@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MenuIcon, XIcon, UserIcon } from '@heroicons/react/outline';
-import { ChevronDownIcon, ShieldCheckIcon } from '@heroicons/react/solid';
+import { ChevronDownIcon } from '@heroicons/react/solid';
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -154,26 +154,6 @@ export default function NavBar(props: Props) {
               leaveTo="transform opacity-0 scale-95"
             >
               <Menu.Items className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                    >
-                      Your Profile
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                    >
-                      Settings
-                    </a>
-                  )}
-                </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
                     <form action="/logout" method="post">

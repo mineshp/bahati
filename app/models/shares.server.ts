@@ -1,5 +1,5 @@
 import type { StockData, StockDataByPeriodItem, StockDataByPeriodItems, TotalSharesItem, ExchangeRate, LastDayHighAndDayLow } from '../types/shares';
-import { calcGainLossDailyPercentage, calcGainLossDailyValue, calcTotalShareValue, calcGainLossPrice } from '../utils/shares';
+import { calcGainLossDailyPercentage, calcGainLossDailyValue } from '../utils/shares';
 import { retrieveStartAndEndDates } from '../utils/date';
 import { mockShareData } from '../mocks/mockShareData';
 import { mockShareDataByPeriod } from '../mocks/mockShareDataByPeriod';

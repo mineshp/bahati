@@ -1,4 +1,4 @@
-import { calcTotalShareValue, calcGainLossPrice } from '../utils/shares';
+import { calcTotalShareValue } from '../utils/shares';
 import type { TotalShareItemsByCode } from '../types/shares';
 import { useState } from 'react';
 interface Props {
