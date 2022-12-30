@@ -51,12 +51,7 @@ export default function CurrentDayShareHeader(prop: Props) {
         </span>
       </div>
       <div className="... flex flex-row justify-end">
-        <Pill
-          data={data.dayHigh}
-          currency={data.currency}
-          type="high"
-          colour="teal"
-        />
+        <Pill data={data.dayHigh} currency={data.currency} type="high" />
       </div>
       <div className="... relative">
         <span className="absolute inset-x-0 bottom-0 items-center text-xs text-sky-200 sm:text-sm">
@@ -64,12 +59,7 @@ export default function CurrentDayShareHeader(prop: Props) {
         </span>
       </div>
       <div className="... flex flex-row justify-end">
-        <Pill
-          data={data.dayLow}
-          currency={data.currency}
-          type="low"
-          colour="rose"
-        />
+        <Pill data={data.dayLow} currency={data.currency} type="low" />
       </div>
     </div>
   );

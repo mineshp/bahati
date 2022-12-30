@@ -2,14 +2,10 @@ interface Props {
   data: number;
   currency: string;
   type: string;
-  colour: string;
 }
 
 export default function Pill(props: Props): JSX.Element {
-  const { currency, data, type, colour } = props;
-
-  const borderColour = `border-${colour}-400`;
-  const textColour = `text-${colour}-900`;
+  const { currency, data, type } = props;
 
   return (
     <div
