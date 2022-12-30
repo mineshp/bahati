@@ -11,7 +11,7 @@ export default function Pill(props: Props): JSX.Element {
     <div
       className={`w-38 rounded-lg border ${
         type === "high" ? "border-teal-400" : "border-rose-400"
-      } h-11 p-1 px-0.5 text-right sm:px-2`}
+      } h-8 p-0.5 px-0.5 text-right sm:h-10 sm:px-2`}
     >
       <span
         className={`inline-block h-6 w-6 rounded-lg p-2 align-middle text-white ${
