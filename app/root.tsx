@@ -11,7 +11,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
 } from "@remix-run/react";
 import Navbar from "./navbar";
 import Footer from "./footer";
@@ -23,7 +23,10 @@ export const links: LinksFunction = () => {
     { rel: "stylesheet", href: tailwindStylesheetUrl },
     // NOTE: Architect deploys the public directory to /_static/
     { rel: "icon", href: "/_static/favicon.ico" },
-    { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Arizonia&family=Bebas+Neue&family=Oswald:wght@300;400;700&display=swap"}
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Arizonia&family=Bebas+Neue&family=Oswald:wght@300;400;700&display=swap",
+    },
   ];
 };
 
