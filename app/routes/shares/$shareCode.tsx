@@ -16,20 +16,17 @@ import datepickerCss from "react-datepicker/dist/react-datepicker.css";
 import {
   mockGetShareDataByCode,
   mockGetSharesByCodeAndPeriod,
+  getMockExchangeRates,
   getSharesByCode,
   getShareDataByCode,
   getSharesByCodeAndPeriod,
 } from "~/models/shares.server";
 import type { StockDataByPeriodItems } from "../../types/shares";
-import {
-  formatDateForDisplay,
-  retrieveStartAndEndDates,
-} from "../../utils/date";
-import Chart from "../../components/chart";
-import Table from "../../components/table";
+import { retrieveStartAndEndDates } from "../../utils/date";
 import CurrentDayShareHeader from "../../components/currentDayShareHeader";
-import ShareNav from "../../components/shareNav";
 import ShareValueCard from "../../components/shareValueCards";
+import InformationBar from "../../components/information";
+import ShareGraph from "../../components/shareGraph";
 
 type LoaderData = {
   shareHeaderData: Awaited<ReturnType<typeof getShareDataByCode>>;
@@ -45,16 +42,20 @@ export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.shareCode, "Expected params.shareCode");
   const { start, end } = retrieveStartAndEndDates("1W");
   return json({
-    shareHeaderData: await getShareDataByCode(params?.shareCode as string),
-    shareData: await getSharesByCodeAndPeriod(
+    // shareHeaderData: await getShareDataByCode(params?.shareCode as string),
+    // shareData: await getSharesByCodeAndPeriod(
+    //   params?.shareCode as string,
+    //   start,
+    //   end
+    // ),
+    // totalSharesByCode: await getSharesByCode(params?.shareCode as string),
+    shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
+    shareData: await mockGetSharesByCodeAndPeriod(
       params?.shareCode as string,
       start,
       end
     ),
     totalSharesByCode: await getSharesByCode(params?.shareCode as string),
-    // shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
-    // shareData: await mockGetSharesByCodeAndPeriod(params?.shareCode as string, start, end),
-    // totalSharesByCode: await getSharesByCode(params?.shareCode as string)
   });
 };
 
@@ -65,12 +66,16 @@ export const action: ActionFunction = async ({ request }) => {
   const shareCode = formData.get("shareCode");
 
   return json({
-    // shareData: await mockGetSharesByCodeAndPeriod(shareCode as string, start as string, end as string)
-    shareData: await getSharesByCodeAndPeriod(
+    shareData: await mockGetSharesByCodeAndPeriod(
       shareCode as string,
       start as string,
       end as string
     ),
+    // shareData: await getSharesByCodeAndPeriod(
+    //   shareCode as string,
+    //   start as string,
+    //   end as string
+    // ),
   });
 };
 
@@ -98,15 +103,6 @@ export default function SharePage() {
     }
   }, [shareDataByPeriod, shareData]);
 
-  // useEffect(() => {
-  //   console.log(params);
-  //   console.log(shareCode)
-  //   if (!params.shareCode || params.shareCode === shareCode) return;
-  //   console.log('SHARECODE PARAM CHANGED')
-  //   console.log(params);
-  //   setShareCode(params?.shareCode as string);
-  // }, [params, shareCode])
-
   function handleDisplayMode(mode: string) {
     setDisplayData(mode);
   }
@@ -130,46 +126,29 @@ export default function SharePage() {
   return (
     shareDataByPeriod && (
       <div>
-        <div className="px-4 pt-4">
-          <CurrentDayShareHeader
-            shareCode={params.shareCode as string}
-            data={shareHeaderData}
-          />
-        </div>
-        <div className="p-4">
-          <div className="border rounded-lg">
-            <ShareNav
-              shareCode={params.shareCode as string}
-              displayData={displayData}
-              handleStockPeriod={handleStockPeriod}
-              handleDisplayMode={handleDisplayMode}
-              period={period}
-              start={start}
-              end={end}
-            />
-            <div className="px-4 pt-2 text-slate-600">
-              <span className="text-xs rounded-lg">Selected period: </span>
-              <span className="text-sm rounded-lg text-rose-600">
-                {formatDateForDisplay(start)} - {formatDateForDisplay(end)}
-              </span>
-            </div>
-            {displayData === "table" ? (
-              <Table data={shareDataByPeriod} />
-            ) : (
-              <Chart
-                shareData={shareDataByPeriod}
-                shareCode={params.shareCode as string}
-                originalData={totalSharesByCode}
-              />
-            )}
-          </div>
-        </div>
-        <div className="flex justify-center p-4">
-          <ShareValueCard
-            currentPrice={Number(shareHeaderData.currentPrice)}
-            shareData={totalSharesByCode}
-          />
-        </div>
+        <CurrentDayShareHeader
+          shareCode={params.shareCode as string}
+          data={shareHeaderData}
+        />
+        <InformationBar
+          exchangeData={totalSharesByCode}
+          shareData={shareHeaderData}
+        />
+        <ShareGraph
+          shareCode={params.shareCode as string}
+          displayData={displayData}
+          handleDisplayMode={handleDisplayMode}
+          handleStockPeriod={handleStockPeriod}
+          period={period}
+          start={start}
+          end={end}
+          shareDataByPeriod={shareDataByPeriod}
+          totalSharesByCode={totalSharesByCode}
+        />
+        <ShareValueCard
+          currentPrice={Number(shareHeaderData.currentPrice)}
+          shareData={totalSharesByCode}
+        />
       </div>
     )
   );
