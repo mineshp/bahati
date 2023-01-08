@@ -44,16 +44,26 @@ export interface TotalSharesItem {
   account: string;
   purchaseDate: string;
   currency: string;
-  exchangeRate: number;
+  exchangeRate: undefined | string;
   purchaseExchangeRate: number;
 }
 
 export interface TotalShareItemsByCode extends Array<TotalSharesItem> {}
-
 export interface TotalShareItemsAll {
   [key: string]: TotalShareItemsByCode;
 }
 
+export interface TotalSharesItemPre {
+  code: string;
+  originalCostPrice: number;
+  totalShares: number;
+  account: string;
+  purchaseDate: string;
+  currency: string;
+  purchaseExchangeRate: number;
+}
+
+export interface TotalShareItemsByCodePre extends Array<TotalSharesItemPre> {}
 export interface ExchangeRate {
   base_code: string;
   documentation: string;

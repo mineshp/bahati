@@ -16,7 +16,7 @@ import datepickerCss from "react-datepicker/dist/react-datepicker.css";
 import {
   mockGetShareDataByCode,
   mockGetSharesByCodeAndPeriod,
-  getMockExchangeRates,
+  mockGetSharesByCode,
   getSharesByCode,
   getShareDataByCode,
   getSharesByCodeAndPeriod,
@@ -41,21 +41,34 @@ export const links: LinksFunction = () => [
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.shareCode, "Expected params.shareCode");
   const { start, end } = retrieveStartAndEndDates("1W");
-  return json({
-    // shareHeaderData: await getShareDataByCode(params?.shareCode as string),
-    // shareData: await getSharesByCodeAndPeriod(
-    //   params?.shareCode as string,
-    //   start,
-    //   end
-    // ),
-    // totalSharesByCode: await getSharesByCode(params?.shareCode as string),
-    shareHeaderData: await mockGetShareDataByCode(params?.shareCode as string),
-    shareData: await mockGetSharesByCodeAndPeriod(
+
+  let shareHeaderData;
+  let shareData;
+  let totalSharesByCode;
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("Dev mode: using mocks");
+    shareHeaderData = await mockGetShareDataByCode(params?.shareCode as string);
+    shareData = await mockGetSharesByCodeAndPeriod(
       params?.shareCode as string,
       start,
       end
-    ),
-    totalSharesByCode: await getSharesByCode(params?.shareCode as string),
+    );
+    totalSharesByCode = await mockGetSharesByCode(params?.shareCode as string);
+  } else {
+    shareHeaderData = await getShareDataByCode(params?.shareCode as string);
+    shareData = await getSharesByCodeAndPeriod(
+      params?.shareCode as string,
+      start,
+      end
+    );
+    totalSharesByCode = await getSharesByCode(params?.shareCode as string);
+  }
+
+  return json({
+    shareHeaderData,
+    shareData,
+    totalSharesByCode,
   });
 };
 
@@ -65,18 +78,23 @@ export const action: ActionFunction = async ({ request }) => {
   const end = formData.get("end_date");
   const shareCode = formData.get("shareCode");
 
-  return json({
-    shareData: await mockGetSharesByCodeAndPeriod(
+  let shareData;
+
+  if (process.env.NODE_ENV === "development") {
+    shareData = await mockGetSharesByCodeAndPeriod(
       shareCode as string,
       start as string,
       end as string
-    ),
-    // shareData: await getSharesByCodeAndPeriod(
-    //   shareCode as string,
-    //   start as string,
-    //   end as string
-    // ),
-  });
+    );
+  } else {
+    shareData = await getSharesByCodeAndPeriod(
+      shareCode as string,
+      start as string,
+      end as string
+    );
+  }
+
+  return json({ shareData });
 };
 
 export default function SharePage() {

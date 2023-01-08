@@ -14,6 +14,7 @@ import { retrieveStartAndEndDates } from "../utils/date";
 import { mockShareData } from "../mocks/mockShareData";
 import { mockShareDataByPeriod } from "../mocks/mockShareDataByPeriod";
 import { mockExchangeRates } from "../mocks/mockExchangeRates";
+import { mockPurchasedShareDate } from "~/mocks/mockPurchasedShareDataByCode";
 
 async function getLastDayHighAndDayLow(
   code: string
@@ -34,18 +35,13 @@ async function getLastDayHighAndDayLow(
   };
 }
 
-export async function mockGetShareDataByCode(code: string): Promise<StockData> {
-  const res = new Response(JSON.stringify(mockShareData(code)));
+export async function getMockExchangeRates(
+  baseCurrency: string
+): Promise<ExchangeRate> {
+  const res = new Response(JSON.stringify(mockExchangeRates(baseCurrency)));
   const data = await res.json();
 
-  return { ...data };
-}
-
-export async function getMockExchangeRates(): Promise<ExchangeRate> {
-  const res = new Response(JSON.stringify(mockExchangeRates()));
-  const data = await res.json();
-
-  return { ...data };
+  return new Promise((resolve, reject) => resolve(data.rates["GBP"]));
 }
 
 export async function getExchangeRate(
@@ -113,28 +109,11 @@ export async function getShareDataByCode(code: string): Promise<StockData> {
   };
 }
 
-export async function mockGetSharesByCodeAndPeriod(
-  code: string,
-  start: string,
-  end: string
-): Promise<StockDataByPeriodItems> {
-  const res = new Response(JSON.stringify(mockShareDataByPeriod("1W")));
-
+export async function mockGetShareDataByCode(code: string): Promise<StockData> {
+  const res = new Response(JSON.stringify(mockShareData(code)));
   const data = await res.json();
 
-  return data.map((rec: StockDataByPeriodItem, i: number) => {
-    const previousDay = data[i - 1];
-    let gainLossValue = 0;
-    let gainLossPercentage = 0;
-    if (previousDay?.Close) {
-      gainLossValue = calcGainLossDailyValue(previousDay?.Close, rec?.Open);
-      gainLossPercentage = calcGainLossDailyPercentage(
-        previousDay?.Close,
-        rec?.Open
-      );
-    }
-    return { ...rec, gainLossValue, gainLossPercentage };
-  });
+  return { ...data };
 }
 
 export async function getSharesByCodeAndPeriod(
@@ -178,7 +157,30 @@ export async function getSharesByCodeAndPeriod(
   });
 }
 
-// TODO not sure why we have the void or any error if we dont explicitly say it
+export async function mockGetSharesByCodeAndPeriod(
+  code: string,
+  start: string,
+  end: string
+): Promise<StockDataByPeriodItems> {
+  const res = new Response(JSON.stringify(mockShareDataByPeriod("1W")));
+
+  const data = await res.json();
+
+  return data.map((rec: StockDataByPeriodItem, i: number) => {
+    const previousDay = data[i - 1];
+    let gainLossValue = 0;
+    let gainLossPercentage = 0;
+    if (previousDay?.Close) {
+      gainLossValue = calcGainLossDailyValue(previousDay?.Close, rec?.Open);
+      gainLossPercentage = calcGainLossDailyPercentage(
+        previousDay?.Close,
+        rec?.Open
+      );
+    }
+    return { ...rec, gainLossValue, gainLossPercentage };
+  });
+}
+
 export async function getSharesByCode(
   code: string
 ): Promise<TotalSharesItem[] | any> {
@@ -191,10 +193,6 @@ export async function getSharesByCode(
       "content-type": "application/json",
     },
   };
-
-  /*
-    Call getMockExchangeRates but build in the currency and only call if in mock mode
-  */
 
   return fetch(url, options)
     .then((res) => res.json())
@@ -211,4 +209,22 @@ export async function getSharesByCode(
       )
     )
     .catch((err) => console.error("error:" + err));
+}
+
+export async function mockGetSharesByCode(
+  code: string
+): Promise<TotalSharesItem[] | any> {
+  const res = new Response(JSON.stringify(mockPurchasedShareDate(code)));
+
+  const data = await res.json();
+
+  return Promise.all(
+    data.map(async (purchaseStock: TotalSharesItem) => {
+      const exchangeRate =
+        purchaseStock?.currency === "GBP"
+          ? 0.01
+          : await getMockExchangeRates(purchaseStock?.currency);
+      return { ...purchaseStock, exchangeRate };
+    })
+  );
 }
