@@ -17,7 +17,14 @@
     "test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
     "test:e2e:run": "cross-env PORT=8811 start-server-and-test dev http://localhost:8811 \"npx cypress run\"",
     "typecheck": "tsc -b && tsc -b cypress",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
+    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test",
+      "pre-push": "npm run lint && npm run test"
+    }
   },
   "prettier": {},
   "eslintIgnore": [
@@ -72,6 +79,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "happy-dom": "^6.0.3",
+    "husky": "^8.0.0",
     "jest": ">=26.0.0",
     "mock-aws-s3": "^4.0.2",
     "msw": "^0.44.0",
