@@ -158,5 +158,4 @@ We use [Prettier](https://prettier.io/) for auto-formatting in this project. It'
 ### Pre-commit hook
 
 Runs typecheck
-
-###
+Run linter
