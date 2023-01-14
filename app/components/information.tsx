@@ -53,21 +53,21 @@ function showCurrencyIcon(currency: string) {
     case "USD":
       return (
         <CurrencyDollarIcon
-          className="w-8 h-7 fill-rose-300 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       );
     case "EUR":
       return (
         <CurrencyEuroIcon
-          className="w-8 h-7 fill-rose-300 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       );
     default:
       return (
         <CurrencyPoundIcon
-          className="w-8 h-7 fill-rose-300 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       );
@@ -88,12 +88,12 @@ function showShareValueUpOrDown(
     icon:
       currentValue > highestPurchasePrice ? (
         <ArrowCircleUpIcon
-          className="w-8 h-7 fill-teal-400 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-teal-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ) : (
         <ArrowCircleDownIcon
-          className="w-8 h-7 fill-rose-400 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
@@ -150,7 +150,7 @@ function pillInformation(
       label: `${totalShares} Shares`,
       icon: (
         <CalculatorIcon
-          className="w-8 h-7 fill-indigo-400 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-indigo-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
@@ -160,7 +160,7 @@ function pillInformation(
       label: "52 Week Change",
       icon: (
         <CalendarIcon
-          className="w-8 h-7 fill-rose-300 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
@@ -170,7 +170,7 @@ function pillInformation(
       label: account,
       icon: (
         <BriefcaseIcon
-          className="w-8 h-7 fill-indigo-400 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-indigo-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),

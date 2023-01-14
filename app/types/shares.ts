@@ -44,7 +44,7 @@ export interface TotalSharesItem {
   account: string;
   purchaseDate: string;
   currency: string;
-  exchangeRate: undefined | string;
+  exchangeRate: number;
   purchaseExchangeRate: number;
 }
 
