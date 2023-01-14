@@ -1,6 +1,6 @@
 # Bahati
 
-Remix full stack app using Architect. App communicates with a dynamodb database and is deployed to API Gateway as a HTTP api.  
+Remix full stack app using Architect. App communicates with a dynamodb database and is deployed to API Gateway as a HTTP api.
 
 ## What's in the stack
 
@@ -74,17 +74,19 @@ Prior to your first deployment, you'll need to do a few things:
 ## Custom Domain setup
 
 ### Step 1: setup SSL certificates with AWS Certificate Manager
+
 In this step we will request a certificate from Amazon for our domain.
 
 - Open up AWS Certificate Manager in the AWS Console in us-east-1 (region is required!)
 - Click Request a certificate and then Request a public certificate
-- Ensure example.com and *.example.com for sub domains to work
+- Ensure example.com and \*.example.com for sub domains to work
 - Choose DNS validation and click Next
 - Add any tags and confirm the request
 - Expand the domain and click Create record in Route53 button
 - Verify CNAME record created in Route53 console Hosted zone
 
 ### Step 2: setup custom domain with AWS API Gateway
+
 - Register or point existing domain/sub domain to AWS nameservers
 - Create a hosted zone for the domain
 - Go to API Gateway
@@ -97,6 +99,7 @@ In this step we will request a certificate from Amazon for our domain.
 - For API select the API and for Stage select $default and click Save
 
 ### Step 3: configure the domain Alias in AWS Route53
+
 - Sign into AWS Route53 in the AWS Console
 - Navigate to the Hosted zone for the domain
 - Click Create record
@@ -106,7 +109,7 @@ In this step we will request a certificate from Amazon for our domain.
 - Select the region
 - Select the API (should be the same value as the domain generated in Step 2)
 - Click Create records
-  
+
 ## Where do I find my CloudFormation?
 
 You can find the CloudFormation template that Architect generated for you in the sam.yaml file.
@@ -149,3 +152,10 @@ This project uses ESLint for linting. That is configured in `.eslintrc.js`.
 ### Formatting
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project. It's recommended to install an editor plugin (like the [VSCode Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)) to get auto-formatting on save. There's also a `npm run format` script you can run to format all files in the project.
+
+### Husky
+
+### Pre-commit hook
+
+Runs typecheck
+Run linter
