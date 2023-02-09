@@ -104,6 +104,7 @@ function pillInformation(
   exchangeData: TotalShareItemsByCode,
   shareData: StockData
 ) {
+  console.log(shareData);
   const information: never[] = [];
   const shareValueUpOrDown = showShareValueUpOrDown(
     shareData.currentPrice,
