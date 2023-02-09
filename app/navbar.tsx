@@ -36,6 +36,7 @@ interface Props {
 
 export default function NavBar(props: Props) {
   const { user } = props;
+  console.log(user);
 
   return user?.username ? (
     <Disclosure as="nav" className="bg-indigo-200">
@@ -93,7 +94,7 @@ export default function NavBar(props: Props) {
                     <Menu.Button className="inline-flex w-full justify-center rounded-md bg-rose-300 px-4 py-2 text-sm font-medium text-white hover:bg-rose-600">
                       {"Shares"}
                       <ChevronDownIcon
-                        className="ml-2 -mr-1 h-5 w-5"
+                        className="ml-2 mr-1 h-5 w-5"
                         aria-hidden="true"
                       />
                     </Menu.Button>
@@ -145,7 +146,10 @@ export default function NavBar(props: Props) {
                 {user?.username ? (
                   <Menu as="div" className="relative z-20 ml-3">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <Menu.Button
+                        className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        data-cy="profile"
+                      >
                         <span className="sr-only">Open user menu</span>
                         {user?.username ? (
                           <img
@@ -182,6 +186,7 @@ export default function NavBar(props: Props) {
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
+                                data-cy="signout"
                               >
                                 Sign out
                               </button>

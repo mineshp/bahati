@@ -15,15 +15,15 @@ export const action: ActionFunction = async ({ request }) => {
     return redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
   }
 
-  const { email } = await request.json();
-  if (!email) {
-    throw new Error("email required for login");
+  const { username } = await request.json();
+  if (!username) {
+    throw new Error("username required for login");
   }
-  if (!email.endsWith("@example.com")) {
-    throw new Error("All test emails must end in @example.com");
+  if (username !== "test-user") {
+    throw new Error("All test usernames must be test-user");
   }
 
-  const user = await createUser(email, "myreallystrongpassword");
+  const user = await createUser(username, "myreallystrongpassword");
 
   return createUserSession({
     request,

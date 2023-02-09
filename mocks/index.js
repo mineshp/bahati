@@ -1,8 +1,3 @@
-const { setupServer } = require("msw/node");
+require("esbuild-register/dist/node").register();
 
-const server = setupServer();
-
-server.listen({ onUnhandledRequest: "bypass" });
-
-process.once("SIGINT", () => server.close());
-process.once("SIGTERM", () => server.close());
+require("./start");

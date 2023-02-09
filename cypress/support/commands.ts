@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import testUser from "../fixtures/testUser.json";
 
 declare global {
   namespace Cypress {
@@ -25,18 +25,36 @@ declare global {
        *    cy.visitAndCheck('/', 500)
        */
       visitAndCheck: typeof visitAndCheck;
+
+      logout: typeof logout;
+
+      isLoggedIn: typeof isLoggedIn;
     }
   }
 }
 
-function login({
-  email = faker.internet.email(undefined, undefined, "example.com"),
-}: {
-  email?: string;
-} = {}) {
-  cy.then(() => ({ email })).as("user");
-  cy.request("POST", "/__tests/create-user", { email });
-  return cy.get("@user");
+function login() {
+  cy.visitAndCheck("/");
+
+  // cy.findByRole("textbox", { name: /username/i }).type("testcy");
+  cy.findByRole("textbox", { name: /username/i }).type("admin");
+  cy.findByLabelText(/password/i).type("password");
+  cy.findByRole("button", { name: /Log in/i }).click();
+}
+
+function logout(waitTime: number = 1000) {
+  cy.visitAndCheck("/");
+  cy.get('[data-cy="profile"]').click({ force: true });
+  cy.get('[data-cy="signout"]').click({ force: true });
+  cy.location("pathname").should("contain", "/login").wait(waitTime);
+  cy.findByRole("button", { name: /Log in/i });
+}
+
+function isLoggedIn() {
+  cy.visitAndCheck("/");
+  cy.contains("Login").should("not.exist");
+  // cy.get('[data-cy="profile"]').click({ force: true });
+  // cy.get('[data-cy="signout"]').should("have.value", "Sign out");
 }
 
 // We're waiting a second because of this issue happen randomly
@@ -50,4 +68,6 @@ function visitAndCheck(url: string, waitTime: number = 1000) {
 }
 
 Cypress.Commands.add("login", login);
+Cypress.Commands.add("logout", logout);
+Cypress.Commands.add("isLoggedIn", isLoggedIn);
 Cypress.Commands.add("visitAndCheck", visitAndCheck);

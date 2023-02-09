@@ -45,7 +45,10 @@ export default function Index() {
             alt="Bahati"
           />
         </div>
-        <div className="grid grid-cols-2 p-4 mt-4 gap-x-12 gap-y-8 md:grid-cols-3 md:gap-8 md:p-12 lg:p-8">
+        <div
+          className="grid grid-cols-2 p-4 mt-4 gap-x-12 gap-y-8 md:grid-cols-3 md:gap-8 md:p-12 lg:p-8"
+          data-cy="share-links"
+        >
           {shares.map((item) => (
             <Link
               className="w-32 h-10 py-2 text-center text-white border rounded-md border-rose-300 bg-rose-300 bg-gradient-to-r from-rose-400 to-rose-200 drop-shadow-md hover:border-indigo-300 hover:from-indigo-200 hover:to-indigo-400"

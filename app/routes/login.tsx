@@ -91,8 +91,8 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <div className="flex flex-col justify-center min-h-full">
-      <div className="w-full max-w-md px-8 mx-auto">
+    <div className="flex min-h-full flex-col justify-center">
+      <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6" noValidate>
           <div>
             <label
@@ -112,7 +112,7 @@ export default function LoginPage() {
                 autoComplete="username"
                 aria-invalid={actionData?.errors?.username ? true : undefined}
                 aria-describedby="username-error"
-                className="w-full px-2 py-1 text-lg border border-gray-500 rounded"
+                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.username && (
                 <div className="pt-1 text-red-700" id="username-error">
@@ -138,7 +138,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 aria-invalid={actionData?.errors?.password ? true : undefined}
                 aria-describedby="password-error"
-                className="w-full px-2 py-1 text-lg border border-gray-500 rounded"
+                className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
               {actionData?.errors?.password && (
                 <div className="pt-1 text-red-700" id="password-error">
@@ -151,7 +151,7 @@ export default function LoginPage() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-indigo-500 rounded hover:bg-indigo-600 focus:bg-indigo-400"
+            className="w-full rounded bg-indigo-500 px-4 py-2 text-white hover:bg-indigo-600 focus:bg-indigo-400"
           >
             Log in
           </button>
@@ -161,17 +161,17 @@ export default function LoginPage() {
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
               <label
                 htmlFor="remember"
-                className="block ml-2 text-sm text-gray-900"
+                className="ml-2 block text-sm text-gray-900"
               >
                 Remember me
               </label>
             </div>
-            <div className="text-sm text-center text-gray-500">
-             Contact the admin
+            <div className="text-center text-sm text-gray-500">
+              Contact the admin
             </div>
           </div>
         </Form>
