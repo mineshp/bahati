@@ -10,6 +10,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/tesla.com",
     longName: "Tesla",
     exchange: "NASDAQ",
+    fiftyTwoWeekChange: "-12.3%",
   },
   NFLX: {
     country: "United States",
@@ -20,6 +21,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/netflix.com",
     longName: "Netflix",
     exchange: "NASDAQ",
+    fiftyTwoWeekChange: "2.3%",
   },
   SPCE: {
     country: "United States",
@@ -30,6 +32,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/virgingalactic.com",
     longName: "Virgin Galactic",
     exchange: "NYSE",
+    fiftyTwoWeekChange: "-29.3%",
   },
   "VOW3.DE": {
     country: "Germany",
@@ -40,6 +43,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/volkswagenag.com",
     longName: "Volkswagon",
     exchange: "DE",
+    fiftyTwoWeekChange: "-1.3%",
   },
   "ROO.L": {
     country: "United Kingdom",
@@ -50,6 +54,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/deliveroo.com",
     longName: "Deliveroo",
     exchange: "LSE",
+    fiftyTwoWeekChange: "-1.3%",
   },
   "BP.L": {
     country: "United Kingdom",
@@ -60,6 +65,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/bp.com",
     longName: "BP",
     exchange: "LSE",
+    fiftyTwoWeekChange: "1.3%",
   },
   ENR: {
     country: "United States",
@@ -70,6 +76,7 @@ const mockShareHeaderData: { [key: string]: StockData } = {
     logo_url: "https://logo.clearbit.com/energizerholdings.com",
     longName: "Energizer Holdings",
     exchange: "NYSE",
+    fiftyTwoWeekChange: "-12.3%",
   },
 };
 

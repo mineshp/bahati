@@ -7,6 +7,7 @@ export interface StockData {
   logo_url: string;
   longName: string;
   exchange: string;
+  fiftyTwoWeekChange: string;
 }
 
 export interface StockDataByPeriodFromAPIItem {

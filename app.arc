@@ -2,6 +2,7 @@
 bahati-a9bd
 
 @aws
+timeout 15
 region eu-west-1
 runtime nodejs
 policies

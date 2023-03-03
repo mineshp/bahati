@@ -65,47 +65,38 @@ export async function getExchangeRate(
 }
 
 export async function getShareDataByCode(code: string): Promise<StockData> {
-  const encodedParams = new URLSearchParams();
-  encodedParams.append("symbol", code);
-
-  const url = "https://yahoo-finance97.p.rapidapi.com/stock-info";
-
   const options = {
-    method: "POST",
+    method: "GET",
     headers: {
-      "content-type": "application/x-www-form-urlencoded",
       "X-RapidAPI-Key": "a302ddd933msheaa6a723d9bad7dp14c6c2jsn47db43bc1b5f",
-      "X-RapidAPI-Host": "yahoo-finance97.p.rapidapi.com",
+      "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
     },
-    body: encodedParams,
   };
 
-  const { data } = await fetch(url, options)
-    .then((res) => res.json())
-    .catch((err) => console.error("error:" + err));
+  const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol=${code}`;
+
+  const response = await fetch(url, options)
+    .then((response) => response.json())
+    .then((response) => response)
+    .catch((err) => console.error(err));
+
+  const { defaultKeyStatistics, price, summaryDetail, summaryProfile } =
+    response;
 
   const baseShareData = {
-    country: data.country,
-    currentPrice: data.currentPrice,
-    currency: data.currency,
-    logo_url: data.logo_url,
-    longName: data.longName,
-    exchange: data.exchange,
+    country: summaryProfile.country,
+    currentPrice: summaryDetail.open.fmt,
+    currency: price.currency,
+    longName: price.longName,
+    logo_url: "UNKNOWN",
+    exchange: price.exchangeName,
+    dayLow: summaryDetail.dayLow.fmt,
+    dayHigh: summaryDetail.dayHigh.fmt,
+    fiftyTwoWeekChange: defaultKeyStatistics["52WeekChange"].fmt,
   };
-
-  if (!data.dayHigh && !data.dayLow) {
-    const { dayHigh, dayLow } = await getLastDayHighAndDayLow(code);
-    return {
-      ...baseShareData,
-      dayHigh,
-      dayLow,
-    };
-  }
 
   return {
     ...baseShareData,
-    dayHigh: data.dayHigh,
-    dayLow: data.dayLow,
   };
 }
 

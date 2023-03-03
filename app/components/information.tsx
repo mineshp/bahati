@@ -16,35 +16,44 @@ interface Props {
   shareData: StockData;
 }
 
-function showFlag(country: string) {
+function parseCountry(country: string) {
   switch (country) {
     case "United States":
-      return (
-        <img
-          src="/_static/flags/us.png"
-          alt={country}
-          aria-hidden="true"
-          className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
-        />
-      );
+      return {
+        flag: (
+          <img
+            src="/_static/flags/us.png"
+            alt={country}
+            aria-hidden="true"
+            className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
+          />
+        ),
+        label: country,
+      };
     case "Germany":
-      return (
-        <img
-          src="/_static/flags/de.png"
-          alt={country}
-          aria-hidden="true"
-          className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
-        />
-      );
+      return {
+        flag: (
+          <img
+            src="/_static/flags/de.png"
+            alt={country}
+            aria-hidden="true"
+            className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
+          />
+        ),
+        label: "GER",
+      };
     default:
-      return (
-        <img
-          src="/_static/flags/gb.png"
-          alt={country}
-          aria-hidden="true"
-          className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
-        />
-      );
+      return {
+        flag: (
+          <img
+            src="/_static/flags/gb.png"
+            alt={country}
+            aria-hidden="true"
+            className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
+          />
+        ),
+        label: "UK",
+      };
   }
 }
 
@@ -93,18 +102,36 @@ function showShareValueUpOrDown(
         />
       ) : (
         <ArrowCircleDownIcon
-          className="h-7 w-8 fill-rose-400 sm:h-9 sm:w-10"
+          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
   };
 }
 
+function showCalendar(fiftyTwoWeekChange: number) {
+  console.log(fiftyTwoWeekChange);
+  if (fiftyTwoWeekChange > 1) {
+    return (
+      <CalendarIcon
+        className="h-7 w-8 fill-teal-400 sm:h-9 sm:w-10"
+        aria-hidden="true"
+      />
+    );
+  } else {
+    return (
+      <CalendarIcon
+        className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
+        aria-hidden="true"
+      />
+    );
+  }
+}
+
 function pillInformation(
   exchangeData: TotalShareItemsByCode,
   shareData: StockData
 ) {
-  console.log(shareData);
   const information: never[] = [];
   const shareValueUpOrDown = showShareValueUpOrDown(
     shareData.currentPrice,
@@ -138,8 +165,8 @@ function pillInformation(
       key: 1,
     },
     {
-      label: shareData.country,
-      icon: showFlag(shareData.country),
+      label: parseCountry(shareData.country).label,
+      icon: parseCountry(shareData.country).flag,
       key: 2,
     },
     {
@@ -158,13 +185,8 @@ function pillInformation(
       key: 4,
     },
     {
-      label: "52 Week Change",
-      icon: (
-        <CalendarIcon
-          className="h-7 w-8 fill-rose-300 sm:h-9 sm:w-10"
-          aria-hidden="true"
-        />
-      ),
+      label: `${shareData.fiftyTwoWeekChange} / 52W`,
+      icon: showCalendar(parseFloat(shareData.fiftyTwoWeekChange)),
       key: 5,
     },
     {
