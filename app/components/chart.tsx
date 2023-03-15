@@ -1,6 +1,9 @@
-import React from 'react';
-import type { StockDataByPeriodItems, TotalShareItemsByCode } from "../types/shares";
-import { formatDateForDisplay } from '../utils/date';
+import React from "react";
+import type {
+  StockDataByPeriodItems,
+  TotalShareItemsByCode,
+} from "../types/shares";
+import { formatDateForDisplay } from "../utils/date";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,9 +13,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+  Filler,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
 interface Props {
   shareCode: string;
@@ -39,52 +42,56 @@ export default function Chart(prop: Props) {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
+        position: "bottom" as const,
       },
       title: {
         display: true,
         text: `${shareCode} shares`,
-        color: 'rgb(129, 140, 248)'
+        color: "rgb(129, 140, 248)",
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Period',
-          color: 'rgb(251, 113, 133)'
-        }
+          text: "Period",
+          color: "rgb(251, 113, 133)",
+        },
       },
       y: {
         title: {
           display: true,
-          text: 'Share Price',
-          color: 'rgb(251, 113, 133)'
-        }
-      }
-    }
+          text: "Share Price",
+          color: "rgb(251, 113, 133)",
+        },
+      },
+    },
   };
 
-  const labels = shareData.map(({ Date }) => formatDateForDisplay(Date))
+  const labels = shareData.map(({ timestamp }) =>
+    formatDateForDisplay(timestamp)
+  );
 
   const openingPrices = [
     {
-      label: 'Opening price',
-      data: shareData.map(({ Open }) => Open),
-      borderColor: 'rgb(251, 113, 133)',
-      backgroundColor: 'rgba(254, 205, 211, 0.5)',
+      label: "Opening price",
+      data: shareData.map(({ open }) => open),
+      borderColor: "rgb(251, 113, 133)",
+      backgroundColor: "rgba(254, 205, 211, 0.5)",
       tension: 0.4,
-      fill: true
-    }
+      fill: true,
+    },
   ];
 
-  const purchaseHistoryLines = originalData.map(({ originalCostPrice, totalShares, purchaseDate }) => ({
+  const purchaseHistoryLines = originalData.map(
+    ({ originalCostPrice, totalShares, purchaseDate }) => ({
       label: `${totalShares} bought on ${purchaseDate}`,
       data: shareData.map(() => originalCostPrice),
-      borderColor: 'rgb(99, 102, 241)',
-      backgroundColor: 'rgba(199, 210, 254, 0.5)',
-      pointRadius: 0
-  }));
+      borderColor: "rgb(99, 102, 241)",
+      backgroundColor: "rgba(199, 210, 254, 0.5)",
+      pointRadius: 0,
+    })
+  );
 
   // @ts-ignore
   const datasets = openingPrices.concat(purchaseHistoryLines);
@@ -94,5 +101,9 @@ export default function Chart(prop: Props) {
     datasets,
   };
 
-  return <div className="p-4 w-200 h-80"><Line options={options} data={data} /></div>;
+  return (
+    <div className="w-200 h-80 p-4">
+      <Line options={options} data={data} />
+    </div>
+  );
 }

@@ -1,13 +1,12 @@
 import { ChartBarIcon, TableIcon } from "@heroicons/react/outline";
-import { Form } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
+import { useEffect, useState } from "react";
 
 interface Props {
   shareCode: string;
   displayData: string;
   period: string;
-  start: string;
-  end: string;
-  handleStockPeriod: (period: string) => void;
+  handleStockPeriod: (range: string, interval: string) => void;
   handleDisplayMode: (mode: string) => void;
 }
 
@@ -18,9 +17,10 @@ export default function ShareNav(prop: Props) {
     handleStockPeriod,
     handleDisplayMode,
     period,
-    start,
-    end,
   } = prop;
+
+  const [range, setRange] = useState<string>("5d");
+  const [graphInterval, setGraphInterval] = useState<string>("1d");
 
   function isActive(buttonVal: string) {
     return period === buttonVal;
@@ -35,68 +35,79 @@ export default function ShareNav(prop: Props) {
               <button
                 type="submit"
                 className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm  ${
-                  isActive("1W") ? "border border-rose-300 bg-rose-500" : ""
+                  isActive("5d") ? "border border-rose-300 bg-rose-500" : ""
                 }`}
-                onClick={() => handleStockPeriod("1W")}
-                name="1W"
+                onClick={() => {
+                  console.log("CLICKING BTN WITH 5d");
+                  setRange("5d");
+                  setGraphInterval("1d");
+                  handleStockPeriod("5d", "1d");
+                }}
+                name="5d"
               >
-                1W
+                5d
               </button>
             </li>
             <li className="mr-4">
               <button
                 type="submit"
                 className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
-                  isActive("1M") ? "bg-rose-500" : ""
+                  isActive("1m") ? "bg-rose-500" : ""
                 }`}
-                onClick={() => handleStockPeriod("1M")}
-                name="1M"
+                onClick={() => {
+                  console.log("CLICKING BTN WITH 1m");
+                  setRange("1m");
+                  setGraphInterval("1d");
+                  handleStockPeriod("1m", "1d");
+                }}
+                name="1m"
               >
-                1M
+                1m
               </button>
             </li>
             <li className="mr-4">
               <button
                 type="submit"
                 className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
-                  isActive("3M") ? "bg-rose-500" : ""
+                  isActive("3m") ? "bg-rose-500" : ""
                 }`}
-                onClick={() => handleStockPeriod("3M")}
-                name="3M"
+                onClick={() => {
+                  setRange("3m");
+                  setGraphInterval("1d");
+                  // handleStockPeriod("3m", "1d");
+                }}
+                name="3m"
               >
-                3M
+                3m
               </button>
             </li>
             <li className="mr-4">
               <button
                 type="submit"
                 className={`mr-4 items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
-                  isActive("1Y") ? "bg-rose-500" : ""
+                  isActive("1y") ? "bg-rose-500" : ""
                 }`}
-                onClick={() => handleStockPeriod("1Y")}
-                name="1Y"
+                onClick={() => {
+                  setRange("1y");
+                  setGraphInterval("1d");
+                  handleStockPeriod("1y", "1d");
+                }}
+                name="1y"
               >
-                1Y
+                1y
               </button>
             </li>
             <input
               type="text"
-              name="share_code"
-              value={shareCode}
+              name="range"
+              value={range}
               hidden
               readOnly
             ></input>
             <input
               type="text"
-              name="start_date"
-              value={start}
-              hidden
-              readOnly
-            ></input>
-            <input
-              type="text"
-              name="end_date"
-              value={end}
+              name="interval"
+              value={graphInterval}
               hidden
               readOnly
             ></input>

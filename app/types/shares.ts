@@ -23,15 +23,21 @@ export interface StockDataByPeriodFromAPIItem {
 }
 
 export interface StockDataByPeriodItem {
-  "Adj Close": number;
-  Close: number;
-  Date: number;
-  High: number;
-  Low: number;
-  Open: number;
-  Volume: number;
-  gainLossValue: number;
-  gainLossPercentage: number;
+  close: number;
+  timestamp: number;
+  high: number;
+  low: number;
+  open: number;
+  gainLossValue?: number | undefined;
+  gainLossPercentage?: number | undefined;
+}
+
+export interface StockDataByPeriodItemFromAPI {
+  close: number;
+  timestamp: number;
+  high: number;
+  low: number;
+  open: number;
 }
 
 export interface StockDataByPeriodItems extends Array<StockDataByPeriodItem> {}

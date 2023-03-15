@@ -38,9 +38,12 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: datepickerCss },
 ];
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.shareCode, "Expected params.shareCode");
-  const { start, end } = retrieveStartAndEndDates("1W");
+  console.log(params);
+  const url = new URL(request.url);
+  console.log(url);
+  // const query = url.searchParams.get("q") ;
 
   let shareHeaderData;
   let shareData;
@@ -48,19 +51,25 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   if (process.env.NODE_ENV === "development") {
     console.log("Dev mode: using mocks");
+    console.log("LOADER FUNCTION FIRES");
     shareHeaderData = await mockGetShareDataByCode(params?.shareCode as string);
     shareData = await mockGetSharesByCodeAndPeriod(
       params?.shareCode as string,
-      start,
-      end
+      "5d",
+      "1d"
     );
+    // shareData = await getSharesByCodeAndPeriod(
+    //   params?.shareCode as string,
+    //   "5d",
+    //   "1d"
+    // );
     totalSharesByCode = await mockGetSharesByCode(params?.shareCode as string);
   } else {
     shareHeaderData = await getShareDataByCode(params?.shareCode as string);
     shareData = await getSharesByCodeAndPeriod(
       params?.shareCode as string,
-      start,
-      end
+      "5d",
+      "1d"
     );
     totalSharesByCode = await getSharesByCode(params?.shareCode as string);
   }
@@ -74,26 +83,32 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const start = formData.get("start_date");
-  const end = formData.get("end_date");
+  const range = formData.get("range");
+  const interval = formData.get("interval");
   const shareCode = formData.get("shareCode");
+
+  console.log("IN ACTION FUNCTION");
+  console.log("range", "interval", "shareCode");
+  console.log(range, interval, shareCode);
 
   let shareData;
 
   if (process.env.NODE_ENV === "development") {
+    console.log("IN DEVELOPMENT MODE");
     shareData = await mockGetSharesByCodeAndPeriod(
       shareCode as string,
-      start as string,
-      end as string
+      range as string,
+      interval as string
     );
   } else {
     shareData = await getSharesByCodeAndPeriod(
       shareCode as string,
-      start as string,
-      end as string
+      range as string,
+      interval as string
     );
   }
 
+  // console.log(shareData);
   return json({ shareData });
 };
 
@@ -102,17 +117,17 @@ export default function SharePage() {
   const { shareHeaderData, shareData, totalSharesByCode } =
     useLoaderData() as LoaderData;
   const [displayData, setDisplayData] = useState<string>("chart");
-  const [period, setPeriod] = useState("1W");
-  const [start, setStart] = useState<string>(
-    retrieveStartAndEndDates("1W").start
-  );
-  const [end, setEnd] = useState<string>(retrieveStartAndEndDates("1W").end);
+  const [period, setPeriod] = useState("5d");
+  // const [start, setStart] = useState<string>(
+  //   retrieveStartAndEndDates("1W").start
+  // );
+  // const [end, setEnd] = useState<string>(retrieveStartAndEndDates("1W").end);
   const [shareDataByPeriod, setShareDataByPeriod] =
     useState<StockDataByPeriodItems>([]);
   const fetcher = useFetcher();
 
-  // TODO: This does not look like the remix way of doing things
-  // set graph/table share data by period to shareDataByPeriod from loader
+  // // TODO: This does not look like the remix way of doing things
+  // // set graph/table share data by period to shareDataByPeriod from loader
   useEffect(() => {
     if (shareDataByPeriod.length !== 0) {
       setShareDataByPeriod(shareDataByPeriod);
@@ -125,22 +140,26 @@ export default function SharePage() {
     setDisplayData(mode);
   }
 
-  function handleStockPeriod(period: string) {
-    const data = retrieveStartAndEndDates(period);
-    setEnd(data?.end);
-    setStart(data?.start);
-    setPeriod(period);
+  function handleStockPeriod(range: string, interval: string = "1d") {
+    console.log("handleStockPeriod");
+    console.log("range", "interval");
+    console.log(range, interval);
+    setPeriod(range);
     fetcher.load(
-      `/shares/query-share-data?shareCode=${params.shareCode}&start=${data?.start}&end=${data?.end}`
+      `/shares/query-share-data?shareCode=${params.shareCode}&range=${range}&interval=${interval}`
     );
   }
 
   useEffect(() => {
     if (fetcher.data) {
-      setShareDataByPeriod(fetcher.data);
+      // console.log("calling fetcher data");
+      console.log("fetcher");
+      console.log(fetcher.data);
+      // setShareDataByPeriod(fetcher.data);
     }
   }, [fetcher]);
-
+  // console.log("SHARE DATA BY PERIOD");
+  // console.log(shareDataByPeriod);
   return (
     shareDataByPeriod && (
       <div>
@@ -158,8 +177,6 @@ export default function SharePage() {
           handleDisplayMode={handleDisplayMode}
           handleStockPeriod={handleStockPeriod}
           period={period}
-          start={start}
-          end={end}
           shareDataByPeriod={shareDataByPeriod}
           totalSharesByCode={totalSharesByCode}
         />

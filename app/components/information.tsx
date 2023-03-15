@@ -110,7 +110,6 @@ function showShareValueUpOrDown(
 }
 
 function showCalendar(fiftyTwoWeekChange: number) {
-  console.log(fiftyTwoWeekChange);
   if (fiftyTwoWeekChange > 1) {
     return (
       <CalendarIcon

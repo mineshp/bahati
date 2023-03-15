@@ -1,12 +1,33 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { getSharesByCodeAndPeriod } from "~/models/shares.server";
+import {
+  getSharesByCodeAndPeriod,
+  mockGetSharesByCodeAndPeriod,
+} from "~/models/shares.server";
 
-export const loader: LoaderFunction = async ({request}) => {
-  const url = new URL(request.url)
-  const shareCode = url.searchParams.get('shareCode')
-  const start = url.searchParams.get('start')
-  const end = url.searchParams.get('end')
-  const data = await getSharesByCodeAndPeriod(shareCode as string, start as string, end as string);
-  return json(data)
-}
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = new URL(request.url);
+  const shareCode = url.searchParams.get("shareCode");
+  const range = url.searchParams.get("range");
+  const interval = url.searchParams.get("interval");
+  console.log("LOADER");
+  console.log(range, interval);
+
+  let data;
+  if (process.env.NODE_ENV === "development") {
+    data = await mockGetSharesByCodeAndPeriod(
+      shareCode as string,
+      range as string,
+      interval as string
+    );
+  } else {
+    data = await getSharesByCodeAndPeriod(
+      shareCode as string,
+      range as string,
+      interval as string
+    );
+  }
+  console.log("QUERY SHARE DATA");
+  console.log(data);
+  return json(data);
+};

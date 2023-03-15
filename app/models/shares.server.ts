@@ -1,6 +1,8 @@
+import _ from "lodash";
 import type {
   StockData,
   StockDataByPeriodItem,
+  StockDataByPeriodItemFromAPI,
   StockDataByPeriodItems,
   TotalSharesItem,
   ExchangeRate,
@@ -10,30 +12,30 @@ import {
   calcGainLossDailyPercentage,
   calcGainLossDailyValue,
 } from "../utils/shares";
-import { retrieveStartAndEndDates } from "../utils/date";
+// import { retrieveStartAndEndDates } from "../utils/date";
 import { mockShareData } from "../mocks/mockShareData";
 import { mockShareDataByPeriod } from "../mocks/mockShareDataByPeriod";
 import { mockExchangeRates } from "../mocks/mockExchangeRates";
 import { mockPurchasedShareDate } from "~/mocks/mockPurchasedShareDataByCode";
 
-async function getLastDayHighAndDayLow(
-  code: string
-): Promise<LastDayHighAndDayLow> {
-  const { start, end } = retrieveStartAndEndDates("1W");
-  const data = await getSharesByCodeAndPeriod(code, start, end);
+// async function getLastDayHighAndDayLow(
+//   code: string
+// ): Promise<LastDayHighAndDayLow> {
+//   const { start, end } = retrieveStartAndEndDates("1W");
+//   const data = await getSharesByCodeAndPeriod(code, start, end);
 
-  let dayHigh = 0;
-  let dayLow = 0;
-  data.forEach(({ High, Low }) => {
-    if (!High && !Low) return;
-    dayHigh = Number(High.toFixed(2));
-    dayLow = Number(Low.toFixed(2));
-  });
-  return {
-    dayHigh,
-    dayLow,
-  };
-}
+//   let dayHigh = 0;
+//   let dayLow = 0;
+//   data.forEach(({ High, Low }) => {
+//     if (!High && !Low) return;
+//     dayHigh = Number(High.toFixed(2));
+//     dayLow = Number(Low.toFixed(2));
+//   });
+//   return {
+//     dayHigh,
+//     dayLow,
+//   };
+// }
 
 export async function getMockExchangeRates(
   baseCurrency: string
@@ -109,67 +111,73 @@ export async function mockGetShareDataByCode(code: string): Promise<StockData> {
 
 export async function getSharesByCodeAndPeriod(
   code: string,
-  start: string,
-  end: string
+  range: string,
+  interval: string
 ): Promise<StockDataByPeriodItems> {
-  const encodedParams = new URLSearchParams();
-  encodedParams.append("end", end);
-  encodedParams.append("symbol", code);
-  encodedParams.append("start", start);
-
-  const url = "https://yahoo-finance97.p.rapidapi.com/price-customdate";
-
   const options = {
-    method: "POST",
+    method: "GET",
     headers: {
-      "content-type": "application/x-www-form-urlencoded",
       "X-RapidAPI-Key": "a302ddd933msheaa6a723d9bad7dp14c6c2jsn47db43bc1b5f",
-      "X-RapidAPI-Host": "yahoo-finance97.p.rapidapi.com",
+      "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
     },
-    body: encodedParams,
   };
 
-  const { data } = await fetch(url, options)
-    .then((res) => res.json())
-    .catch((err) => console.error("error:" + err));
+  const data = await fetch(
+    `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-chart?interval=${interval}&symbol=${code}&range=${range}&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit`,
+    options
+  )
+    .then((response) => response.json())
+    .then(({ chart: { result } }) => result[0])
+    .then(({ timestamp, indicators: { quote } }) =>
+      _.zipWith(
+        timestamp,
+        quote[0].close,
+        quote[0].open,
+        quote[0].high,
+        quote[0].low,
+        (timestamp, close, open, high, low) => ({
+          timestamp,
+          close,
+          open,
+          high,
+          low,
+        })
+      )
+    )
+    .then((stockByPeriod) => {
+      return stockByPeriod.map((rec: any, i: number) => {
+        const previousDay = stockByPeriod[i - 1];
+        let gainLossValue = 0;
+        let gainLossPercentage = 0;
+        if (previousDay?.close) {
+          gainLossValue = calcGainLossDailyValue(
+            previousDay?.close as number,
+            rec?.open as number
+          );
+          gainLossPercentage = calcGainLossDailyPercentage(
+            previousDay?.close as number,
+            rec?.open as number
+          );
+        }
+        return { ...rec, gainLossValue, gainLossPercentage };
+      });
+    })
+    .catch((err) => console.error(err));
 
-  return data.map((rec: StockDataByPeriodItem, i: number) => {
-    const previousDay = data[i - 1];
-    let gainLossValue = 0;
-    let gainLossPercentage = 0;
-    if (previousDay?.Close) {
-      gainLossValue = calcGainLossDailyValue(previousDay?.Close, rec?.Open);
-      gainLossPercentage = calcGainLossDailyPercentage(
-        previousDay?.Close,
-        rec?.Open
-      );
-    }
-    return { ...rec, gainLossValue, gainLossPercentage };
-  });
+  return data ?? [];
 }
 
 export async function mockGetSharesByCodeAndPeriod(
   code: string,
-  start: string,
-  end: string
+  range: string,
+  interval: string
 ): Promise<StockDataByPeriodItems> {
-  const res = new Response(JSON.stringify(mockShareDataByPeriod("1W")));
-
+  console.log("mockGetSharesByCodeAndPeriod in shares.server");
+  console.log("code", "range", "interval");
+  console.log(code, range, interval);
+  const res = new Response(JSON.stringify(mockShareDataByPeriod(range)));
   const data = await res.json();
-
-  return data.map((rec: StockDataByPeriodItem, i: number) => {
-    const previousDay = data[i - 1];
-    let gainLossValue = 0;
-    let gainLossPercentage = 0;
-    if (previousDay?.Close) {
-      gainLossValue = calcGainLossDailyValue(previousDay?.Close, rec?.Open);
-      gainLossPercentage = calcGainLossDailyPercentage(
-        previousDay?.Close,
-        rec?.Open
-      );
-    }
-    return { ...rec, gainLossValue, gainLossPercentage };
-  });
+  return data;
 }
 
 export async function getSharesByCode(
