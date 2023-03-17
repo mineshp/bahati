@@ -5,44 +5,68 @@ import {
   calcGainLossDailyValue,
 } from "../utils/shares";
 
+type intervalDataType = {
+  numberOfIntervals: number;
+  daysBetweenDates: number;
+};
+
 function randomNumber(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function createFakeData(days: number): StockDataByPeriodItems {
-  const now = new Date();
+const getIntervalsForRange: { [key: string]: intervalDataType } = {
+  "5d": {
+    numberOfIntervals: 5,
+    daysBetweenDates: 1,
+  },
+  "1m": {
+    numberOfIntervals: 4,
+    daysBetweenDates: 7,
+  },
+  "3m": {
+    numberOfIntervals: 12,
+    daysBetweenDates: 7,
+  },
+  "1y": {
+    numberOfIntervals: 12,
+    daysBetweenDates: 30,
+  },
+};
 
-  const timestampData = (days: number): Array<number> =>
-    console.log(`days is ${days}`) ||
-    [...Array(days).keys()].map((k) => {
-      let date = now.setDate(now.getDate() - 1);
+function createFakeData(range: string): StockDataByPeriodItems {
+  const now = new Date();
+  const { numberOfIntervals, daysBetweenDates } = getIntervalsForRange[range];
+
+  const timestampData = (numberOfIntervals: number): Array<number> =>
+    [...Array(numberOfIntervals).keys()].map((k) => {
+      let date = now.setDate(now.getDate() - daysBetweenDates);
       return date;
     });
 
-  const closeData = (days: number): Array<number> =>
-    [...Array(days).keys()].map((k) => randomNumber(300, 315));
+  const closeData = (numberOfIntervals: number): Array<number> =>
+    [...Array(numberOfIntervals).keys()].map((k) => randomNumber(300, 315));
 
-  const openData = (days: number): Array<number> =>
-    [...Array(days).keys()].map((k) => randomNumber(300, 315));
+  const openData = (numberOfIntervals: number): Array<number> =>
+    [...Array(numberOfIntervals).keys()].map((k) => randomNumber(300, 315));
 
-  const lowData = (days: number): Array<number> =>
-    [...Array(days).keys()].map((k) => randomNumber(300, 315));
+  const lowData = (numberOfIntervals: number): Array<number> =>
+    [...Array(numberOfIntervals).keys()].map((k) => randomNumber(300, 315));
 
-  const highData = (days: number): Array<number> =>
-    [...Array(days).keys()].map((k) => randomNumber(300, 315));
+  const highData = (numberOfIntervals: number): Array<number> =>
+    [...Array(numberOfIntervals).keys()].map((k) => randomNumber(300, 315));
 
   const data = {
     chart: {
       result: [
         {
-          timestamp: timestampData(days),
+          timestamp: timestampData(numberOfIntervals),
           indicators: {
             quote: [
               {
-                close: closeData(days),
-                low: lowData(days),
-                high: highData(days),
-                open: openData(days),
+                close: closeData(numberOfIntervals),
+                low: lowData(numberOfIntervals),
+                high: highData(numberOfIntervals),
+                open: openData(numberOfIntervals),
               },
             ],
           },
@@ -94,20 +118,24 @@ function createFakeData(days: number): StockDataByPeriodItems {
   });
 }
 
-export function mockShareDataByPeriod(range: string): StockDataByPeriodItems {
+export function mockShareDataByPeriod(
+  range: string,
+  interval: string
+): StockDataByPeriodItems {
   console.log(
-    `******************* range IN MOCK IS ${range} *******************`
+    `******************* range IN MOCK IS ${range} ${interval} *******************`
   );
+
   switch (range) {
     case "5d":
-      return createFakeData(5);
+      return createFakeData("5d");
     case "1m":
-      return createFakeData(30);
+      return createFakeData("1m");
     case "3m":
-      return createFakeData(90);
+      return createFakeData("3m");
     case "1y":
-      return createFakeData(365);
+      return createFakeData("1y");
     default:
-      return createFakeData(5);
+      return createFakeData("5d");
   }
 }

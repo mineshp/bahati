@@ -38,9 +38,8 @@ export default function ShareNav(prop: Props) {
                   isActive("5d") ? "border border-rose-300 bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  console.log("CLICKING BTN WITH 5d");
-                  setRange("5d");
-                  setGraphInterval("1d");
+                  // setRange("5d");
+                  // setGraphInterval("1d");
                   handleStockPeriod("5d", "1d");
                 }}
                 name="5d"
@@ -55,10 +54,10 @@ export default function ShareNav(prop: Props) {
                   isActive("1m") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  console.log("CLICKING BTN WITH 1m");
-                  setRange("1m");
-                  setGraphInterval("1d");
-                  handleStockPeriod("1m", "1d");
+                  // console.log("CLICKING BTN WITH 1m");
+                  // setRange("1m");
+                  // setGraphInterval("1d");
+                  handleStockPeriod("1m", "1w");
                 }}
                 name="1m"
               >
@@ -72,9 +71,9 @@ export default function ShareNav(prop: Props) {
                   isActive("3m") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  setRange("3m");
-                  setGraphInterval("1d");
-                  // handleStockPeriod("3m", "1d");
+                  // setRange("3m");
+                  // setGraphInterval("1d");
+                  handleStockPeriod("3m", "1w");
                 }}
                 name="3m"
               >
@@ -88,9 +87,9 @@ export default function ShareNav(prop: Props) {
                   isActive("1y") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  setRange("1y");
-                  setGraphInterval("1d");
-                  handleStockPeriod("1y", "1d");
+                  // setRange("1y");
+                  // setGraphInterval("1d");
+                  handleStockPeriod("1y", "1m");
                 }}
                 name="1y"
               >

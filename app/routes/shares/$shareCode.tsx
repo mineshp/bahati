@@ -22,7 +22,6 @@ import {
   getSharesByCodeAndPeriod,
 } from "~/models/shares.server";
 import type { StockDataByPeriodItems } from "../../types/shares";
-import { retrieveStartAndEndDates } from "../../utils/date";
 import CurrentDayShareHeader from "../../components/currentDayShareHeader";
 import ShareValueCard from "../../components/shareValueCards";
 import InformationBar from "../../components/information";
@@ -38,12 +37,8 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: datepickerCss },
 ];
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.shareCode, "Expected params.shareCode");
-  console.log(params);
-  const url = new URL(request.url);
-  console.log(url);
-  // const query = url.searchParams.get("q") ;
 
   let shareHeaderData;
   let shareData;
@@ -51,7 +46,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   if (process.env.NODE_ENV === "development") {
     console.log("Dev mode: using mocks");
-    console.log("LOADER FUNCTION FIRES");
     shareHeaderData = await mockGetShareDataByCode(params?.shareCode as string);
     shareData = await mockGetSharesByCodeAndPeriod(
       params?.shareCode as string,
@@ -87,14 +81,9 @@ export const action: ActionFunction = async ({ request }) => {
   const interval = formData.get("interval");
   const shareCode = formData.get("shareCode");
 
-  console.log("IN ACTION FUNCTION");
-  console.log("range", "interval", "shareCode");
-  console.log(range, interval, shareCode);
-
   let shareData;
 
   if (process.env.NODE_ENV === "development") {
-    console.log("IN DEVELOPMENT MODE");
     shareData = await mockGetSharesByCodeAndPeriod(
       shareCode as string,
       range as string,
@@ -108,7 +97,6 @@ export const action: ActionFunction = async ({ request }) => {
     );
   }
 
-  // console.log(shareData);
   return json({ shareData });
 };
 
@@ -118,16 +106,11 @@ export default function SharePage() {
     useLoaderData() as LoaderData;
   const [displayData, setDisplayData] = useState<string>("chart");
   const [period, setPeriod] = useState("5d");
-  // const [start, setStart] = useState<string>(
-  //   retrieveStartAndEndDates("1W").start
-  // );
-  // const [end, setEnd] = useState<string>(retrieveStartAndEndDates("1W").end);
   const [shareDataByPeriod, setShareDataByPeriod] =
     useState<StockDataByPeriodItems>([]);
   const fetcher = useFetcher();
 
-  // // TODO: This does not look like the remix way of doing things
-  // // set graph/table share data by period to shareDataByPeriod from loader
+  // TODO: This does not look like the remix way of doing things
   useEffect(() => {
     if (shareDataByPeriod.length !== 0) {
       setShareDataByPeriod(shareDataByPeriod);
@@ -141,9 +124,8 @@ export default function SharePage() {
   }
 
   function handleStockPeriod(range: string, interval: string = "1d") {
-    console.log("handleStockPeriod");
-    console.log("range", "interval");
-    console.log(range, interval);
+    console.log("range", range);
+    console.log("interval", interval);
     setPeriod(range);
     fetcher.load(
       `/shares/query-share-data?shareCode=${params.shareCode}&range=${range}&interval=${interval}`
@@ -152,14 +134,10 @@ export default function SharePage() {
 
   useEffect(() => {
     if (fetcher.data) {
-      // console.log("calling fetcher data");
-      console.log("fetcher");
-      console.log(fetcher.data);
-      // setShareDataByPeriod(fetcher.data);
+      setShareDataByPeriod(fetcher.data);
     }
   }, [fetcher]);
-  // console.log("SHARE DATA BY PERIOD");
-  // console.log(shareDataByPeriod);
+
   return (
     shareDataByPeriod && (
       <div>

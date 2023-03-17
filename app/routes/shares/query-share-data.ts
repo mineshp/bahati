@@ -10,8 +10,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const shareCode = url.searchParams.get("shareCode");
   const range = url.searchParams.get("range");
   const interval = url.searchParams.get("interval");
-  console.log("LOADER");
-  console.log(range, interval);
 
   let data;
   if (process.env.NODE_ENV === "development") {
@@ -27,7 +25,5 @@ export const loader: LoaderFunction = async ({ request }) => {
       interval as string
     );
   }
-  console.log("QUERY SHARE DATA");
-  console.log(data);
   return json(data);
 };

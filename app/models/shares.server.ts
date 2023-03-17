@@ -172,10 +172,9 @@ export async function mockGetSharesByCodeAndPeriod(
   range: string,
   interval: string
 ): Promise<StockDataByPeriodItems> {
-  console.log("mockGetSharesByCodeAndPeriod in shares.server");
-  console.log("code", "range", "interval");
-  console.log(code, range, interval);
-  const res = new Response(JSON.stringify(mockShareDataByPeriod(range)));
+  const res = new Response(
+    JSON.stringify(mockShareDataByPeriod(range, interval))
+  );
   const data = await res.json();
   return data;
 }
