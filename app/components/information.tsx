@@ -16,7 +16,7 @@ interface Props {
   shareData: StockData;
 }
 
-function parseCountry(country: string) {
+function displayCountry(country: string) {
   switch (country) {
     case "United States":
       return {
@@ -136,14 +136,12 @@ function pillInformation(
     shareData.currentPrice,
     exchangeData
   );
-  const currencyConversionLabel =
+  const currencyConversion =
     exchangeData[0].currency === "GBP"
       ? "1"
-      : `${exchangeData[0].exchangeRate.toFixed(2)}p / 1 ${
-          exchangeData[0].currency
-        }`;
+      : `1 / ${exchangeData[0].exchangeRate.toFixed(2)}p`;
 
-  const totalShares = exchangeData.reduce(
+  const totalSharesOwned = exchangeData.reduce(
     (acc, cur) => acc + Number(cur.totalShares),
     0
   );
@@ -151,7 +149,7 @@ function pillInformation(
   const accountsAssociated: Array<string> = Array.from(
     new Set(exchangeData.map((item: any) => item.account))
   );
-  const account =
+  const accountType =
     accountsAssociated.length < 2
       ? accountsAssociated[0]
       : accountsAssociated.join(" & ");
@@ -159,43 +157,49 @@ function pillInformation(
   return [
     ...information,
     {
-      label: currencyConversionLabel,
+      label: currencyConversion,
       icon: showCurrencyIcon(exchangeData[0].currency),
+      tooltip: 'Current exchange rate',
       key: 1,
     },
     {
-      label: parseCountry(shareData.country).label,
-      icon: parseCountry(shareData.country).flag,
+      label: displayCountry(shareData.country).label,
+      icon: displayCountry(shareData.country).flag,
+      tooltip: 'Country',
       key: 2,
     },
     {
       label: shareValueUpOrDown.value,
       icon: shareValueUpOrDown.icon,
+      tooltip: 'Total share value',
       key: 3,
     },
     {
-      label: `${totalShares} Shares`,
+      label: `${totalSharesOwned} Units`,
       icon: (
         <CalculatorIcon
           className="h-7 w-8 fill-indigo-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
+      tooltip: 'Total units owned',
       key: 4,
     },
     {
       label: `${shareData.fiftyTwoWeekChange} / 52W`,
       icon: showCalendar(parseFloat(shareData.fiftyTwoWeekChange)),
+      tooltip: '52 Week change',
       key: 5,
     },
     {
-      label: account,
+      label: accountType,
       icon: (
         <BriefcaseIcon
           className="h-7 w-8 fill-indigo-400 sm:h-9 sm:w-10"
           aria-hidden="true"
         />
       ),
+      tooltip: 'Account type',
       key: 6,
     },
   ];
@@ -205,10 +209,10 @@ export default function InformationBar(prop: Props) {
   const items = pillInformation(prop.exchangeData, prop.shareData);
 
   return (
-    <div className="grid grid-cols-3 gap-4 p-4 sm:gap-8 lg:grid-cols-6">
-      {items?.map(({ label, key, icon }) => (
+    <div className="grid grid-cols-3 gap-2 p-4 sm:gap-8 lg:grid-cols-6">
+      {items?.map(({ label, key, icon, tooltip }) => (
         <div key={key}>
-          <Pill data={label} icon={icon} />
+          <Pill data={label} icon={icon} tooltip={tooltip} />
         </div>
       ))}
     </div>
