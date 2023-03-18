@@ -106,6 +106,7 @@ export default function SharePage() {
     useLoaderData() as LoaderData;
   const [displayData, setDisplayData] = useState<string>("chart");
   const [period, setPeriod] = useState("5d");
+  const [interval, setInterval] = useState("1d");
   const [shareDataByPeriod, setShareDataByPeriod] =
     useState<StockDataByPeriodItems>([]);
   const fetcher = useFetcher();
@@ -124,9 +125,8 @@ export default function SharePage() {
   }
 
   function handleStockPeriod(range: string, interval: string = "1d") {
-    console.log("range", range);
-    console.log("interval", interval);
     setPeriod(range);
+    setInterval(interval)
     fetcher.load(
       `/shares/query-share-data?shareCode=${params.shareCode}&range=${range}&interval=${interval}`
     );
@@ -155,6 +155,7 @@ export default function SharePage() {
           handleDisplayMode={handleDisplayMode}
           handleStockPeriod={handleStockPeriod}
           period={period}
+          interval={interval}
           shareDataByPeriod={shareDataByPeriod}
           totalSharesByCode={totalSharesByCode}
         />

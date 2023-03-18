@@ -5,37 +5,12 @@ import {
   calcGainLossDailyValue,
 } from "../utils/shares";
 
-type intervalDataType = {
-  numberOfIntervals: number;
-  daysBetweenDates: number;
-};
-
 function randomNumber(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-const getIntervalsForRange: { [key: string]: intervalDataType } = {
-  "5d": {
-    numberOfIntervals: 5,
-    daysBetweenDates: 1,
-  },
-  "1m": {
-    numberOfIntervals: 4,
-    daysBetweenDates: 7,
-  },
-  "3m": {
-    numberOfIntervals: 12,
-    daysBetweenDates: 7,
-  },
-  "1y": {
-    numberOfIntervals: 12,
-    daysBetweenDates: 30,
-  },
-};
-
-function createFakeData(range: string): StockDataByPeriodItems {
+function createFakeData(range: string, numberOfIntervals: number, daysBetweenDates: number): StockDataByPeriodItems {
   const now = new Date();
-  const { numberOfIntervals, daysBetweenDates } = getIntervalsForRange[range];
 
   const timestampData = (numberOfIntervals: number): Array<number> =>
     [...Array(numberOfIntervals).keys()].map((k) => {
@@ -86,12 +61,12 @@ function createFakeData(range: string): StockDataByPeriodItems {
   } = result[0];
 
   const stockByPeriod = _.zipWith(
-    timestamp,
-    quote[0].close,
-    quote[0].open,
-    quote[0].high,
-    quote[0].low,
-    (timestamp, close, open, high, low) => ({
+    timestamp.reverse(),
+    quote[0].close.reverse(),
+    quote[0].open.reverse(),
+    quote[0].high.reverse(),
+    quote[0].low.reverse(),
+    (timestamp: number, close: number, open: number, high: number, low: number) => ({
       timestamp,
       close,
       open,
@@ -109,10 +84,10 @@ function createFakeData(range: string): StockDataByPeriodItems {
         previousDay?.close as number,
         rec?.open as number
       );
-      gainLossPercentage = calcGainLossDailyPercentage(
+      gainLossPercentage = Number(calcGainLossDailyPercentage(
         previousDay?.close as number,
         rec?.open as number
-      );
+      ));
     }
     return { ...rec, gainLossValue, gainLossPercentage };
   });
@@ -120,22 +95,17 @@ function createFakeData(range: string): StockDataByPeriodItems {
 
 export function mockShareDataByPeriod(
   range: string,
-  interval: string
 ): StockDataByPeriodItems {
-  console.log(
-    `******************* range IN MOCK IS ${range} ${interval} *******************`
-  );
-
   switch (range) {
     case "5d":
-      return createFakeData("5d");
+      return createFakeData("5d", 5, 1);
     case "1m":
-      return createFakeData("1m");
+      return createFakeData("1m", 4, 7);
     case "3m":
-      return createFakeData("3m");
+      return createFakeData("3m", 12, 7);
     case "1y":
-      return createFakeData("1y");
+      return createFakeData("1y", 12, 30);
     default:
-      return createFakeData("5d");
+      return createFakeData("5d", 5, 1);
   }
 }

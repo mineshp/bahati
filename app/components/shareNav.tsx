@@ -1,6 +1,6 @@
 import { ChartBarIcon, TableIcon } from "@heroicons/react/outline";
-import { Form, Link } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { Form } from "@remix-run/react";
+import { useState } from "react";
 
 interface Props {
   shareCode: string;
@@ -34,12 +34,12 @@ export default function ShareNav(prop: Props) {
             <li className="mr-4">
               <button
                 type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm  ${
+                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
                   isActive("5d") ? "border border-rose-300 bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  // setRange("5d");
-                  // setGraphInterval("1d");
+                  setRange("5d");
+                  setGraphInterval("1d");
                   handleStockPeriod("5d", "1d");
                 }}
                 name="5d"
@@ -50,13 +50,12 @@ export default function ShareNav(prop: Props) {
             <li className="mr-4">
               <button
                 type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
+                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
                   isActive("1m") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  // console.log("CLICKING BTN WITH 1m");
-                  // setRange("1m");
-                  // setGraphInterval("1d");
+                  setRange("1m");
+                  setGraphInterval("1w");
                   handleStockPeriod("1m", "1w");
                 }}
                 name="1m"
@@ -67,12 +66,12 @@ export default function ShareNav(prop: Props) {
             <li className="mr-4">
               <button
                 type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
+                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
                   isActive("3m") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  // setRange("3m");
-                  // setGraphInterval("1d");
+                  setRange("3m");
+                  setGraphInterval("1w");
                   handleStockPeriod("3m", "1w");
                 }}
                 name="3m"
@@ -83,12 +82,12 @@ export default function ShareNav(prop: Props) {
             <li className="mr-4">
               <button
                 type="submit"
-                className={`mr-4 items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm ${
+                className={`mr-4 items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
                   isActive("1y") ? "bg-rose-500" : ""
                 }`}
                 onClick={() => {
-                  // setRange("1y");
-                  // setGraphInterval("1d");
+                  setRange("1y");
+                  setGraphInterval("1m");
                   handleStockPeriod("1y", "1m");
                 }}
                 name="1y"
@@ -96,6 +95,13 @@ export default function ShareNav(prop: Props) {
                 1y
               </button>
             </li>
+            <input
+              type="text"
+              name="shareCode"
+              value={shareCode}
+              hidden
+              readOnly
+            ></input>
             <input
               type="text"
               name="range"

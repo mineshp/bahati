@@ -10,14 +10,14 @@ export default function TableData(prop: Props) {
   const { data } = prop;
   const rowData = data.map((shareRecord: StockDataByPeriodItem) => {
     return (
-      <tr key={`${shareRecord.Date}`}>
-        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{formatDateForDisplay(shareRecord.Date)}</td>
-        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.Open.toFixed(3)}</td>
-        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.Close.toFixed(3)}</td>
-        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.gainLossValue}</td>
-        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.gainLossPercentage.toFixed(1)}%</td>
-        <td className="hidden px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800 md:table-cell">{shareRecord.High.toFixed(3)}</td>
-        <td className="hidden px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800 md:table-cell">{shareRecord.Low.toFixed(3)}</td>
+      <tr key={`${shareRecord.timestamp}`}>
+        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{formatDateForDisplay(shareRecord.timestamp)}</td>
+        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.open.toFixed(3)}</td>
+        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord.close.toFixed(3)}</td>
+        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord?.gainLossValue}</td>
+        <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800">{shareRecord?.gainLossPercentage}%</td>
+        <td className="hidden px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800 md:table-cell">{shareRecord.high.toFixed(3)}</td>
+        <td className="hidden px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-800 md:table-cell">{shareRecord.low.toFixed(3)}</td>
       </tr>
     );
   });

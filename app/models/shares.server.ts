@@ -1,41 +1,18 @@
 import _ from "lodash";
 import type {
   StockData,
-  StockDataByPeriodItem,
-  StockDataByPeriodItemFromAPI,
   StockDataByPeriodItems,
   TotalSharesItem,
   ExchangeRate,
-  LastDayHighAndDayLow,
 } from "../types/shares";
 import {
   calcGainLossDailyPercentage,
   calcGainLossDailyValue,
 } from "../utils/shares";
-// import { retrieveStartAndEndDates } from "../utils/date";
 import { mockShareData } from "../mocks/mockShareData";
 import { mockShareDataByPeriod } from "../mocks/mockShareDataByPeriod";
 import { mockExchangeRates } from "../mocks/mockExchangeRates";
 import { mockPurchasedShareDate } from "~/mocks/mockPurchasedShareDataByCode";
-
-// async function getLastDayHighAndDayLow(
-//   code: string
-// ): Promise<LastDayHighAndDayLow> {
-//   const { start, end } = retrieveStartAndEndDates("1W");
-//   const data = await getSharesByCodeAndPeriod(code, start, end);
-
-//   let dayHigh = 0;
-//   let dayLow = 0;
-//   data.forEach(({ High, Low }) => {
-//     if (!High && !Low) return;
-//     dayHigh = Number(High.toFixed(2));
-//     dayLow = Number(Low.toFixed(2));
-//   });
-//   return {
-//     dayHigh,
-//     dayLow,
-//   };
-// }
 
 export async function getMockExchangeRates(
   baseCurrency: string
@@ -130,11 +107,11 @@ export async function getSharesByCodeAndPeriod(
     .then(({ chart: { result } }) => result[0])
     .then(({ timestamp, indicators: { quote } }) =>
       _.zipWith(
-        timestamp,
-        quote[0].close,
-        quote[0].open,
-        quote[0].high,
-        quote[0].low,
+        timestamp.reverse(),
+        quote[0].close.reverse(),
+        quote[0].open.reverse(),
+        quote[0].high.reverse(),
+        quote[0].low.reverse(),
         (timestamp, close, open, high, low) => ({
           timestamp,
           close,
@@ -173,7 +150,7 @@ export async function mockGetSharesByCodeAndPeriod(
   interval: string
 ): Promise<StockDataByPeriodItems> {
   const res = new Response(
-    JSON.stringify(mockShareDataByPeriod(range, interval))
+    JSON.stringify(mockShareDataByPeriod(range))
   );
   const data = await res.json();
   return data;
