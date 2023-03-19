@@ -131,9 +131,11 @@ export async function getSharesByCodeAndPeriod(
             previousDay?.close as number,
             rec?.open as number
           );
-          gainLossPercentage = calcGainLossDailyPercentage(
-            previousDay?.close as number,
-            rec?.open as number
+          gainLossPercentage = Number(
+            calcGainLossDailyPercentage(
+              previousDay?.close as number,
+              rec?.open as number
+            )
           );
         }
         return { ...rec, gainLossValue, gainLossPercentage };
@@ -149,9 +151,7 @@ export async function mockGetSharesByCodeAndPeriod(
   range: string,
   interval: string
 ): Promise<StockDataByPeriodItems> {
-  const res = new Response(
-    JSON.stringify(mockShareDataByPeriod(range))
-  );
+  const res = new Response(JSON.stringify(mockShareDataByPeriod(range)));
   const data = await res.json();
   return data;
 }

@@ -21,6 +21,7 @@ interface Props {
   shareCode: string;
   shareData: StockDataByPeriodItems;
   originalData: TotalShareItemsByCode;
+  interval: string;
 }
 
 ChartJS.register(
@@ -35,7 +36,13 @@ ChartJS.register(
 );
 
 export default function Chart(prop: Props) {
-  const { shareCode, shareData, originalData } = prop;
+  const { shareCode, shareData, originalData, interval } = prop;
+
+  const graphPeriod: { [key: string]: string } = {
+    "1d": "days",
+    "1w": "weeks",
+    "1m": "months",
+  };
 
   const options = {
     responsive: true,
@@ -54,7 +61,7 @@ export default function Chart(prop: Props) {
       x: {
         title: {
           display: true,
-          text: "Period",
+          text: `Period (${graphPeriod[interval]})`,
           color: "rgb(251, 113, 133)",
         },
       },

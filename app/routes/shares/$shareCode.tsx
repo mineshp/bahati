@@ -52,11 +52,6 @@ export const loader: LoaderFunction = async ({ params }) => {
       "5d",
       "1d"
     );
-    // shareData = await getSharesByCodeAndPeriod(
-    //   params?.shareCode as string,
-    //   "5d",
-    //   "1d"
-    // );
     totalSharesByCode = await mockGetSharesByCode(params?.shareCode as string);
   } else {
     shareHeaderData = await getShareDataByCode(params?.shareCode as string);
@@ -105,7 +100,6 @@ export default function SharePage() {
   const { shareHeaderData, shareData, totalSharesByCode } =
     useLoaderData() as LoaderData;
   const [displayData, setDisplayData] = useState<string>("chart");
-  const [period, setPeriod] = useState("5d");
   const [interval, setInterval] = useState("1d");
   const [shareDataByPeriod, setShareDataByPeriod] =
     useState<StockDataByPeriodItems>([]);
@@ -125,8 +119,7 @@ export default function SharePage() {
   }
 
   function handleStockPeriod(range: string, interval: string = "1d") {
-    setPeriod(range);
-    setInterval(interval)
+    setInterval(interval);
     fetcher.load(
       `/shares/query-share-data?shareCode=${params.shareCode}&range=${range}&interval=${interval}`
     );
@@ -154,7 +147,6 @@ export default function SharePage() {
           displayData={displayData}
           handleDisplayMode={handleDisplayMode}
           handleStockPeriod={handleStockPeriod}
-          period={period}
           interval={interval}
           shareDataByPeriod={shareDataByPeriod}
           totalSharesByCode={totalSharesByCode}

@@ -12,31 +12,28 @@ interface Props {
   displayData: string;
   handleStockPeriod: (range: string, interval: string) => void;
   handleDisplayMode: (mode: string) => void;
-  period: string;
   interval: string;
   shareDataByPeriod: StockDataByPeriodItems;
   totalSharesByCode: TotalShareItemsByCode;
 }
 
-
 export default function ShareGraph(props: Props) {
-  return props.shareDataByPeriod.length > 0 && (
+  return props.shareDataByPeriod.length > 0 ? (
     <div className="px-4">
       <ShareNav
         shareCode={props.shareCode as string}
         displayData={props.displayData}
         handleStockPeriod={props.handleStockPeriod}
         handleDisplayMode={props.handleDisplayMode}
-        period={props.period}
       />
-      <div className="px-4 pt-2 text-slate-600 flex flex-row">
+      <div className="flex flex-row px-4 pt-2 text-slate-600">
         <div className="rounded-lg text-xs">Selected period: </div>
         <div className="rounded-lg text-xs text-rose-600">
-          {`${formatDateForDisplay(props.shareDataByPeriod[0]?.timestamp)} - ${formatDateForDisplay(props.shareDataByPeriod?.slice(-1)[0]?.timestamp)}`}
-        </div>
-        <div className="rounded-lg text-xs pl-6">Interval: </div>
-        <div className="rounded-lg text-xs text-rose-600">
-          {props.interval}
+          {`${formatDateForDisplay(
+            props.shareDataByPeriod[0]?.timestamp
+          )} - ${formatDateForDisplay(
+            props.shareDataByPeriod?.slice(-1)[0]?.timestamp
+          )}`}
         </div>
       </div>
       {props.displayData === "table" ? (
@@ -46,8 +43,9 @@ export default function ShareGraph(props: Props) {
           shareData={props.shareDataByPeriod}
           shareCode={props.shareCode as string}
           originalData={props.totalSharesByCode}
+          interval={props.interval}
         />
       )}
     </div>
-  );
+  ) : null;
 }

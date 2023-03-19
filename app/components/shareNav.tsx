@@ -1,100 +1,60 @@
 import { ChartBarIcon, TableIcon } from "@heroicons/react/outline";
 import { Form } from "@remix-run/react";
 import { useState } from "react";
+import Dropdown from "./library/dropdown";
 
 interface Props {
   shareCode: string;
   displayData: string;
-  period: string;
   handleStockPeriod: (range: string, interval: string) => void;
   handleDisplayMode: (mode: string) => void;
 }
 
 export default function ShareNav(prop: Props) {
-  const {
-    shareCode,
-    displayData,
-    handleStockPeriod,
-    handleDisplayMode,
-    period,
-  } = prop;
+  const { shareCode, displayData, handleStockPeriod, handleDisplayMode } = prop;
 
   const [range, setRange] = useState<string>("5d");
   const [graphInterval, setGraphInterval] = useState<string>("1d");
 
-  function isActive(buttonVal: string) {
-    return period === buttonVal;
+  function updateStockPeriod(range: string, interval: string) {
+    setRange(range);
+    setGraphInterval(interval);
+    return handleStockPeriod(range, interval);
   }
+
+  const intervalData = [
+    {
+      id: 1,
+      name: "5 Days",
+      value: "5d",
+      interval: "1d",
+    },
+    {
+      id: 2,
+      name: "1 Month",
+      value: "1m",
+      interval: "1w",
+    },
+    {
+      id: 3,
+      name: "3 Months",
+      value: "3m",
+      interval: "1w",
+    },
+    {
+      id: 4,
+      name: "1 Year",
+      value: "1y",
+      interval: "1m",
+    },
+  ];
 
   return (
     <div className="rounded-lg border">
       <Form method="post">
-        <div className="flex h-12 items-center rounded-lg bg-gray-200 px-4">
+        <div className="flex h-12 items-center rounded-lg bg-indigo-100 px-4">
+          <Dropdown options={intervalData} handleSelect={updateStockPeriod} />
           <ul className="flex items-center">
-            <li className="mr-4">
-              <button
-                type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
-                  isActive("5d") ? "border border-rose-300 bg-rose-500" : ""
-                }`}
-                onClick={() => {
-                  setRange("5d");
-                  setGraphInterval("1d");
-                  handleStockPeriod("5d", "1d");
-                }}
-                name="5d"
-              >
-                5d
-              </button>
-            </li>
-            <li className="mr-4">
-              <button
-                type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
-                  isActive("1m") ? "bg-rose-500" : ""
-                }`}
-                onClick={() => {
-                  setRange("1m");
-                  setGraphInterval("1w");
-                  handleStockPeriod("1m", "1w");
-                }}
-                name="1m"
-              >
-                1m
-              </button>
-            </li>
-            <li className="mr-4">
-              <button
-                type="submit"
-                className={`items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
-                  isActive("3m") ? "bg-rose-500" : ""
-                }`}
-                onClick={() => {
-                  setRange("3m");
-                  setGraphInterval("1w");
-                  handleStockPeriod("3m", "1w");
-                }}
-                name="3m"
-              >
-                3m
-              </button>
-            </li>
-            <li className="mr-4">
-              <button
-                type="submit"
-                className={`mr-4 items-center rounded border border-rose-500 bg-rose-300 px-2 py-2 text-xs font-bold text-white hover:border-rose-300 hover:bg-rose-500 sm:px-3 sm:py-2.5 sm:text-sm w-12 ${
-                  isActive("1y") ? "bg-rose-500" : ""
-                }`}
-                onClick={() => {
-                  setRange("1y");
-                  setGraphInterval("1m");
-                  handleStockPeriod("1y", "1m");
-                }}
-                name="1y"
-              >
-                1y
-              </button>
-            </li>
             <input
               type="text"
               name="shareCode"

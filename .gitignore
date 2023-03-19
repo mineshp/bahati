@@ -17,4 +17,4 @@ sam.yaml
 
 AUTHREADME.md
 app/mocks/currentStocks.json
-/support_scripts
+/support_scripts/*
