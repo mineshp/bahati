@@ -9,6 +9,7 @@ import {
   calcGainLossDailyPercentage,
   calcGainLossDailyValue,
 } from "../utils/shares";
+import { toMilliseconds } from "../utils/date";
 import { mockShareData } from "../mocks/mockShareData";
 import { mockShareDataByPeriod } from "../mocks/mockShareDataByPeriod";
 import { mockExchangeRates } from "../mocks/mockExchangeRates";
@@ -29,7 +30,7 @@ export async function getExchangeRate(
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "a302ddd933msheaa6a723d9bad7dp14c6c2jsn47db43bc1b5f",
+      "X-RapidAPI-Key": process.env.SHARE_API_KEY ?? "abc",
       "X-RapidAPI-Host": "exchangerate-api.p.rapidapi.com",
     },
   };
@@ -47,7 +48,7 @@ export async function getShareDataByCode(code: string): Promise<StockData> {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "a302ddd933msheaa6a723d9bad7dp14c6c2jsn47db43bc1b5f",
+      "X-RapidAPI-Key": process.env.SHARE_API_KEY ?? "abc",
       "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
     },
   };
@@ -94,7 +95,7 @@ export async function getSharesByCodeAndPeriod(
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "a302ddd933msheaa6a723d9bad7dp14c6c2jsn47db43bc1b5f",
+      "X-RapidAPI-Key": process.env.SHARE_API_KEY ?? "abc",
       "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
     },
   };
@@ -113,7 +114,7 @@ export async function getSharesByCodeAndPeriod(
         quote[0].high.reverse(),
         quote[0].low.reverse(),
         (timestamp, close, open, high, low) => ({
-          timestamp,
+          timestamp: toMilliseconds(timestamp as number),
           close,
           open,
           high,
@@ -159,8 +160,7 @@ export async function mockGetSharesByCodeAndPeriod(
 export async function getSharesByCode(
   code: string
 ): Promise<TotalSharesItem[] | any> {
-  const url =
-    "https://o9x8jijxn1.execute-api.eu-west-1.amazonaws.com/dev/api/stock-info";
+  const url = `${process.env.STOCK_BUCKET}/dev/api/stock-info`;
 
   const options = {
     method: "GET",

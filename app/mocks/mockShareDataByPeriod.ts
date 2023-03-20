@@ -9,7 +9,11 @@ function randomNumber(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function createFakeData(range: string, numberOfIntervals: number, daysBetweenDates: number): StockDataByPeriodItems {
+function createFakeData(
+  range: string,
+  numberOfIntervals: number,
+  daysBetweenDates: number
+): StockDataByPeriodItems {
   const now = new Date();
 
   const timestampData = (numberOfIntervals: number): Array<number> =>
@@ -66,7 +70,13 @@ function createFakeData(range: string, numberOfIntervals: number, daysBetweenDat
     quote[0].open.reverse(),
     quote[0].high.reverse(),
     quote[0].low.reverse(),
-    (timestamp: number, close: number, open: number, high: number, low: number) => ({
+    (
+      timestamp: number,
+      close: number,
+      open: number,
+      high: number,
+      low: number
+    ) => ({
       timestamp,
       close,
       open,
@@ -84,18 +94,18 @@ function createFakeData(range: string, numberOfIntervals: number, daysBetweenDat
         previousDay?.close as number,
         rec?.open as number
       );
-      gainLossPercentage = Number(calcGainLossDailyPercentage(
-        previousDay?.close as number,
-        rec?.open as number
-      ));
+      gainLossPercentage = Number(
+        calcGainLossDailyPercentage(
+          previousDay?.close as number,
+          rec?.open as number
+        )
+      );
     }
     return { ...rec, gainLossValue, gainLossPercentage };
   });
 }
 
-export function mockShareDataByPeriod(
-  range: string,
-): StockDataByPeriodItems {
+export function mockShareDataByPeriod(range: string): StockDataByPeriodItems {
   switch (range) {
     case "5d":
       return createFakeData("5d", 5, 1);
