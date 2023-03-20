@@ -161,7 +161,7 @@ export async function getSharesByCode(
   code: string
 ): Promise<TotalSharesItem[] | any> {
   const url = `${process.env.STOCK_BUCKET}/dev/api/stock-info`;
-
+  console.log("TEST S3 - ", process.env.STOCK_BUCKET);
   const options = {
     method: "GET",
     headers: {
