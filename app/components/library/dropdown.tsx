@@ -28,7 +28,7 @@ function getInterval(range: string): string {
 export default function Dropdown(props: Props) {
   return (
     <div className="flex justify-center rounded">
-      <div className="m-2 xl:w-96">
+      <div className="m-2">
         <select
           data-te-select-init
           onChange={(e) =>

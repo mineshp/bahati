@@ -28,7 +28,7 @@ function displayCountry(country: string) {
             className="m-1 h-4 w-7 sm:m-1.5 sm:h-6 sm:w-10"
           />
         ),
-        label: country,
+        label: "USA",
       };
     case "Germany":
       return {
@@ -159,19 +159,19 @@ function pillInformation(
     {
       label: currencyConversion,
       icon: showCurrencyIcon(exchangeData[0].currency),
-      tooltip: 'Current exchange rate',
+      tooltip: "Current exchange rate",
       key: 1,
     },
     {
       label: displayCountry(shareData.country).label,
       icon: displayCountry(shareData.country).flag,
-      tooltip: 'Country',
+      tooltip: "Country",
       key: 2,
     },
     {
       label: shareValueUpOrDown.value,
       icon: shareValueUpOrDown.icon,
-      tooltip: 'Total share value',
+      tooltip: "Total share value",
       key: 3,
     },
     {
@@ -182,13 +182,13 @@ function pillInformation(
           aria-hidden="true"
         />
       ),
-      tooltip: 'Total units owned',
+      tooltip: "Total units owned",
       key: 4,
     },
     {
       label: `${shareData.fiftyTwoWeekChange} / 52W`,
       icon: showCalendar(parseFloat(shareData.fiftyTwoWeekChange)),
-      tooltip: '52 Week change',
+      tooltip: "52 Week change",
       key: 5,
     },
     {
@@ -199,7 +199,7 @@ function pillInformation(
           aria-hidden="true"
         />
       ),
-      tooltip: 'Account type',
+      tooltip: "Account type",
       key: 6,
     },
   ];
@@ -209,7 +209,7 @@ export default function InformationBar(prop: Props) {
   const items = pillInformation(prop.exchangeData, prop.shareData);
 
   return (
-    <div className="grid grid-cols-3 gap-2 p-4 sm:gap-8 lg:grid-cols-6">
+    <div className="grid grid-cols-3 gap-2 p-4 text-sm sm:gap-8 lg:grid-cols-6">
       {items?.map(({ label, key, icon, tooltip }) => (
         <div key={key}>
           <Pill data={label} icon={icon} tooltip={tooltip} />

@@ -55,27 +55,6 @@ export default function ShareNav(prop: Props) {
         <div className="flex h-12 items-center rounded-lg bg-indigo-100 px-4">
           <Dropdown options={intervalData} handleSelect={updateStockPeriod} />
           <ul className="flex items-center">
-            <input
-              type="text"
-              name="shareCode"
-              value={shareCode}
-              hidden
-              readOnly
-            ></input>
-            <input
-              type="text"
-              name="range"
-              value={range}
-              hidden
-              readOnly
-            ></input>
-            <input
-              type="text"
-              name="interval"
-              value={graphInterval}
-              hidden
-              readOnly
-            ></input>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -91,7 +70,7 @@ export default function ShareNav(prop: Props) {
               />
             </svg>
 
-            <li className="ml-4 justify-end">
+            <li className="justify-start">
               {displayData === "chart" ? (
                 <button
                   type="button"
@@ -113,6 +92,27 @@ export default function ShareNav(prop: Props) {
                 </button>
               )}
             </li>
+            <input
+              type="text"
+              name="shareCode"
+              value={shareCode}
+              hidden
+              readOnly
+            ></input>
+            <input
+              type="text"
+              name="range"
+              value={range}
+              hidden
+              readOnly
+            ></input>
+            <input
+              type="text"
+              name="interval"
+              value={graphInterval}
+              hidden
+              readOnly
+            ></input>
           </ul>
         </div>
       </Form>
