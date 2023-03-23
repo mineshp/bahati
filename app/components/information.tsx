@@ -93,7 +93,6 @@ function showShareValueUpOrDown(
 
   return {
     value: (currentValue - highestPurchasePrice).toFixed(2),
-    isUp: currentValue > highestPurchasePrice,
     icon:
       currentValue > highestPurchasePrice ? (
         <ArrowCircleUpIcon
@@ -106,6 +105,10 @@ function showShareValueUpOrDown(
           aria-hidden="true"
         />
       ),
+    tooltip:
+      currentValue > highestPurchasePrice
+        ? "Per share increase from highest paid"
+        : "Per share decrease from highest paid",
   };
 }
 
@@ -171,7 +174,7 @@ function pillInformation(
     {
       label: shareValueUpOrDown.value,
       icon: shareValueUpOrDown.icon,
-      tooltip: "Total share value",
+      tooltip: shareValueUpOrDown.tooltip,
       key: 3,
     },
     {
