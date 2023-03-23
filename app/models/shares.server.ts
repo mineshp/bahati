@@ -43,7 +43,7 @@ const getExchangeRate = memoizee(
       .then(({ rates }) => rates["GBP"])
       .catch((err) => console.error(err));
   },
-  { maxAge: 86400 }
+  { maxAge: 86400 * 1000 }
 );
 
 const getShareDataByCode = memoizee(
@@ -82,7 +82,7 @@ const getShareDataByCode = memoizee(
       ...baseShareData,
     };
   },
-  { maxAge: 21600 }
+  { maxAge: 21600 * 1000 }
 );
 
 export async function mockGetShareDataByCode(code: string): Promise<StockData> {
@@ -114,11 +114,11 @@ const getSharesByCodeAndPeriod = memoizee(
       .then(({ chart: { result } }) => result[0])
       .then(({ timestamp, indicators: { quote } }) =>
         _.zipWith(
-          timestamp.reverse(),
-          quote[0].close.reverse(),
-          quote[0].open.reverse(),
-          quote[0].high.reverse(),
-          quote[0].low.reverse(),
+          timestamp,
+          quote[0].close,
+          quote[0].open,
+          quote[0].high,
+          quote[0].low,
           (timestamp, close, open, high, low) => ({
             timestamp: toMilliseconds(timestamp as number),
             close,
@@ -152,7 +152,7 @@ const getSharesByCodeAndPeriod = memoizee(
 
     return data ?? [];
   },
-  { maxAge: 21600 }
+  { maxAge: 21600 * 1000 }
 );
 
 export async function mockGetSharesByCodeAndPeriod(
@@ -193,7 +193,7 @@ const getSharesByCode = memoizee(
       )
       .catch((err) => console.error("error:" + err));
   },
-  { maxAge: 21600 }
+  { maxAge: 21600 * 1000 }
 );
 
 export async function mockGetSharesByCode(
