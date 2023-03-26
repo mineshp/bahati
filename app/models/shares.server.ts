@@ -45,8 +45,7 @@ const getExchangeRate = memoizee(
   },
   {
     maxAge: 86400 * 1000,
-    promise: "done:finally",
-    profileName: "GET Exchange Rate",
+    promise: true,
   }
 );
 
@@ -88,8 +87,7 @@ const getShareDataByCode = memoizee(
   },
   {
     maxAge: 21600 * 1000,
-    promise: "done:finally",
-    profileName: "GET share data by code",
+    promise: true,
   }
 );
 
@@ -162,8 +160,7 @@ const getSharesByCodeAndPeriod = memoizee(
   },
   {
     maxAge: 21600 * 1000,
-    promise: "done:finally",
-    profileName: "GET share data by code and period",
+    promise: true,
   }
 );
 
@@ -206,9 +203,8 @@ const getSharesByCode = memoizee(
       .catch((err) => console.error("error:" + err));
   },
   {
-    maxAge: 21600 * 1000,
-    promise: "done:finally",
-    profileName: "GET shares by code INTERNAL API",
+    maxAge: 86400 * 1000,
+    promise: true,
   }
 );
 

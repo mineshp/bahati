@@ -109,10 +109,10 @@ export function mockShareDataByPeriod(range: string): StockDataByPeriodItems {
   switch (range) {
     case "5d":
       return createFakeData("5d", 5, 1);
-    case "1m":
-      return createFakeData("1m", 4, 7);
-    case "3m":
-      return createFakeData("3m", 12, 7);
+    case "1mo":
+      return createFakeData("1mo", 31, 7);
+    case "3mo":
+      return createFakeData("3mo", 12, 7);
     case "1y":
       return createFakeData("1y", 12, 30);
     default:
