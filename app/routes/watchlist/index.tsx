@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import { useState } from "react";
 
 function SearchBar() {
