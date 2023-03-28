@@ -1,19 +1,56 @@
 import { useState } from "react";
+import Dropdown from "../../components/library/dropdown";
+
+const watchlistGroups = [
+  {
+    id: 1,
+    name: "General",
+    value: "general",
+  },
+  {
+    id: 2,
+    name: "Tech",
+    value: "tech",
+  },
+];
 
 function SearchBar() {
   return (
-    <div>
+    <div className="flex">
       <label
-        htmlFor="default-search"
-        className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-rose-800"
+        htmlFor="search-dropdown"
+        className="sr-only text-sm font-medium text-gray-900 dark:text-white"
       >
-        Search
+        Select watchlist
       </label>
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+      <div className="">
+        <select
+          data-te-select-init
+          onChange={(e) => {}}
+          className="block rounded-l-lg border border-rose-300 bg-rose-300 p-2.5 text-white hover:bg-rose-600 focus:border-rose-600 focus:ring-rose-600"
+        >
+          {watchlistGroups.map(({ id, name, value }) => (
+            <option key={id} value={value}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="relative w-full">
+        <input
+          type="search"
+          id="search"
+          className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-100 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-rose-300 dark:bg-rose-200 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+          placeholder="Enter share code..."
+          required
+        />
+        <button
+          type="submit"
+          className="absolute top-0 right-0 rounded-r-lg border border-rose-700 bg-rose-700 p-2.5 text-sm font-medium text-white hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:bg-rose-400 dark:hover:bg-rose-700 dark:focus:ring-rose-800"
+        >
           <svg
             aria-hidden="true"
-            className="h-5 w-5 text-gray-500 dark:text-gray-400"
+            className="h-5 w-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -26,65 +63,52 @@ function SearchBar() {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             ></path>
           </svg>
-        </div>
-        <input
-          type="search"
-          id="default-search"
-          className="block w-full rounded-lg border border-gray-300 bg-rose-50 p-4 pl-10 text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-rose-600 dark:bg-rose-200 dark:text-rose-800 dark:placeholder-gray-400 dark:focus:border-indigo-500 dark:focus:ring-indigo-500"
-          placeholder="Search share code..."
-          required
-        />
-        <button
-          type="submit"
-          className="absolute right-2.5 bottom-2.5 rounded-lg bg-indigo-700 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
-        >
-          Search
         </button>
       </div>
     </div>
   );
 }
 
-interface SearchResultsProps {
-  results: {
-    shareCode: string;
-  }[];
-}
+// interface SearchResultsProps {
+//   results: {
+//     shareCode: string;
+//   }[];
+// }
 
-function SearchResults(prop: SearchResultsProps) {
-  const rowData = prop.results.map((result: { shareCode: string }) => {
-    return (
-      <tr key={`${result.shareCode}`}>
-        <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
-          {result.shareCode}
-        </td>
-        <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
-          <button
-            type="button"
-            className="items-center text-indigo-300 hover:text-indigo-500"
-            onClick={() => {}}
-          >
-            Add to Watchlist
-          </button>
-        </td>
-      </tr>
-    );
-  });
+// function SearchResults(prop: SearchResultsProps) {
+//   const rowData = prop.results.map((result: { shareCode: string }) => {
+//     return (
+//       <tr key={`${result.shareCode}`}>
+//         <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-700">
+//           {result.shareCode}
+//         </td>
+//         <td className="px-6 py-4 text-sm whitespace-no-wrap border-b border-gray-200 text-cyan-700">
+//           <button
+//             type="button"
+//             className="items-center text-rose-300 hover:text-rose-500"
+//             onClick={() => {}}
+//           >
+//             Add to Watchlist
+//           </button>
+//         </td>
+//       </tr>
+//     );
+//   });
 
-  return rowData.length ? (
-    <div className="flex flex-col pt-4">
-      <div className="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-        <div className="inline-block min-w-full overflow-hidden border-b border-gray-200 align-middle shadow sm:rounded-lg">
-          <table className="min-w-full">
-            <tbody className="bg-white">{rowData}</tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="p-4 text-gray-400">No results found</div>
-  );
-}
+//   return rowData.length ? (
+//     <div className="flex flex-col pt-4">
+//       <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+//         <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
+//           <table className="min-w-full">
+//             <tbody className="bg-white">{rowData}</tbody>
+//           </table>
+//         </div>
+//       </div>
+//     </div>
+//   ) : (
+//     <div className="p-4 text-gray-400">No results found</div>
+//   );
+// }
 
 interface WatchlistProps {
   results: {
@@ -103,19 +127,19 @@ function Watchlist(prop: WatchlistProps) {
     }) => {
       return (
         <tr key={`${shareOverview.shareCode}`}>
-          <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
+          <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
             {shareOverview.shareCode}
           </td>
-          <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
+          <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
             {shareOverview.open}
           </td>
-          <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
+          <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
             {shareOverview?.dailyChange}
           </td>
-          <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
+          <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
             <button
               type="button"
-              className="h-9 w-9 items-center justify-center text-indigo-300 hover:text-indigo-500"
+              className="h-9 w-9 items-center justify-center text-rose-300 hover:text-rose-500"
               onClick={() => {}}
             >
               Remove
@@ -127,21 +151,47 @@ function Watchlist(prop: WatchlistProps) {
   );
 
   return (
-    <div className="flex flex-col pt-4">
-      <div className="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-        <div className="inline-block min-w-full overflow-hidden border-b border-gray-200 align-middle shadow sm:rounded-lg">
-          <table className="min-w-full">
-            <thead>
-              <tr className="border-b border-blue-400 bg-indigo-100 text-left text-xs font-medium uppercase leading-4 tracking-wider text-gray-400">
-                <th className="px-6 py-3 ">Share</th>
-                <th className="px-6 py-3 ">Open</th>
-                <th className="px-6 py-3 ">Daily Change</th>
-                <th className="px-6 py-3 ">Remove</th>
-              </tr>
-            </thead>
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-16">
+      <div className="flex flex-col pt-4">
+        <h1 className="py-2 font-bebas text-lg uppercase text-emerald-800">
+          General
+        </h1>
+        <div className="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <div className="inline-block min-w-full overflow-hidden border-b border-gray-200 align-middle shadow sm:rounded-lg">
+            <table className="min-w-full">
+              <thead>
+                <tr className="border-b border-emerald-400 bg-emerald-100 text-left text-xs font-medium uppercase leading-4 tracking-wider text-gray-400">
+                  <th className="px-2 py-3 sm:px-6 ">Share</th>
+                  <th className="px-2 py-3 sm:px-6 ">Open</th>
+                  <th className="px-2 py-3 sm:px-6 ">Daily Change</th>
+                  <th className="px-2 py-3 sm:px-6 ">Remove</th>
+                </tr>
+              </thead>
 
-            <tbody className="bg-white">{watchlistRowData}</tbody>
-          </table>
+              <tbody className="bg-white">{watchlistRowData}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col pt-4">
+        <h1 className="py-2 font-bebas text-lg uppercase text-fuchsia-800">
+          Tech
+        </h1>
+        <div className="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <div className="inline-block min-w-full overflow-hidden border-b border-gray-200 align-middle shadow sm:rounded-lg">
+            <table className="min-w-full">
+              <thead>
+                <tr className="border-b border-fuchsia-400 bg-fuchsia-100 text-left text-xs font-medium uppercase leading-4 tracking-wider text-gray-400">
+                  <th className="px-2 py-3 sm:px-6 ">Share</th>
+                  <th className="px-2 py-3 sm:px-6 ">Open</th>
+                  <th className="px-2 py-3 sm:px-6 ">Daily Change</th>
+                  <th className="px-2 py-3 sm:px-6 ">Remove</th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white">{watchlistRowData}</tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -187,7 +237,7 @@ export default function WatchlistIndexPage() {
     <div className="p-4">
       <form>
         <SearchBar />
-        {foundResults && <SearchResults results={fakeResults} />}
+        {/* {foundResults && <SearchResults results={fakeResults} />} */}
         {watchlistResults && <Watchlist results={fakeWatchlistData} />}
       </form>
     </div>

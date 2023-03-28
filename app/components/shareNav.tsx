@@ -53,7 +53,11 @@ export default function ShareNav(prop: Props) {
     <div className="rounded-lg border">
       <Form method="post">
         <div className="flex h-12 items-center rounded-lg bg-indigo-100 px-4">
-          <Dropdown options={intervalData} handleSelect={updateStockPeriod} />
+          <Dropdown
+            options={intervalData}
+            handleSelect={updateStockPeriod}
+            type="select-interval"
+          />
           <ul className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,6 @@
 @app
-bahati-a9bd
+# bahati-a9bd
+bahati
 
 @aws
 timeout 15
@@ -33,3 +34,8 @@ user
 
 password
   pk *String # userId
+
+watchlist
+  shareCode *String
+  watchlist **String
+
