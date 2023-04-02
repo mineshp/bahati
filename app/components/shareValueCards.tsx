@@ -68,7 +68,7 @@ export default function ValueCard(props: Props) {
           <div className="text-2xl text-indigo-500 sm:text-3xl">
             £{showProfitLoss ? totalGainLoss?.toLocaleString("en-GB") : "shh"}
           </div>
-          <div className="text-xs text-indigo-400 uppercase">Profit/Loss</div>
+          <div className="text-xs uppercase text-indigo-400">Profit/Loss</div>
         </div>
       </div>
     </div>

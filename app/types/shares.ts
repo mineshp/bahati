@@ -81,3 +81,14 @@ export interface LastDayHighAndDayLow {
   dayHigh: number;
   dayLow: number;
 }
+
+export interface WatchlistShares {
+  shareCode: string;
+  watchlist: string;
+  open: number;
+  dailyChange: number;
+}
+
+export interface WatchlistData {
+  [key: string]: WatchlistShares[];
+}

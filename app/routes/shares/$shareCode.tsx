@@ -26,6 +26,7 @@ import CurrentDayShareHeader from "../../components/currentDayShareHeader";
 import ShareValueCard from "../../components/shareValueCards";
 import InformationBar from "../../components/information";
 import ShareGraph from "../../components/shareGraph";
+import ErrorPage from "../../components/library/error";
 
 type LoaderData = {
   shareHeaderData: Awaited<ReturnType<typeof getShareDataByCode>>;
@@ -163,7 +164,7 @@ export default function SharePage() {
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
 
-  return <div>An unexpected error occurred: {error.message}</div>;
+  return <ErrorPage message={error.message} />;
 }
 
 export function CatchBoundary() {
