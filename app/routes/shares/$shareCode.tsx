@@ -3,7 +3,7 @@ import type {
   LoaderFunction,
   LinksFunction,
 } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { useEffect, useState } from "react";
 import {
   useCatch,
@@ -21,6 +21,7 @@ import {
   getShareDataByCode,
   getSharesByCodeAndPeriod,
 } from "~/models/shares.server";
+import { getUserId } from "~/session.server";
 import type { StockDataByPeriodItems } from "../../types/shares";
 import CurrentDayShareHeader from "../../components/currentDayShareHeader";
 import ShareValueCard from "../../components/shareValueCards";
@@ -38,7 +39,10 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: datepickerCss },
 ];
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const userId = await getUserId(request);
+  if (!userId) return redirect("/login");
+
   invariant(params.shareCode, "Expected params.shareCode");
 
   let shareHeaderData;

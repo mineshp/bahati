@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
-  { name: "Watchlists", href: "/watchlist", current: false },
+  { name: "Watchlists", href: "/watchlist/dashboard", current: false },
 ];
 
 const shares = [

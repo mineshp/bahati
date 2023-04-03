@@ -7,13 +7,15 @@ import {
   useLoaderData,
   useFetcher,
 } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { TrashIcon } from "@heroicons/react/outline";
 import type { WatchlistData } from "../../types/shares";
 import {
   getWatchlists,
   addShareToWatchlist,
   removeShareFromWatchlist,
 } from "~/models/watchlist.server";
+import { getUserId } from "~/session.server";
 import ErrorPage from "../../components/library/error";
 
 type LoaderData = {
@@ -97,7 +99,7 @@ function SearchBar(prop: { shareCodeRef: any; actionData: ActionData }) {
           type="submit"
           name="intent"
           value="add"
-          className="absolute top-0 right-0 rounded-r-lg border border-rose-700 bg-rose-700 p-2.5 text-sm font-medium text-white hover:bg-rose-800 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:bg-rose-400 dark:hover:bg-rose-700 dark:focus:ring-rose-800"
+          className="absolute top-0 right-0 rounded-r-lg border border-rose-500 bg-rose-500 p-2.5 text-sm font-medium text-white hover:bg-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-300 dark:bg-rose-500 dark:hover:bg-rose-600 dark:focus:ring-rose-600"
         >
           <svg
             aria-hidden="true"
@@ -145,7 +147,7 @@ function Watchlist(prop: WatchlistProps) {
                     <th className="px-2 py-3 sm:px-6 ">Share</th>
                     <th className="px-2 py-3 sm:px-6 ">Open</th>
                     <th className="px-2 py-3 sm:px-6 ">Daily Change</th>
-                    <th className="px-2 py-3 sm:px-6 ">Remove</th>
+                    <th className="px-2 py-3 text-center sm:px-6">Remove</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
@@ -171,11 +173,14 @@ function Watchlist(prop: WatchlistProps) {
                         <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
                           <button
                             type="submit"
-                            className="h-9 w-9 items-center justify-center text-rose-300 hover:text-rose-500"
+                            className="mx-auto block items-center justify-center text-rose-300 hover:text-rose-500"
                             name="intent"
                             value={`delete_${shareOverview.shareCode}_${shareOverview.watchlist}`}
                           >
-                            Remove
+                            <TrashIcon
+                              className="w-5 sm:w-6"
+                              aria-hidden="true"
+                            />
                           </button>
                         </td>
                       </tr>
@@ -191,7 +196,10 @@ function Watchlist(prop: WatchlistProps) {
   );
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+  if (!userId) return redirect("/login");
+
   const watchlists = await getWatchlists();
 
   return json({ watchlists });

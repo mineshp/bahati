@@ -48,7 +48,7 @@ export async function addShareToWatchlist(
 ): Promise<void> {
   const db = await arc.tables();
   return db.watchlist.put({
-    shareCode,
+    shareCode: shareCode.toUpperCase(),
     watchlist,
     created: Math.floor(Date.now() / 1000),
   });
