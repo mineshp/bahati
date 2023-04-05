@@ -12,7 +12,6 @@ import {
   useParams,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import datepickerCss from "react-datepicker/dist/react-datepicker.css";
 import {
   mockGetShareDataByCode,
   mockGetSharesByCodeAndPeriod,
@@ -35,9 +34,7 @@ type LoaderData = {
   totalSharesByCode: Awaited<ReturnType<typeof getSharesByCode>>;
 };
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: datepickerCss },
-];
+export const links: LinksFunction = () => [];
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const userId = await getUserId(request);
