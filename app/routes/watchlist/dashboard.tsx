@@ -9,7 +9,7 @@ import {
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { TrashIcon } from "@heroicons/react/outline";
-import type { WatchlistData } from "../../types/shares";
+import type { WatchlistData, SharesToWatch } from "../../types/shares";
 import {
   getWatchlists,
   addShareToWatchlist,
@@ -17,6 +17,8 @@ import {
 } from "~/models/watchlist.server";
 import { getUserId } from "~/session.server";
 import ErrorPage from "../../components/library/error";
+import { currencySymbol } from "../../utils/shares";
+import Alert from "../../components/library/alert";
 
 type LoaderData = {
   watchlists: Awaited<ReturnType<typeof getWatchlists>>;
@@ -129,6 +131,26 @@ interface WatchlistProps {
   results: WatchlistData;
 }
 
+function showShareValueJumpOrDropIndicators(value: number) {
+  return value && value > 0 ? "text-green-600" : "text-red-700";
+}
+
+function displayPriceWithCurrency(
+  currency: string | undefined,
+  value: number | undefined
+): string {
+  switch (currency) {
+    case "USD":
+      return `${currencySymbol(currency)}${value?.toFixed(2)}`;
+    case "GBp":
+      return `${value?.toFixed(2)}${currencySymbol(currency)}`;
+    case "EUR":
+      return `${currencySymbol(currency)} ${value?.toFixed(2)}`;
+    default:
+      return "";
+  }
+}
+
 function Watchlist(prop: WatchlistProps) {
   const keys = Object.keys(prop.results);
 
@@ -146,29 +168,77 @@ function Watchlist(prop: WatchlistProps) {
                   <tr className="border-b border-emerald-400 bg-emerald-100 text-left text-xs font-medium uppercase leading-4 tracking-wider text-gray-400">
                     <th className="px-2 py-3 sm:px-6 ">Share</th>
                     <th className="px-2 py-3 sm:px-6 ">Open</th>
+                    <th className="hidden px-2 py-3 sm:table-cell sm:px-6">
+                      52 Week Range
+                    </th>
                     <th className="px-2 py-3 sm:px-6 ">Daily Change</th>
+                    <th className="px-2 py-3 sm:px-6 ">Daily Change (%)</th>
                     <th className="px-2 py-3 text-center sm:px-6">Remove</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white">
                   {prop.results[key].map(
-                    (shareOverview: {
-                      shareCode: string;
-                      open: number;
-                      dailyChange: number;
-                      watchlist: string;
-                    }) => (
+                    (
+                      shareOverview: Pick<
+                        SharesToWatch,
+                        | "shareCode"
+                        | "currency"
+                        | "regularMarketOpen"
+                        | "regularMarketChange"
+                        | "regularMarketChangePercent"
+                        | "watchlist"
+                        | "fiftyTwoWeekRange"
+                      >
+                    ) => (
                       <tr
                         key={`${shareOverview.shareCode}_${shareOverview.watchlist}`}
+                        className={`
+                          ${
+                            shareOverview.regularMarketOpen
+                              ? "bg-white text-cyan-700"
+                              : "bg-gray-100 text-gray-800"
+                          }
+                        `}
                       >
                         <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
                           {shareOverview.shareCode}
                         </td>
-                        <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
-                          {shareOverview.open}
+                        <td
+                          className={`whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-gray-400  sm:px-6`}
+                        >
+                          {displayPriceWithCurrency(
+                            shareOverview?.currency,
+                            shareOverview.regularMarketOpen
+                          ) ?? "Stock not found"}
                         </td>
-                        <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
-                          {shareOverview.dailyChange}
+                        <td
+                          className={`whitespace-no-wrap hidden border-b border-gray-200 px-2 py-4 text-sm text-gray-400 sm:table-cell sm:px-6`}
+                        >
+                          {shareOverview?.fiftyTwoWeekRange}
+                        </td>
+                        <td
+                          className={`whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm ${
+                            shareOverview?.regularMarketChange &&
+                            showShareValueJumpOrDropIndicators(
+                              shareOverview?.regularMarketChange
+                            )
+                          } sm:px-6`}
+                        >
+                          {displayPriceWithCurrency(
+                            shareOverview?.currency,
+                            shareOverview?.regularMarketChange
+                          )}
+                        </td>
+                        <td
+                          className={`whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-gray-400 ${
+                            shareOverview?.regularMarketChangePercent &&
+                            showShareValueJumpOrDropIndicators(
+                              shareOverview?.regularMarketChangePercent
+                            )
+                          } sm:px-6`}
+                        >
+                          {shareOverview.regularMarketChangePercent?.toFixed(2)}
+                          %
                         </td>
                         <td className="whitespace-no-wrap border-b border-gray-200 px-2 py-4 text-sm text-cyan-700 sm:px-6">
                           <button
@@ -201,7 +271,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!userId) return redirect("/login");
 
   const watchlists = await getWatchlists();
-
   return json({ watchlists });
 };
 
@@ -236,7 +305,6 @@ export default function WatchlistDashboardPage() {
   const { watchlists } = useLoaderData() as LoaderData;
   const fetcher = useFetcher();
 
-  const [watchlistResults, setWatchlistResults] = useState(true);
   const [watchlistRes, setWatchlistRes] = useState<WatchlistData>({});
 
   useEffect(() => {
@@ -263,8 +331,16 @@ export default function WatchlistDashboardPage() {
     <div className="p-4">
       <Form reloadDocument method="post">
         <SearchBar shareCodeRef={shareCodeRef} actionData={actionData} />
-        {/* {foundResults && <SearchResults results={fakeResults} />} */}
-        {watchlistResults && <Watchlist results={watchlistRes} />}
+        {Object.keys(watchlistRes).length > 0 ? (
+          <Watchlist results={watchlistRes} />
+        ) : (
+          <div className="mt-4">
+            <Alert
+              heading="No watchlists setup"
+              subHeading="Add shares to watchlists, to start tracking."
+            />
+          </div>
+        )}
       </Form>
     </div>
   );

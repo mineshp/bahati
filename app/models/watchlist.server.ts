@@ -1,52 +1,15 @@
 import _ from "lodash";
-// import memoizee from "memoizee";
+import memoizee from "memoizee";
 import arc from "@architect/functions";
-import type { WatchlistData } from "../types/shares";
-
-// const mockWatchlists = {
-//   general: [
-//     {
-//       name: "AMZN",
-//       open: 213.88,
-//       dailyChange: 12.2,
-//     },
-//     {
-//       name: "FOO",
-//       open: 123.88,
-//       dailyChange: 12.2,
-//     },
-//   ],
-//   tech: [
-//     {
-//       name: "BAR",
-//       open: 13.12,
-//       dailyChange: 2.2,
-//     },
-//     {
-//       name: "BAZ",
-//       open: 89.76,
-//       dailyChange: -3.4,
-//     },
-//     {
-//       name: "ZOO",
-//       open: 198,
-//       dailyChange: 2.56,
-//     },
-//   ],
-// };
-
-export async function getWatchlists(): Promise<WatchlistData> {
-  const db = await arc.tables();
-  const result = await db.watchlist.scan({});
-
-  return _.chain(result.Items).sortBy("name").groupBy("watchlist").value();
-}
+import type { WatchlistData, WatchlistTrackerDataItems } from "../types/shares";
+import { mockWatchlistData } from "~/mocks/mockWatchlistData";
 
 export async function addShareToWatchlist(
   shareCode: string,
   watchlist: string
 ): Promise<void> {
   const db = await arc.tables();
+
   return db.watchlist.put({
     shareCode: shareCode.toUpperCase(),
     watchlist,
@@ -66,3 +29,88 @@ export async function removeShareFromWatchlist(
   });
   return;
 }
+
+const getShareDataForWatchlists = memoizee(
+  async function getShareWatchlists(
+    symbols: string[]
+  ): Promise<WatchlistTrackerDataItems> {
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": process.env.SHARE_API_KEY ?? "abc",
+        "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+      },
+    };
+
+    const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=GB&symbols=${symbols.join(
+      ","
+    )}`;
+
+    const response = await fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => response)
+      .catch((err) => console.error(err));
+
+    return _.chain(response.quoteResponse.result)
+      .map((x) =>
+        _.pick(x, [
+          "symbol",
+          "currency",
+          "regularMarketOpen",
+          "regularMarketChange",
+          "regularMarketChangePercent",
+          "fiftyTwoWeekRange",
+        ])
+      )
+      .value();
+  },
+  {
+    maxAge: 21600 * 1000,
+    promise: true,
+  }
+);
+
+export async function getWatchlists(): Promise<WatchlistData> {
+  const db = await arc.tables();
+  const result = await db.watchlist.scan({});
+
+  const symbols = _.map(result.Items, "shareCode");
+
+  let getWatchlistShareData = [{ symbol: "default" }];
+  if (process.env.NODE_ENV === "development") {
+    getWatchlistShareData = await mockWatchlistShareData([]);
+  } else {
+    getWatchlistShareData = await getShareDataForWatchlists(symbols);
+  }
+
+  return _.chain(result.Items)
+    .map((data) => ({
+      ...getWatchlistShareData?.find(({ symbol }) => data.shareCode === symbol),
+      ...data,
+    }))
+    .sortBy("shareCode")
+    .groupBy("watchlist")
+    .value();
+}
+
+export async function mockWatchlistShareData(
+  symbols: string[]
+): Promise<WatchlistTrackerDataItems> {
+  const res = new Response(JSON.stringify(mockWatchlistData(symbols)));
+  const data = await res.json();
+
+  return _.chain(data.quoteResponse.result)
+    .map((x) =>
+      _.pick(x, [
+        "symbol",
+        "currency",
+        "regularMarketOpen",
+        "regularMarketChange",
+        "regularMarketChangePercent",
+        "fiftyTwoWeekRange",
+      ])
+    )
+    .value();
+}
+
+export { getShareDataForWatchlists };
