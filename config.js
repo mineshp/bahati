@@ -4,7 +4,7 @@
 
 module.exports = {
   build: {
-    // Exclude lodash from the bundle
+    // Exclude from the bundle
     esbuildExternals: ["aws-sdk"],
   },
 };
