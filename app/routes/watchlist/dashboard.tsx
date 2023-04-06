@@ -9,7 +9,7 @@ import {
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { TrashIcon } from "@heroicons/react/outline";
-import type { WatchlistData, SharesToWatch } from "../../types/shares";
+import type { WatchlistData, SharesToWatch } from "../../types/watchlist";
 import {
   getWatchlists,
   addShareToWatchlist,

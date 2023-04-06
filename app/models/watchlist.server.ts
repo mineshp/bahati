@@ -1,8 +1,11 @@
 import _ from "lodash";
 import memoizee from "memoizee";
 import arc from "@architect/functions";
-import type { WatchlistData, WatchlistTrackerDataItems } from "../types/shares";
-import { mockWatchlistData } from "~/mocks/data/mockWatchlistData";
+import type {
+  WatchlistData,
+  WatchlistTrackerDataItems,
+} from "../types/watchlist";
+import { mockWatchlistData } from "../mocks/data/mockWatchlistData";
 
 export async function addShareToWatchlist(
   shareCode: string,
