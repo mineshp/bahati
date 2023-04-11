@@ -12,7 +12,7 @@ describe("Access to shareCodes route", () => {
     cy.get('[data-cy="Dashboard"]').click();
     cy.get('[data-cy="share-links"]').find("a").should("have.length", 8);
     cy.get('[data-cy="share-links"]').find("a").first().click({ force: true });
-    cy.url().should("be.equal", "http://localhost:3000/shares/VOW3.DE");
+    cy.url().should("be.equal", `${Cypress.config("baseUrl")}shares/VOW3.DE`);
   });
 
   it("fails and returns 404 when going to non existant route", () => {
@@ -25,7 +25,7 @@ describe("Access to shareCodes route", () => {
 
   it("fails and redirects to login page when user not logged in", () => {
     cy.visit("shares/VOW3.DE");
-    cy.url().should("be.equal", "http://localhost:3000/login");
+    cy.url().should("be.equal", `${Cypress.config("baseUrl")}login`);
     cy.findByRole("button", { name: /Log in/i });
   });
 });
@@ -41,7 +41,7 @@ describe("User can", () => {
       name: /shares/i,
     }).click();
     cy.contains("VOW.DE").click();
-    cy.url().should("be.equal", "http://localhost:3000/shares/VOW3.DE");
+    cy.url().should("be.equal", `${Cypress.config("baseUrl")}shares/VOW3.DE`);
   });
 
   it("view share header, displaying currect stock information", () => {

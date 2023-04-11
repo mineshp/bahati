@@ -11,7 +11,7 @@ describe("login", () => {
     cy.login();
     cy.get("body").find("nav");
     cy.get("nav a").first().should("have.attr", "href");
-    cy.url().should("be.equal", "http://localhost:3000/");
+    cy.url().should("be.equal", Cypress.config("baseUrl"));
   });
 
   it("fails with password too short", () => {

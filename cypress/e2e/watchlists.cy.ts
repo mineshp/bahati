@@ -11,7 +11,10 @@ describe("Access to watchlists route", () => {
     cy.login();
     cy.get('[data-cy="Watchlists"]').click();
     cy.contains("No watchlists setup").should("be.visible");
-    cy.url().should("be.equal", "http://localhost:3000/watchlist/dashboard");
+    cy.url().should(
+      "be.equal",
+      `${Cypress.config("baseUrl")}watchlist/dashboard`
+    );
   });
 
   it("fails and returns 404 when going to non existant route", () => {
@@ -25,7 +28,7 @@ describe("Access to watchlists route", () => {
 
   it("fails and redirects to login page when user not logged in", () => {
     cy.visit("watchlist/dashboard");
-    cy.url().should("be.equal", "http://localhost:3000/login");
+    cy.url().should("be.equal", `${Cypress.config("baseUrl")}login`);
     cy.findByRole("button", { name: /Log in/i });
   });
 });

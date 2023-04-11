@@ -39,14 +39,14 @@ function login() {
   cy.findByRole("textbox", { name: /username/i }).type("testcy");
   cy.findByLabelText(/password/i).type("password");
   cy.findByRole("button", { name: /Log in/i }).click();
-  cy.url().should("be.equal", "http://localhost:3000/");
+  cy.url().should("be.equal", Cypress.config("baseUrl"));
 }
 
 function logout(waitTime: number = 1000) {
   cy.visitAndCheck("/");
   cy.get('[data-cy="profile"]').click({ force: true });
   cy.get('[data-cy="signout"]').click({ force: true });
-  cy.url().should("be.equal", "http://localhost:3000/login");
+  cy.url().should("be.equal", `${Cypress.config("baseUrl")}login`);
   cy.findByRole("button", { name: /Log in/i });
 }
 
