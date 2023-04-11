@@ -41,7 +41,7 @@ export default function TableData(prop: Props) {
     <div className="flex flex-col p-4">
       <div className="-my-2 overflow-x-auto py-2 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="inline-block min-w-full overflow-hidden border-b border-gray-200 align-middle shadow sm:rounded-lg">
-          <table className="min-w-full">
+          <table className="min-w-full" id="tableFormat">
             <thead>
               <tr className="border-b border-blue-400 bg-indigo-100 text-left text-xs font-medium uppercase leading-4 tracking-wider text-gray-400">
                 <th className="px-6 py-3 ">Date</th>

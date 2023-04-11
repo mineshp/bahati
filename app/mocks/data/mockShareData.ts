@@ -1,4 +1,4 @@
-import type { StockData } from "../types/shares";
+import type { StockData } from "../../types/shares";
 
 const mockShareHeaderData: { [key: string]: StockData } = {
   TSLA: {

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon, UserIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import React from "react";
 
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
@@ -79,6 +80,7 @@ export default function NavBar(props: Props) {
                             : "text-white hover:bg-rose-600 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
+                        data-cy={item.name}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}

@@ -1,4 +1,4 @@
-import type { TotalShareItemsByCodePre } from "../types/shares";
+import type { TotalShareItemsByCodePre } from "../../types/shares";
 import * as mockPurchasedShareData from "./mockCurrentStocks.json";
 
 export function mockPurchasedShareDate(code: string): TotalShareItemsByCodePre {

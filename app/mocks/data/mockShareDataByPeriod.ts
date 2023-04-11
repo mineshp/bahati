@@ -1,9 +1,9 @@
 import _ from "lodash";
-import type { StockDataByPeriodItems } from "../types/shares";
+import type { StockDataByPeriodItems } from "../../types/shares";
 import {
   calcGainLossDailyPercentage,
   calcGainLossDailyValue,
-} from "../utils/shares";
+} from "../../utils/shares";
 
 function randomNumber(min: number, max: number) {
   return Math.random() * (max - min) + min;

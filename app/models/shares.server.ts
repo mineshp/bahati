@@ -11,10 +11,10 @@ import {
   calcGainLossDailyValue,
 } from "../utils/shares";
 import { toMilliseconds } from "../utils/date";
-import { mockShareData } from "../mocks/mockShareData";
-import { mockShareDataByPeriod } from "../mocks/mockShareDataByPeriod";
-import { mockExchangeRates } from "../mocks/mockExchangeRates";
-import { mockPurchasedShareDate } from "~/mocks/mockPurchasedShareDataByCode";
+import { mockShareData } from "../mocks/data/mockShareData";
+import { mockShareDataByPeriod } from "../mocks/data/mockShareDataByPeriod";
+import { mockExchangeRates } from "../mocks/data/mockExchangeRates";
+import { mockPurchasedShareDate } from "~/mocks/data/mockPurchasedShareDataByCode";
 
 export async function getMockExchangeRates(
   baseCurrency: string

@@ -19,6 +19,7 @@ import { getUserId } from "~/session.server";
 import ErrorPage from "../../components/library/error";
 import { currencySymbol } from "../../utils/shares";
 import Alert from "../../components/library/alert";
+import React from "react";
 
 type LoaderData = {
   watchlists: Awaited<ReturnType<typeof getWatchlists>>;
@@ -57,6 +58,7 @@ function SearchBar(prop: { shareCodeRef: any; actionData: ActionData }) {
           name="watchlistName"
           data-te-select-init
           onChange={(e) => {}}
+          data-cy="watchlist-select"
           className="block rounded-l-lg border border-rose-500 bg-rose-500 p-[9.5px] text-white hover:bg-rose-600 focus:border-rose-600 focus:ring-rose-600"
         >
           {watchlistGroups.map(({ id, name, value }) => (
@@ -101,6 +103,7 @@ function SearchBar(prop: { shareCodeRef: any; actionData: ActionData }) {
           type="submit"
           name="intent"
           value="add"
+          data-cy="add"
           className="absolute top-0 right-0 rounded-r-lg border border-rose-500 bg-rose-500 p-2.5 text-sm font-medium text-white hover:bg-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-300 dark:bg-rose-500 dark:hover:bg-rose-600 dark:focus:ring-rose-600"
         >
           <svg
@@ -246,6 +249,7 @@ function Watchlist(prop: WatchlistProps) {
                             className="mx-auto block items-center justify-center text-rose-300 hover:text-rose-500"
                             name="intent"
                             value={`delete_${shareOverview.shareCode}_${shareOverview.watchlist}`}
+                            data-cy="remove"
                           >
                             <TrashIcon
                               className="w-5 sm:w-6"

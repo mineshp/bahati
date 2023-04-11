@@ -53,6 +53,7 @@ export default function ValueCard(props: Props) {
             showCurrent ? "" : "blur-sm"
           }`}
           onClick={handleToggleCurrent}
+          data-cy="currentValue"
         >
           <div className="text-2xl text-rose-500 sm:text-3xl">
             £{showCurrent ? totalCurrentValue?.toLocaleString("en-GB") : "shh"}
@@ -64,6 +65,7 @@ export default function ValueCard(props: Props) {
             showProfitLoss ? "" : "blur-sm"
           }`}
           onClick={handleToggleProfitLoss}
+          data-cy="profitLoss"
         >
           <div className="text-2xl text-indigo-500 sm:text-3xl">
             £{showProfitLoss ? totalGainLoss?.toLocaleString("en-GB") : "shh"}

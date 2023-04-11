@@ -9,6 +9,7 @@ interface Props {
   options: Options[];
   handleSelect: (range: string, interval: string) => any;
   type: string;
+  name: string;
 }
 
 // TODO: Move to utility function
@@ -37,6 +38,7 @@ export default function Dropdown(prop: Props) {
             prop.handleSelect(e.target.value, getInterval(e.target.value))
           }
           className="block rounded-md border border-rose-300 bg-rose-300 p-2 text-white hover:bg-rose-600 focus:border-rose-600 focus:ring-rose-600"
+          name={prop.name}
         >
           {prop.options.map(({ id, name, value }) => (
             <option key={id} value={value}>

@@ -214,7 +214,7 @@ export default function InformationBar(prop: Props) {
   return (
     <div className="grid grid-cols-3 gap-2 p-4 text-sm sm:gap-8 lg:grid-cols-6">
       {items?.map(({ label, key, icon, tooltip }) => (
-        <div key={key}>
+        <div key={key} data-cy={`pill-${key}`}>
           <Pill data={label} icon={icon} tooltip={tooltip} />
         </div>
       ))}

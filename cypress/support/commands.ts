@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+export {};
 
 declare global {
   namespace Cypress {
@@ -39,13 +39,14 @@ function login() {
   cy.findByRole("textbox", { name: /username/i }).type("testcy");
   cy.findByLabelText(/password/i).type("password");
   cy.findByRole("button", { name: /Log in/i }).click();
+  cy.url().should("be.equal", "http://localhost:3000/");
 }
 
 function logout(waitTime: number = 1000) {
   cy.visitAndCheck("/");
   cy.get('[data-cy="profile"]').click({ force: true });
   cy.get('[data-cy="signout"]').click({ force: true });
-  cy.location("pathname").should("contain", "/login").wait(waitTime);
+  cy.url().should("be.equal", "http://localhost:3000/login");
   cy.findByRole("button", { name: /Log in/i });
 }
 

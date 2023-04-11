@@ -13,6 +13,11 @@ function hydrate() {
   });
 }
 
+// if (process.env.NODE_ENV === "development") {
+//   const { worker } = require("../mocks/browser");
+//   worker.start();
+// }
+
 if (window.requestIdleCallback) {
   window.requestIdleCallback(hydrate);
 } else {

@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Index() {
   return (
-    <main className="z-10 antialiased">
+    <main className="z-15 antialiased">
       <div className="flex h-96 flex-wrap bg-[url('/_static/ubud-capella.jpg')] bg-cover p-8 opacity-80">
         <div className="content-center items-center self-center text-left font-oswald text-3xl sm:text-3xl md:text-4xl lg:text-5xl">
           <div className="p-2 opacity-80">

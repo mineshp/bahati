@@ -57,6 +57,7 @@ export default function ShareNav(prop: Props) {
             options={intervalData}
             handleSelect={updateStockPeriod}
             type="select-interval"
+            name="shareInterval"
           />
           <ul className="flex items-center">
             <svg
@@ -80,6 +81,7 @@ export default function ShareNav(prop: Props) {
                   type="button"
                   className="h-9 w-9 items-center justify-center text-indigo-300 hover:text-indigo-500"
                   onClick={() => handleDisplayMode("table")}
+                  aria-label="Toggle chart"
                 >
                   <ChartBarIcon
                     className="h-6 w-6 sm:h-8 sm:w-8"
@@ -91,6 +93,7 @@ export default function ShareNav(prop: Props) {
                   type="button"
                   className="h-9 w-9 items-center text-indigo-300 hover:text-indigo-500"
                   onClick={() => handleDisplayMode("chart")}
+                  aria-label="Toggle chart"
                 >
                   <TableIcon className="h-8 w-8" aria-hidden="true" />
                 </button>

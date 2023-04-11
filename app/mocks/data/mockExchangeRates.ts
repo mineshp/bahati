@@ -1,4 +1,4 @@
-import type { ExchangeRate } from "../types/shares";
+import type { ExchangeRate } from "../../types/shares";
 
 export function mockExchangeRates(baseCode: string): ExchangeRate {
   const rates: { [key: string]: ExchangeRate } = {
