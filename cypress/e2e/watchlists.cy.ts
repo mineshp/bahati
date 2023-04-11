@@ -16,7 +16,7 @@ describe("Access to watchlists route", () => {
 
   it("fails and returns 404 when going to non existant route", () => {
     cy.login();
-    cy.visit("http://localhost:3000/watchlist/dashboard/unknown", {
+    cy.visit("watchlist/dashboard/unknown", {
       failOnStatusCode: false,
     });
     cy.contains("Page not found").should("be.visible");
@@ -24,7 +24,7 @@ describe("Access to watchlists route", () => {
   });
 
   it("fails and redirects to login page when user not logged in", () => {
-    cy.visit("http://localhost:3000/watchlist/dashboard");
+    cy.visit("watchlist/dashboard");
     cy.url().should("be.equal", "http://localhost:3000/login");
     cy.findByRole("button", { name: /Log in/i });
   });

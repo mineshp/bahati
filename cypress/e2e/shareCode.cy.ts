@@ -11,20 +11,20 @@ describe("Access to shareCodes route", () => {
     cy.login();
     cy.get('[data-cy="Dashboard"]').click();
     cy.get('[data-cy="share-links"]').find("a").should("have.length", 8);
-    cy.get('[data-cy="share-links"]').find("a").first().click();
+    cy.get('[data-cy="share-links"]').find("a").first().click({ force: true });
     cy.url().should("be.equal", "http://localhost:3000/shares/VOW3.DE");
   });
 
   it("fails and returns 404 when going to non existant route", () => {
     cy.login();
-    cy.visit("http://localhost:3000/shares/UNKNOWN", {
+    cy.visit("shares/UNKNOWN", {
       failOnStatusCode: false,
     });
     cy.findByRole("link", { name: /Let's go Home/ }).click({ force: true });
   });
 
   it("fails and redirects to login page when user not logged in", () => {
-    cy.visit("http://localhost:3000/shares/VOW3.DE");
+    cy.visit("shares/VOW3.DE");
     cy.url().should("be.equal", "http://localhost:3000/login");
     cy.findByRole("button", { name: /Log in/i });
   });
