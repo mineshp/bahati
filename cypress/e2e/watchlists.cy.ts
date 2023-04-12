@@ -9,7 +9,7 @@ describe("Access to watchlists route", () => {
 
   it("is successful when user logged in", () => {
     cy.login();
-    cy.get('[data-cy="Watchlists"]').click();
+    cy.get('[data-cy="Watchlist"]').click();
     cy.contains("No watchlists setup").should("be.visible");
     cy.url().should(
       "be.equal",
@@ -36,7 +36,7 @@ describe("Access to watchlists route", () => {
 describe("User can", () => {
   beforeEach(() => {
     cy.login();
-    cy.get('[data-cy="Watchlists"]').click();
+    cy.get('[data-cy="Watchlist"]').click();
 
     cy.contains("No watchlists setup").should("be.visible");
     cy.get('[data-cy="watchlist-select"]').wait(200); // Dropdown is disabled initially
