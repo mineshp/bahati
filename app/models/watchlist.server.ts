@@ -1,4 +1,5 @@
 import _ from "lodash";
+import type { DocumentClient } from "aws-sdk/clients/dynamodb";
 import memoizee from "memoizee";
 import arc from "@architect/functions";
 import type {
@@ -20,17 +21,17 @@ export async function addShareToWatchlist(
   });
 }
 
+type DeleteItemOutput = DocumentClient.DeleteItemOutput;
+
 export async function removeShareFromWatchlist(
   shareCode: string,
   watchlist: string
-): Promise<void> {
+): Promise<DeleteItemOutput> {
   const db = await arc.tables();
-  // TODO: Check what delete returns, type void not correct
-  await db.watchlist.delete({
+  return await db.watchlist.delete({
     shareCode,
     watchlist,
   });
-  return;
 }
 
 const getShareDataForWatchlists = memoizee(

@@ -46,3 +46,18 @@ export function formatDateForDisplay(date: number | string) {
 export function toMilliseconds(timestamp: number) {
   return timestamp * 1000;
 }
+
+export function getInterval(range: string): string {
+  switch (range) {
+    case "5d":
+      return "1d";
+    case "1m":
+      return "1w";
+    case "3m":
+      return "1w";
+    case "1y":
+      return "1m";
+    default:
+      return "1d";
+  }
+}

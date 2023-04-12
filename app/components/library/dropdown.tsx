@@ -1,3 +1,5 @@
+import { getInterval } from "~/utils/date";
+
 interface Options {
   id: number;
   name: string;
@@ -10,22 +12,6 @@ interface Props {
   handleSelect: (range: string, interval: string) => void;
   type: string;
   name: string;
-}
-
-// TODO: Move to utility function
-function getInterval(range: string): string {
-  switch (range) {
-    case "5d":
-      return "1d";
-    case "1m":
-      return "1w";
-    case "3m":
-      return "1w";
-    case "1y":
-      return "1m";
-    default:
-      return "1d";
-  }
 }
 
 export default function Dropdown(prop: Props) {
