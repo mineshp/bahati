@@ -20,7 +20,7 @@ import { Line } from "react-chartjs-2";
 interface Props {
   shareCode: string;
   shareData: StockDataByPeriodItems;
-  originalData: TotalShareItemsByCode;
+  shareInfoHeld: TotalShareItemsByCode;
   interval: string;
 }
 
@@ -36,7 +36,7 @@ ChartJS.register(
 );
 
 export default function Chart(prop: Props) {
-  const { shareCode, shareData, originalData, interval } = prop;
+  const { shareCode, shareData, shareInfoHeld, interval } = prop;
 
   const graphPeriod: { [key: string]: string } = {
     "1d": "days",
@@ -90,7 +90,7 @@ export default function Chart(prop: Props) {
     },
   ];
 
-  const purchaseHistoryLines = originalData.map(
+  const purchaseHistoryLines = shareInfoHeld.map(
     ({ originalCostPrice, totalShares, purchaseDate }) => ({
       label: `${totalShares} bought on ${purchaseDate}`,
       data: shareData.map(() => originalCostPrice),

@@ -17,10 +17,10 @@ export default function TableData(prop: Props) {
           {formatDateForDisplay(shareRecord.timestamp)}
         </td>
         <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
-          {shareRecord.open.toFixed(3)}
+          {(shareRecord.open as number).toFixed(3)}
         </td>
         <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
-          {shareRecord.close.toFixed(3)}
+          {(shareRecord.close as number).toFixed(3)}
         </td>
         <td className="whitespace-no-wrap border-b border-gray-200 px-6 py-4 text-sm text-cyan-800">
           {shareRecord?.gainLossValue}
@@ -29,10 +29,10 @@ export default function TableData(prop: Props) {
           {shareRecord?.gainLossPercentage}%
         </td>
         <td className="whitespace-no-wrap hidden border-b border-gray-200 px-6 py-4 text-sm text-cyan-800 md:table-cell">
-          {shareRecord.high.toFixed(3)}
+          {(shareRecord.high as number).toFixed(3)}
         </td>
         <td className="whitespace-no-wrap hidden border-b border-gray-200 px-6 py-4 text-sm text-cyan-800 md:table-cell">
-          {shareRecord.low.toFixed(3)}
+          {(shareRecord.low as number).toFixed(3)}
         </td>
       </tr>
     );

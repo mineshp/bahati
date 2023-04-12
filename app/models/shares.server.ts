@@ -3,6 +3,7 @@ import memoizee from "memoizee";
 import type {
   StockData,
   StockDataByPeriodItems,
+  StockDataByPeriodItem,
   TotalSharesItem,
   ExchangeRate,
 } from "../types/shares";
@@ -135,24 +136,32 @@ const getSharesByCodeAndPeriod = memoizee(
         )
       )
       .then((stockByPeriod) => {
-        return stockByPeriod.map((rec: any, i: number) => {
-          const previousDay = stockByPeriod[i - 1];
-          let gainLossValue = 0;
-          let gainLossPercentage = 0;
-          if (previousDay?.close) {
-            gainLossValue = calcGainLossDailyValue(
-              previousDay?.close as number,
-              rec?.open as number
-            );
-            gainLossPercentage = Number(
-              calcGainLossDailyPercentage(
+        return stockByPeriod.map(
+          (
+            rec: Pick<
+              StockDataByPeriodItem,
+              "timestamp" | "close" | "high" | "open" | "low"
+            >,
+            i: number
+          ) => {
+            const previousDay = stockByPeriod[i - 1];
+            let gainLossValue = 0;
+            let gainLossPercentage = 0;
+            if (previousDay?.close) {
+              gainLossValue = calcGainLossDailyValue(
                 previousDay?.close as number,
                 rec?.open as number
-              )
-            );
+              );
+              gainLossPercentage = Number(
+                calcGainLossDailyPercentage(
+                  previousDay?.close as number,
+                  rec?.open as number
+                )
+              );
+            }
+            return { ...rec, gainLossValue, gainLossPercentage };
           }
-          return { ...rec, gainLossValue, gainLossPercentage };
-        });
+        );
       })
       .catch((err) => console.error(err));
 
@@ -177,7 +186,7 @@ export async function mockGetSharesByCodeAndPeriod(
 const getSharesByCode = memoizee(
   async function getSharesByCode(
     code: string
-  ): Promise<TotalSharesItem[] | any> {
+  ): Promise<TotalSharesItem[] | unknown> {
     const url = `${process.env.STOCK_BUCKET}/dev/api/stock-info`;
     const options = {
       method: "GET",
@@ -210,7 +219,7 @@ const getSharesByCode = memoizee(
 
 export async function mockGetSharesByCode(
   code: string
-): Promise<TotalSharesItem[] | any> {
+): Promise<TotalSharesItem[]> {
   const res = new Response(JSON.stringify(mockPurchasedShareDate(code)));
 
   const data = await res.json();

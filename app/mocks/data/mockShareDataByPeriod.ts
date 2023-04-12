@@ -1,5 +1,8 @@
 import _ from "lodash";
-import type { StockDataByPeriodItems } from "../../types/shares";
+import type {
+  StockDataByPeriodItems,
+  StockInfoByPeriodFromAPI,
+} from "../../types/shares";
 import {
   calcGainLossDailyPercentage,
   calcGainLossDailyValue,
@@ -85,7 +88,7 @@ function createFakeData(
     })
   );
 
-  return stockByPeriod.map((rec: any, i: number) => {
+  return stockByPeriod.map((rec: StockInfoByPeriodFromAPI, i: number) => {
     const previousDay = stockByPeriod[i - 1];
     let gainLossValue = 0;
     let gainLossPercentage = 0;

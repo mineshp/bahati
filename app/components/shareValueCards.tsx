@@ -35,7 +35,7 @@ export default function ValueCard(props: Props) {
       calcTotalShareValue(
         shareData.totalShares,
         currentPrice,
-        shareData.exchangeRate
+        shareData.exchangeRate as number
       )
     );
     return acc + valueSpent;

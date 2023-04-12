@@ -21,7 +21,10 @@ import {
   getSharesByCodeAndPeriod,
 } from "~/models/shares.server";
 import { getUserId } from "~/session.server";
-import type { StockDataByPeriodItems } from "../../types/shares";
+import type {
+  StockDataByPeriodItems,
+  TotalShareItemsByCode,
+} from "../../types/shares";
 import CurrentDayShareHeader from "../../components/currentDayShareHeader";
 import ShareValueCard from "../../components/shareValueCards";
 import InformationBar from "../../components/information";
@@ -141,7 +144,7 @@ export default function SharePage() {
           data={shareHeaderData}
         />
         <InformationBar
-          exchangeData={totalSharesByCode}
+          exchangeData={totalSharesByCode as TotalShareItemsByCode}
           shareData={shareHeaderData}
         />
         <ShareGraph
@@ -151,11 +154,11 @@ export default function SharePage() {
           handleStockPeriod={handleStockPeriod}
           interval={interval}
           shareDataByPeriod={shareDataByPeriod}
-          totalSharesByCode={totalSharesByCode}
+          totalSharesByCode={totalSharesByCode as TotalShareItemsByCode}
         />
         <ShareValueCard
           currentPrice={Number(shareHeaderData.currentPrice)}
-          shareData={totalSharesByCode}
+          shareData={totalSharesByCode as TotalShareItemsByCode}
         />
       </div>
     )

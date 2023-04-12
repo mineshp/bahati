@@ -10,39 +10,17 @@ export interface StockData {
   fiftyTwoWeekChange: string;
 }
 
-export interface StockDataByPeriodFromAPIItem {
-  "Adj Close": number;
-  Close: number;
-  Date: number;
-  High: number;
-  Low: number;
-  Open: number;
-  Volume: number;
-  gainLossValue: number;
-  gainLossPercentage: number;
-}
-
 export interface StockDataByPeriodItem {
-  close: number;
+  close: number | unknown;
   timestamp: number;
-  high: number;
-  low: number;
-  open: number;
+  high: number | unknown;
+  low: number | unknown;
+  open: number | unknown;
   gainLossValue?: number | undefined;
   gainLossPercentage?: number | undefined;
 }
 
-export interface StockDataByPeriodItemFromAPI {
-  close: number;
-  timestamp: number;
-  high: number;
-  low: number;
-  open: number;
-}
-
 export interface StockDataByPeriodItems extends Array<StockDataByPeriodItem> {}
-export interface StockDataByPeriodFromAPIItems
-  extends Array<StockDataByPeriodFromAPIItem> {}
 
 export interface TotalSharesItem {
   code: string;
@@ -51,7 +29,7 @@ export interface TotalSharesItem {
   account: string;
   purchaseDate: string;
   currency: string;
-  exchangeRate: number;
+  exchangeRate: number | undefined;
   purchaseExchangeRate: number;
 }
 
@@ -60,17 +38,38 @@ export interface TotalShareItemsAll {
   [key: string]: TotalShareItemsByCode;
 }
 
-export interface TotalSharesItemPre {
-  code: string;
-  originalCostPrice: number;
-  totalShares: number;
-  account: string;
-  purchaseDate: string;
-  currency: string;
-  purchaseExchangeRate: number;
+export interface TotalShareItemsByCodeFromAPI
+  extends Array<
+    Pick<
+      TotalSharesItem,
+      | "code"
+      | "originalCostPrice"
+      | "totalShares"
+      | "account"
+      | "purchaseDate"
+      | "currency"
+      | "purchaseExchangeRate"
+    >
+  > {}
+
+// export interface StockInfoByPeriod {
+//   timestamp: number;
+//   close: number;
+//   open: number;
+//   high: number;
+//   low: number;
+//   gainLossValue: number | undefined;
+//   gainLossPercentage: number | undefined;
+// }
+
+export interface StockInfoByPeriodFromAPI {
+  timestamp: number;
+  close: number;
+  open: number;
+  high: number;
+  low: number;
 }
 
-export interface TotalShareItemsByCodePre extends Array<TotalSharesItemPre> {}
 export interface ExchangeRate {
   base_code: string;
   documentation: string;

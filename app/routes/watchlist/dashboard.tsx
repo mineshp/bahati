@@ -1,5 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { useEffect, useState, useRef } from "react";
+import type { RefObject } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Form,
   useActionData,
@@ -19,7 +20,6 @@ import { getUserId } from "~/session.server";
 import ErrorPage from "../../components/library/error";
 import { currencySymbol } from "../../utils/shares";
 import Alert from "../../components/library/alert";
-import React from "react";
 
 type LoaderData = {
   watchlists: Awaited<ReturnType<typeof getWatchlists>>;
@@ -44,7 +44,10 @@ const watchlistGroups = [
   },
 ];
 
-function SearchBar(prop: { shareCodeRef: any; actionData: ActionData }) {
+function SearchBar(prop: {
+  shareCodeRef: RefObject<HTMLInputElement>;
+  actionData: ActionData;
+}) {
   return (
     <div className="flex">
       <label
@@ -156,10 +159,9 @@ function displayPriceWithCurrency(
 
 function Watchlist(prop: WatchlistProps) {
   const keys = Object.keys(prop.results);
-
   return (
     <div className="grid gap-4 sm:grid-cols-2 sm:gap-16">
-      {keys.map((key: any) => (
+      {keys.map((key: string) => (
         <div className="flex flex-col pt-4" key={key}>
           <h1 className="py-2 font-bebas text-lg uppercase text-emerald-800">
             {key}
@@ -279,7 +281,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  // TODO: Update type
   const formData: any = await request.formData();
+
   const intent = formData.get("intent");
   const shareName = formData.get("shareCode");
 

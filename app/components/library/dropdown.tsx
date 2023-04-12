@@ -7,7 +7,7 @@ interface Options {
 
 interface Props {
   options: Options[];
-  handleSelect: (range: string, interval: string) => any;
+  handleSelect: (range: string, interval: string) => void;
   type: string;
   name: string;
 }

@@ -9,7 +9,11 @@ import {
   BriefcaseIcon,
 } from "@heroicons/react/solid";
 import Pill from "./library/pill";
-import type { StockData, TotalShareItemsByCode } from "../types/shares";
+import type {
+  StockData,
+  TotalShareItemsByCode,
+  TotalSharesItem,
+} from "../types/shares";
 
 interface Props {
   exchangeData: TotalShareItemsByCode;
@@ -139,18 +143,18 @@ function pillInformation(
     shareData.currentPrice,
     exchangeData
   );
+
   const currencyConversion =
     exchangeData[0].currency === "GBP"
       ? "1"
-      : `1 / ${exchangeData[0].exchangeRate.toFixed(2)}p`;
+      : `1 / ${exchangeData[0].exchangeRate?.toFixed(2)}`;
 
   const totalSharesOwned = exchangeData.reduce(
     (acc, cur) => acc + Number(cur.totalShares),
     0
   );
-
   const accountsAssociated: Array<string> = Array.from(
-    new Set(exchangeData.map((item: any) => item.account))
+    new Set(exchangeData.map((item: TotalSharesItem) => item.account))
   );
   const accountType =
     accountsAssociated.length < 2
@@ -209,7 +213,7 @@ function pillInformation(
 }
 
 export default function InformationBar(prop: Props) {
-  const items = pillInformation(prop.exchangeData, prop.shareData);
+  const items = pillInformation(prop?.exchangeData, prop.shareData);
 
   return (
     <div className="grid grid-cols-3 gap-2 p-4 text-sm sm:gap-8 lg:grid-cols-6">
