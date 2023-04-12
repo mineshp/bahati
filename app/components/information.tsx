@@ -147,7 +147,7 @@ function pillInformation(
   const currencyConversion =
     exchangeData[0].currency === "GBP"
       ? "1"
-      : `1 / ${exchangeData[0].exchangeRate?.toFixed(2)}`;
+      : `1 / ${exchangeData[0].exchangeRate?.toFixed(2)}p`;
 
   const totalSharesOwned = exchangeData.reduce(
     (acc, cur) => acc + Number(cur.totalShares),
