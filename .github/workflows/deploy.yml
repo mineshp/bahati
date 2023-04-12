@@ -148,7 +148,7 @@ jobs:
           useLockFile: false
 
       - name: 🏗 Build
-        run: npm run build
+        run: npm run build --no-cache
 
       - name: 🛠 Install Arc
         run: npm i -g @architect/architect
@@ -172,3 +172,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SHARE_API_KEY: ${{ secrets.SHARE_API_KEY }}
           STOCK_BUCKET: ${{ secrets.STOCK_BUCKET }}
+          CACHE: "false"
