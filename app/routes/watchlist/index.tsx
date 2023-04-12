@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function WatchlistndexPage() {
+export default function WatchlistIndexPage() {
   return (
     <p>
       No route exists here
