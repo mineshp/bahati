@@ -35,10 +35,6 @@ const getExchangeRate = memoizee(
         "X-RapidAPI-Host": "exchangerate-api.p.rapidapi.com",
       },
     };
-    console.log("getExchangeRate");
-    console.log(
-      `https://exchangerate-api.p.rapidapi.com/rapid/latest/${baseCurrency}`
-    );
     return fetch(
       `https://exchangerate-api.p.rapidapi.com/rapid/latest/${baseCurrency}`,
       options
@@ -64,9 +60,6 @@ const getShareDataByCode = memoizee(
     };
 
     const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol=${code}`;
-    console.log("getShareDataByCode");
-    console.log(url);
-
     const response = await fetch(url, options)
       .then((response) => response.json())
       .then((response) => response)
@@ -114,10 +107,6 @@ const getSharesByCodeAndPeriod = memoizee(
       },
     };
 
-    console.log("getSharesByCodeAndPeriod");
-    console.log(
-      `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-chart?interval=${interval}&symbol=${code}&range=${range}&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit`
-    );
     const data = await fetch(
       `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-chart?interval=${interval}&symbol=${code}&range=${range}&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit`,
       options
@@ -192,9 +181,7 @@ const getSharesByCode = memoizee(
   async function getSharesByCode(
     code: string
   ): Promise<TotalSharesItem[] | unknown> {
-    console.log("getSharesByCode");
     const url = `${process.env.STOCK_BUCKET}/dev/api/stock-info`;
-    console.log(url);
     const options = {
       method: "GET",
       headers: {
