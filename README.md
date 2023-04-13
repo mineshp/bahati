@@ -67,6 +67,8 @@ Prior to your first deployment, you'll need to do a few things:
   npx arc env --add --env staging SESSION_SECRET $(openssl rand -hex 32)
   npx arc env --add --env production ARC_APP_SECRET $(openssl rand -hex 32)
   npx arc env --add --env production SESSION_SECRET $(openssl rand -hex 32)
+  npx arc env --add --env production SHARE_API_KEY <KEY HERE>
+  npx arc env --add --env production STOCK_BUCKET <API GATEWAY URL>
   ```
 
   If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
