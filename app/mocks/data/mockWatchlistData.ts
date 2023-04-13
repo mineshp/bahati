@@ -1,4 +1,4 @@
-export function mockWatchlistData(symbols: string[]): unknown {
+export function mockWatchlistData(): unknown {
   return {
     quoteResponse: {
       result: [

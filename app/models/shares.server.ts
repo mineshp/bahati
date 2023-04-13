@@ -52,7 +52,6 @@ const getExchangeRate = memoizee(
 
 const getShareDataByCode = memoizee(
   async function getShareDataByCode(code: string): Promise<StockData> {
-    console.log(process.env.SHARE_API_KEY?.slice(-3));
     const options = {
       method: "GET",
       headers: {
@@ -62,6 +61,7 @@ const getShareDataByCode = memoizee(
     };
 
     const url = `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-summary?symbol=${code}`;
+    console.log(url);
 
     const response = await fetch(url, options)
       .then((response) => response.json())
@@ -71,7 +71,7 @@ const getShareDataByCode = memoizee(
     const { defaultKeyStatistics, price, summaryDetail, summaryProfile } =
       response;
 
-    const baseShareData = {
+    return {
       country: summaryProfile.country,
       currentPrice: summaryDetail.open.fmt,
       currency: price.currency,
@@ -81,10 +81,6 @@ const getShareDataByCode = memoizee(
       dayLow: summaryDetail.dayLow.fmt,
       dayHigh: summaryDetail.dayHigh.fmt,
       fiftyTwoWeekChange: defaultKeyStatistics["52WeekChange"].fmt,
-    };
-
-    return {
-      ...baseShareData,
     };
   },
   {

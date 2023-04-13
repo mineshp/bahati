@@ -3,6 +3,7 @@ import type { DocumentClient } from "aws-sdk/clients/dynamodb";
 import memoizee from "memoizee";
 import arc from "@architect/functions";
 import type {
+  SharesToWatch,
   WatchlistData,
   WatchlistTrackerDataItems,
 } from "../types/watchlist";
@@ -78,29 +79,33 @@ export async function getWatchlists(): Promise<WatchlistData> {
   const db = await arc.tables();
   const result = await db.watchlist.scan({});
 
-  const symbols = _.map(result.Items, "shareCode");
+  const symbols = result?.Items ? _.map(result.Items, "shareCode") : [];
 
-  let getWatchlistShareData = [{ symbol: "default" }];
+  let getWatchlistShareData: SharesToWatch[] = [];
   if (process.env.NODE_ENV === "development") {
-    getWatchlistShareData = await mockWatchlistShareData([]);
-  } else {
+    getWatchlistShareData = await mockWatchlistShareData();
+  } else if (symbols.length) {
     getWatchlistShareData = await getShareDataForWatchlists(symbols);
   }
 
-  return _.chain(result.Items)
-    .map((data) => ({
-      ...getWatchlistShareData?.find(({ symbol }) => data.shareCode === symbol),
-      ...data,
-    }))
-    .sortBy("shareCode")
-    .groupBy("watchlist")
-    .value();
+  const results = result?.Items
+    ? _.chain(result.Items)
+        .map((data) => ({
+          ...getWatchlistShareData?.find(
+            ({ symbol }) => data.shareCode === symbol
+          ),
+          ...data,
+        }))
+        .sortBy("shareCode")
+        .groupBy("watchlist")
+        .value()
+    : {};
+
+  return results;
 }
 
-export async function mockWatchlistShareData(
-  symbols: string[]
-): Promise<WatchlistTrackerDataItems> {
-  const res = new Response(JSON.stringify(mockWatchlistData(symbols)));
+export async function mockWatchlistShareData(): Promise<WatchlistTrackerDataItems> {
+  const res = new Response(JSON.stringify(mockWatchlistData()));
   const data = await res.json();
 
   return _.chain(data.quoteResponse.result)
