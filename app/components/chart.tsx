@@ -40,8 +40,8 @@ export default function Chart(prop: Props) {
 
   const graphPeriod: { [key: string]: string } = {
     "1d": "days",
-    "1w": "weeks",
-    "1m": "months",
+    "1wk": "weeks",
+    "1mo": "months",
   };
 
   const options = {

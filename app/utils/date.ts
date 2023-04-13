@@ -51,9 +51,9 @@ export function getInterval(range: string): string {
   switch (range) {
     case "5d":
       return "1d";
-    case "1m":
+    case "1mo":
       return "1d";
-    case "3m":
+    case "3mo":
       return "1wk";
     case "1y":
       return "1mo";

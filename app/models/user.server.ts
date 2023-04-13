@@ -39,7 +39,6 @@ export async function createUser(
   password: Password["password"]
 ) {
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(hashedPassword);
   const db = await arc.tables();
 
   await db.password.put({
