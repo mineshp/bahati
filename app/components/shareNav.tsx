@@ -28,25 +28,21 @@ export default function ShareNav(prop: Props) {
       id: 1,
       name: "5 Days",
       value: "5d",
-      interval: "1d",
     },
     {
       id: 2,
       name: "1 Month",
       value: "1mo",
-      interval: "1d",
     },
     {
       id: 3,
       name: "3 Months",
       value: "3mo",
-      interval: "1w",
     },
     {
       id: 4,
       name: "1 Year",
       value: "1y",
-      interval: "1mo",
     },
   ];
 

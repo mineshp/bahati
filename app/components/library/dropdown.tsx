@@ -4,7 +4,6 @@ interface Options {
   id: number;
   name: string;
   value: string;
-  interval: string;
 }
 
 interface Props {

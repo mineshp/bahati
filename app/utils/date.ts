@@ -52,11 +52,11 @@ export function getInterval(range: string): string {
     case "5d":
       return "1d";
     case "1m":
-      return "1w";
+      return "1d";
     case "3m":
-      return "1w";
+      return "1wk";
     case "1y":
-      return "1m";
+      return "1mo";
     default:
       return "1d";
   }
