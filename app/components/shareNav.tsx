@@ -19,6 +19,7 @@ export default function ShareNav(prop: Props) {
   function updateStockPeriod(range: string, interval: string) {
     setRange(range);
     setGraphInterval(interval);
+    console.log(`Stock update period is ${range}, ${interval}`);
     return handleStockPeriod(range, interval);
   }
 
