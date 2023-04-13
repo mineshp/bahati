@@ -52,6 +52,7 @@ const getExchangeRate = memoizee(
 
 const getShareDataByCode = memoizee(
   async function getShareDataByCode(code: string): Promise<StockData> {
+    console.log(process.env.SHARE_API_KEY?.slice(-3));
     const options = {
       method: "GET",
       headers: {
