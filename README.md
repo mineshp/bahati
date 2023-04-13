@@ -107,7 +107,7 @@ In this step we will request a certificate from Amazon for our domain.
 - Record type is A and toggle Alias checkbox on
 - Select Alias to API Gateway
 - Select the region
-- Select the API (should be the same value as the domain generated in Step 2)
+- Select the API (should be the same value as the domain generated in Step 2 and not the api gateway invoke url)
 - Click Create records
 
 ## Where do I find my CloudFormation?

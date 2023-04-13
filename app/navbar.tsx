@@ -6,8 +6,7 @@ import React from "react";
 
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
-  { name: "Watchlist", href: "/watchlist/dashboard", current: false },
-  { name: "Tracker", href: "/watchlist/dashboard", current: true },
+  { name: "Watchlists", href: "/watchlist/dashboard", current: false },
 ];
 
 const shares = [
