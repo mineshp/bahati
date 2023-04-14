@@ -7,6 +7,7 @@ import {
   useCatch,
   useLoaderData,
   useFetcher,
+  useTransition,
 } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import { TrashIcon } from "@heroicons/react/outline";
@@ -47,6 +48,7 @@ const watchlistGroups = [
 function SearchBar(prop: {
   shareCodeRef: RefObject<HTMLInputElement>;
   actionData: ActionData;
+  isAdding: boolean | undefined;
 }) {
   return (
     <div className="flex">
@@ -108,6 +110,7 @@ function SearchBar(prop: {
           value="add"
           data-cy="add"
           className="absolute top-0 right-0 rounded-r-lg border border-rose-500 bg-rose-500 p-2.5 text-sm font-medium text-white hover:bg-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-300 dark:bg-rose-500 dark:hover:bg-rose-600 dark:focus:ring-rose-600"
+          disabled={prop.isAdding}
         >
           <svg
             aria-hidden="true"
@@ -135,6 +138,7 @@ function SearchBar(prop: {
 
 interface WatchlistProps {
   results: WatchlistData;
+  isRemoving: boolean | undefined;
 }
 
 function showShareValueJumpOrDropIndicators(value: number) {
@@ -252,11 +256,19 @@ function Watchlist(prop: WatchlistProps) {
                             name="intent"
                             value={`delete_${shareOverview.shareCode}_${shareOverview.watchlist}`}
                             data-cy="remove"
+                            disabled={Boolean(prop.isRemoving)}
                           >
-                            <TrashIcon
-                              className="w-5 sm:w-6"
-                              aria-hidden="true"
-                            />
+                            {prop.isRemoving ? (
+                              <TrashIcon
+                                className="disabled w-5 sm:w-6"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <TrashIcon
+                                className="w-5 sm:w-6"
+                                aria-hidden="true"
+                              />
+                            )}
                           </button>
                         </td>
                       </tr>
@@ -312,6 +324,13 @@ export default function WatchlistDashboardPage() {
   const shareCodeRef = useRef<HTMLInputElement>(null);
   const { watchlists } = useLoaderData() as LoaderData;
   const fetcher = useFetcher();
+  const transition = useTransition();
+
+  const intent = transition?.submission?.formData.get("intent");
+  let isAdding = intent === "add" && transition.state === "submitting";
+  let isRemoving =
+    (intent as string)?.split("_")[0] === "delete" &&
+    transition.state === "submitting";
 
   const [watchlistRes, setWatchlistRes] = useState<WatchlistData>({});
 
@@ -337,10 +356,14 @@ export default function WatchlistDashboardPage() {
 
   return (
     <div className="p-4">
-      <Form reloadDocument method="post">
-        <SearchBar shareCodeRef={shareCodeRef} actionData={actionData} />
+      <Form method="post">
+        <SearchBar
+          shareCodeRef={shareCodeRef}
+          actionData={actionData}
+          isAdding={isAdding}
+        />
         {Object.keys(watchlistRes).length > 0 ? (
-          <Watchlist results={watchlistRes} />
+          <Watchlist results={watchlistRes} isRemoving={isRemoving} />
         ) : (
           <div className="mt-4">
             <Alert
