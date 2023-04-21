@@ -9,6 +9,20 @@ import type {
 } from "../types/watchlist";
 import { mockWatchlistData } from "../mocks/data/mockWatchlistData";
 
+type GetItemOutput = DocumentClient.GetItemOutput;
+
+export async function getShareFromWatchlistByShareCode(
+  shareCode: string,
+  watchlist: string
+): Promise<GetItemOutput> {
+  const db = await arc.tables();
+
+  return db.watchlist.get({
+    shareCode: shareCode.toUpperCase(),
+    watchlist,
+  });
+}
+
 export async function addShareToWatchlist(
   shareCode: string,
   watchlist: string

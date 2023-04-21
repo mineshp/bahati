@@ -13,6 +13,7 @@ import { json, redirect } from "@remix-run/node";
 import { TrashIcon } from "@heroicons/react/outline";
 import type { WatchlistData, SharesToWatch } from "../../types/watchlist";
 import {
+  getShareFromWatchlistByShareCode,
   getWatchlists,
   addShareToWatchlist,
   removeShareFromWatchlist,
@@ -309,7 +310,30 @@ export const action: ActionFunction = async ({ request }) => {
         { status: 400 }
       );
     }
+
     const watchlist = formData.get("watchlistName");
+
+    try {
+      const data = await getShareFromWatchlistByShareCode(shareName, watchlist);
+
+      if (data) {
+        return {
+          errors: {
+            action: "add",
+            message: "share code already exists in watchlist",
+          },
+        };
+      }
+    } catch (err) {
+      console.error(err);
+      return {
+        errors: {
+          action: "add",
+          message:
+            "failed to get share from watchlist, please try and add share to watchlist again!",
+        },
+      };
+    }
 
     try {
       await addShareToWatchlist(shareName, watchlist);
