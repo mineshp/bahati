@@ -21,6 +21,7 @@ import { getUserId } from "~/session.server";
 import ErrorPage from "../../components/library/error";
 import { currencySymbol } from "../../utils/shares";
 import Alert from "../../components/library/alert";
+import LoadingSpinner from "../../components/library/loadingSpinner";
 
 type LoaderData = {
   watchlists: Awaited<ReturnType<typeof getWatchlists>>;
@@ -29,6 +30,8 @@ type LoaderData = {
 type ActionData = {
   errors?: {
     shareCode?: string;
+    action?: string;
+    message?: string;
   };
 };
 
@@ -138,7 +141,7 @@ function SearchBar(prop: {
 
 interface WatchlistProps {
   results: WatchlistData;
-  isRemoving: boolean | undefined;
+  isRemoving: (shareToRemove: string) => boolean;
 }
 
 function showShareValueJumpOrDropIndicators(value: number) {
@@ -256,13 +259,14 @@ function Watchlist(prop: WatchlistProps) {
                             name="intent"
                             value={`delete_${shareOverview.shareCode}_${shareOverview.watchlist}`}
                             data-cy="remove"
-                            disabled={Boolean(prop.isRemoving)}
+                            disabled={prop.isRemoving(
+                              shareOverview.shareCode as string
+                            )}
                           >
-                            {prop.isRemoving ? (
-                              <TrashIcon
-                                className="disabled w-5 sm:w-6"
-                                aria-hidden="true"
-                              />
+                            {prop.isRemoving(
+                              shareOverview.shareCode as string
+                            ) ? (
+                              <LoadingSpinner type="small" />
                             ) : (
                               <TrashIcon
                                 className="w-5 sm:w-6"
@@ -295,7 +299,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   // TODO: Update type
   const formData: any = await request.formData();
-
   const intent = formData.get("intent");
   const shareName = formData.get("shareCode");
 
@@ -307,12 +310,33 @@ export const action: ActionFunction = async ({ request }) => {
       );
     }
     const watchlist = formData.get("watchlistName");
-    await addShareToWatchlist(shareName, watchlist);
+
+    try {
+      await addShareToWatchlist(shareName, watchlist);
+    } catch (err) {
+      console.error(err);
+      return {
+        errors: {
+          action: "add",
+          message: "failed to add share to watchlist, please try again!",
+        },
+      };
+    }
   }
 
   const [action, shareCode, watchlist] = intent.split("_");
   if (action === "delete") {
-    await removeShareFromWatchlist(shareCode, watchlist);
+    try {
+      await removeShareFromWatchlist(shareCode, watchlist);
+    } catch (err) {
+      console.error(err);
+      return {
+        errors: {
+          action: "delete",
+          message: "failed to delete share from watchlist, please try again!",
+        },
+      };
+    }
   }
 
   const watchlists = await getWatchlists();
@@ -327,10 +351,12 @@ export default function WatchlistDashboardPage() {
   const transition = useTransition();
 
   const intent = transition?.submission?.formData.get("intent");
-  let isAdding = intent === "add" && transition.state === "submitting";
-  let isRemoving =
+  const isAdding = intent === "add" && transition.state === "submitting";
+
+  const isRemoving = (shareCodeToRemove: string) =>
     (intent as string)?.split("_")[0] === "delete" &&
-    transition.state === "submitting";
+    transition.state === "submitting" &&
+    transition.submission.formData.get("shareCode") === shareCodeToRemove;
 
   const [watchlistRes, setWatchlistRes] = useState<WatchlistData>({});
 
@@ -362,14 +388,31 @@ export default function WatchlistDashboardPage() {
           actionData={actionData}
           isAdding={isAdding}
         />
-        {Object.keys(watchlistRes).length > 0 ? (
-          <Watchlist results={watchlistRes} isRemoving={isRemoving} />
-        ) : (
+        {actionData?.errors?.action && actionData?.errors?.message && (
           <div className="mt-4">
             <Alert
-              heading="No watchlists setup"
-              subHeading="Add shares to watchlists, to start tracking."
+              type="error"
+              heading={`Error occurred!`}
+              subHeading={actionData?.errors?.message}
             />
+          </div>
+        )}
+
+        {isAdding ? (
+          <LoadingSpinner type="medium" />
+        ) : (
+          <div>
+            {watchlistRes && Object.keys(watchlistRes).length > 0 ? (
+              <Watchlist results={watchlistRes} isRemoving={isRemoving} />
+            ) : (
+              <div className="mt-4">
+                <Alert
+                  type="alert"
+                  heading="No watchlists setup"
+                  subHeading="Add shares to watchlists, to start tracking."
+                />
+              </div>
+            )}
           </div>
         )}
       </Form>

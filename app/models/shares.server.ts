@@ -107,8 +107,6 @@ const getSharesByCodeAndPeriod = memoizee(
       },
     };
 
-    console.log("Called getSharesByCodeAndPeriod with", code, range, interval);
-
     const data = await fetch(
       `https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-chart?interval=${interval}&symbol=${code}&range=${range}&includePrePost=false&useYfid=true&includeAdjustedClose=true&events=capitalGain%2Cdiv%2Csplit`,
       options
