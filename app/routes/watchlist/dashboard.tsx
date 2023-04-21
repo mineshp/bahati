@@ -352,11 +352,13 @@ export default function WatchlistDashboardPage() {
 
   const intent = transition?.submission?.formData.get("intent");
   const isAdding = intent === "add" && transition.state === "submitting";
+  const deleteIntent = (intent as string)?.split("_");
 
   const isRemoving = (shareCodeToRemove: string) =>
-    (intent as string)?.split("_")[0] === "delete" &&
-    transition.state === "submitting" &&
-    transition.submission.formData.get("shareCode") === shareCodeToRemove;
+    deleteIntent &&
+    deleteIntent[0] === "delete" &&
+    deleteIntent[1] === shareCodeToRemove &&
+    transition.state === "submitting";
 
   const [watchlistRes, setWatchlistRes] = useState<WatchlistData>({});
 

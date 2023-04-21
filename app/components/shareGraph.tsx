@@ -40,7 +40,7 @@ export default function ShareGraph(props: Props) {
         <Table data={props.shareDataByPeriod} />
       ) : (
         <Chart
-          shareData={props.shareDataByPeriod}
+          shareData={props?.shareDataByPeriod}
           shareCode={props.shareCode as string}
           shareInfoHeld={props.totalSharesByCode}
           interval={props.interval}

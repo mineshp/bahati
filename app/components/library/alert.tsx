@@ -5,7 +5,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/solid";
 import type { ReactElement } from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface Props {
   type: "alert" | "error" | "warning" | "success";

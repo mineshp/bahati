@@ -12,7 +12,6 @@ interface Props {
 
 export default function ShareNav(prop: Props) {
   const { shareCode, displayData, handleStockPeriod, handleDisplayMode } = prop;
-
   const [range, setRange] = useState<string>("5d");
   const [graphInterval, setGraphInterval] = useState<string>("1d");
 
