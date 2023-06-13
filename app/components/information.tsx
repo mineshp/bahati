@@ -91,14 +91,18 @@ function showShareValueUpOrDown(
   currentValue: number,
   totalShareItems: TotalShareItemsByCode
 ) {
-  const highestPurchasePrice = totalShareItems.sort(
+  const highestPurchase = totalShareItems.sort(
     (a, b) => b.originalCostPrice - a.originalCostPrice
-  )[0].originalCostPrice;
+  )[0];
+
+  const convertBackToShareCurrency = (
+    highestPurchase.originalCostPrice / highestPurchase.purchaseExchangeRate
+  ).toFixed(2);
 
   return {
-    value: (currentValue - highestPurchasePrice).toFixed(2),
+    value: (currentValue - parseInt(convertBackToShareCurrency)).toFixed(2),
     icon:
-      currentValue > highestPurchasePrice ? (
+      currentValue > parseInt(convertBackToShareCurrency) ? (
         <ArrowCircleUpIcon
           className="h-7 w-8 fill-teal-400 sm:h-9 sm:w-10"
           aria-hidden="true"
@@ -110,7 +114,7 @@ function showShareValueUpOrDown(
         />
       ),
     tooltip:
-      currentValue > highestPurchasePrice
+      currentValue > parseInt(convertBackToShareCurrency)
         ? "Per share increase from highest paid"
         : "Per share decrease from highest paid",
   };
